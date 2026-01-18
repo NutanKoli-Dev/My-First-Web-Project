@@ -1,45 +1,73 @@
 body {
-    background-color: #121212;
-    color: white;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e3f2fd; /* Age page jaisa light blue */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
 }
+
 .calculator {
-    background-color: #1e1e1e;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    width: 300px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 320px;
     text-align: center;
 }
+
+.nav-menu {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #999;
+    font-weight: bold;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.nav-link.active {
+    color: #1e88e5;
+    border-bottom: 2px solid #1e88e5;
+}
+
+h1 { color: #1e88e5; margin-bottom: 20px; }
+
+label { display: block; text-align: left; margin: 10px 0 5px; color: #555; }
+
 input {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: none;
-    background: #333;
-    color: white;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #bbdefb;
+    border-radius: 8px;
+    box-sizing: border-box;
 }
+
 button {
     width: 100%;
-    padding: 10px;
-    background-color: #bb86fc;
+    padding: 12px;
+    background-color: #1e88e5;
+    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
+    margin-top: 5px;
+}
+
+.clear-btn {
+    background-color: #ef5350; /* Clear button red hi rakha hai taaki alag dikhe */
     margin-top: 10px;
 }
-.clear-btn {
-    background-color: #cf6679;
-}
+
 #result {
     margin-top: 20px;
-    font-size: 1.1rem;
     font-weight: bold;
+    color: #333;
 }
