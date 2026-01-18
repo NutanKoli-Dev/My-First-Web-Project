@@ -1,6 +1,6 @@
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #e3f2fd; /* Age page jaisa light blue */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,51 +9,62 @@ body {
 }
 
 .calculator {
-    background: white;
-    padding: 2.5rem;
+    background-color: white;
+    padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     width: 320px;
     text-align: center;
-    border: 1px solid #eee;
 }
 
-h1 { color: #3f72af; margin-bottom: 20px; }
+.nav-menu {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
 
-label { display: block; text-align: left; margin-top: 15px; color: #555; font-size: 14px; }
+.nav-link {
+    text-decoration: none;
+    color: #999;
+    font-weight: bold;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.nav-link.active {
+    color: #1e88e5;
+    border-bottom: 2px solid #1e88e5;
+}
+
+h1 { color: #1e88e5; }
+
+label { display: block; text-align: left; margin: 15px 0 5px; color: #555; }
 
 input {
     width: 100%;
     padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #ddd;
+    border: 1px solid #bbdefb;
     border-radius: 8px;
-    box-sizing: border-box; /* Isse input box bahar nahi nikalta */
-    background-color: #f9f9f9;
+    box-sizing: border-box;
 }
 
 button {
     width: 100%;
     padding: 12px;
-    background-color: #3f72af;
+    background-color: #1e88e5;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
     margin-top: 15px;
-    transition: 0.3s;
 }
-
-button:hover { background-color: #112d4e; }
 
 #tip-result {
-    margin-top: 25px;
+    margin-top: 20px;
     padding: 15px;
-    background-color: #f1f4f9;
+    background-color: #f1f8ff;
     border-radius: 8px;
-    color: #112d4e;
-    font-size: 15px;
-    line-height: 1.6;
+    color: #1e88e5;
+    font-size: 14px;
 }
-
