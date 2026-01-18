@@ -16,6 +16,7 @@ function calculateBMI() {
     else if (bmi < 29.9) category = "Overweight";
     else category = "Obese";
 
+    // Dhyan dein: Yahan ` use kiya hai, ' nahi
     resultDiv.innerHTML = `Your BMI is <strong>${bmi}</strong> (${category})`;
 }
 
