@@ -3,45 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Business GST Tool</title>
+    <title>Global Tax Engine</title>
     <link rel="stylesheet" href="gst-style.css">
 </head>
 <body>
     <div class="biz-container">
+        <div id="google_translate_element" class="translator-box"></div>
+
         <div class="header">
-            <h2>Business Invoice Helper</h2>
-            <p>Professional Tax Calculator</p>
+            <h2>Universal Tax Helper</h2>
+            <p>Smart Billing for Everyone, Everywhere</p>
         </div>
 
         <div class="input-group">
-            <label>Net Amount (₹)</label>
-            <input type="number" id="billAmount" placeholder="e.g. 10000">
-        </div>
-
-        <div class="input-group">
-            <label>GST Rate (%)</label>
-            <select id="gstRate">
-                <option value="5">5% (Essentials)</option>
-                <option value="12">12% (Standard)</option>
-                <option value="18" selected>18% (Services/Corporate)</option>
-                <option value="28">28% (Luxury)</option>
+            <label>Currency / मुद्रा</label>
+            <select id="currency">
+                <option value="₹">Rupee (₹) - India</option>
+                <option value="$">Dollar ($) - USA/Global</option>
+                <option value="€">Euro (€) - Europe</option>
+                <option value="£">Pound (£) - UK</option>
+                <option value="¥">Yen (¥) - Japan</option>
+                <option value="฿">Baht (฿) - Thailand</option>
             </select>
         </div>
 
-        <button onclick="calculateGST()" class="calc-btn">Generate Summary</button>
+        <div class="input-group">
+            <label>Amount / राशि</label>
+            <input type="number" id="billAmount" placeholder="Enter Amount">
+        </div>
+
+        <div class="input-group">
+            <label>Tax Rate (%) / टैक्स दर</label>
+            <input type="number" id="gstRate" value="18" placeholder="e.g. 10, 18, 28">
+        </div>
+
+        <div class="main-buttons">
+            <button onclick="calculateGST('add')" class="calc-btn">+ Add Tax</button>
+            <button onclick="calculateGST('remove')" class="calc-btn remove-btn">- Remove Tax</button>
+        </div>
 
         <div id="invoice-result" class="result-box" style="display: none;">
-            <div class="row"><span>Base Price:</span> <span id="resBase"></span></div>
-            <div class="row"><span>GST Amount:</span> <span id="resTax"></span></div>
+            <div class="row"><span id="labelBase">Actual Price:</span> <span id="resBase"></span></div>
+            <div class="row"><span id="labelTax">Tax Amount:</span> <span id="resTax"></span></div>
             <hr>
-            <div class="row total"><span>Total Payable:</span> <span id="resTotal"></span></div>
+            <div class="row total"><span>Final Total:</span> <span id="resTotal"></span></div>
             
             <div class="button-group">
-                <button onclick="copyToClipboard()" class="action-btn">Copy Text</button>
-                <button onclick="resetForm()" class="action-btn reset">New Bill</button>
+                <button onclick="copyToClipboard()" class="action-btn">Copy</button>
+                <button onclick="resetForm()" class="action-btn reset">Reset</button>
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script src="gst-script.js"></script>
 </body>
 </html>
