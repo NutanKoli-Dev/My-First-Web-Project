@@ -5,10 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Age Calculator</title>
     <link rel="stylesheet" href="age-style.css">
+    <style>
+        /* Navigation menu styling */
+        .nav-menu {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: #3f72af;
+            font-weight: bold;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        .nav-link.active {
+            color: #112d4e;
+            border-bottom: 2px solid #3f72af;
+        }
+    </style>
 </head>
 <body>
 
     <div class="calculator">
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">BMI Calculator</a>
+            <a href="age.html" class="nav-link active">Age Calculator</a>
+        </div>
+
         <h1>Age Calculator</h1>
         
         <label>Select Your Birthday:</label>
