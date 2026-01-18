@@ -1,6 +1,6 @@
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #e3f2fd; /* Exact same light blue */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,47 +9,64 @@ body {
 }
 
 .calculator {
-    background-color: #ffffff;
-    padding: 2.5rem;
+    background-color: white;
+    padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    width: 350px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 320px;
     text-align: center;
-    border: 1px solid #dbe2ef;
 }
 
-h1 { color: #3f72af; margin-bottom: 20px; }
+.nav-menu {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
 
-label { display: block; text-align: left; margin-top: 15px; color: #555; }
+.nav-link {
+    text-decoration: none;
+    color: #999;
+    font-weight: bold;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.nav-link.active {
+    color: #1e88e5;
+    border-bottom: 2px solid #1e88e5;
+}
+
+h1 { color: #1e88e5; margin-bottom: 20px; }
+
+label { display: block; text-align: left; margin: 10px 0 5px; color: #555; }
 
 input {
     width: 100%;
     padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #dbe2ef;
+    margin-bottom: 15px;
+    border: 1px solid #bbdefb;
     border-radius: 8px;
-    background-color: #f9f7f7;
-    cursor: pointer;
+    box-sizing: border-box;
 }
 
 button {
     width: 100%;
     padding: 12px;
-    background-color: #3f72af;
+    background-color: #1e88e5; /* Same blue button */
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 15px;
-    font-weight: 600;
+    font-weight: bold;
 }
 
 .clear-btn {
-    background-color: #f9f7f7;
-    color: #3f72af;
-    border: 1px solid #3f72af;
+    background-color: #ef5350;
     margin-top: 10px;
 }
 
-#age-result { margin-top: 25px; font-size: 18px; font-weight: bold; color: #112d4e; }
-
+#age-result {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #333;
+}
