@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business GST Calculator</title>
+    <title>Advanced Business GST Tool</title>
     <link rel="stylesheet" href="gst-style.css">
 </head>
 <body>
     <div class="biz-container">
         <div class="header">
             <h2>Business Invoice Helper</h2>
-            <p>Calculate GST & Total Bill</p>
+            <p>Professional Tax Calculator</p>
         </div>
 
         <div class="input-group">
             <label>Net Amount (₹)</label>
-            <input type="number" id="billAmount" placeholder="e.g. 1000">
+            <input type="number" id="billAmount" placeholder="e.g. 10000">
         </div>
 
         <div class="input-group">
@@ -31,18 +31,14 @@
         <button onclick="calculateGST()" class="calc-btn">Generate Summary</button>
 
         <div id="invoice-result" class="result-box" style="display: none;">
-            <div class="row">
-                <span>Base Price:</span>
-                <span id="resBase"></span>
-            </div>
-            <div class="row">
-                <span>GST Amount:</span>
-                <span id="resTax"></span>
-            </div>
+            <div class="row"><span>Base Price:</span> <span id="resBase"></span></div>
+            <div class="row"><span>GST Amount:</span> <span id="resTax"></span></div>
             <hr>
-            <div class="row total">
-                <span>Total Payable:</span>
-                <span id="resTotal"></span>
+            <div class="row total"><span>Total Payable:</span> <span id="resTotal"></span></div>
+            
+            <div class="button-group">
+                <button onclick="copyToClipboard()" class="action-btn">Copy Text</button>
+                <button onclick="resetForm()" class="action-btn reset">New Bill</button>
             </div>
         </div>
     </div>
