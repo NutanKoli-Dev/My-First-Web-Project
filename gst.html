@@ -3,64 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Tax Engine</title>
-    <link rel="stylesheet" href="gst-style.css">
+    <title>Smart Tax Helper | Nutan Koli</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --business: #0f172a;
+            --local: #10b981;
+            --bg: #f8fafc;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        
+        /* The Smart Switch Style */
+        .mode-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 25px; background: #f1f5f9; padding: 10px; border-radius: 50px; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--local); transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--business); }
+        input:checked + .slider:before { transform: translateX(26px); }
+        .mode-label { font-weight: bold; font-size: 14px; color: #64748b; }
+        .active-mode { color: var(--primary); }
+
+        /* Input Styles */
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 14px; margin-bottom: 5px; color: #475569; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
+        
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        button { padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-add { background: var(--primary); color: white; }
+        .btn-remove { background: #e2e8f0; color: #475569; }
+        button:hover { opacity: 0.9; transform: translateY(-2px); }
+
+        /* Result Section */
+        #result { margin-top: 25px; padding: 15px; border-radius: 12px; background: #f8fafc; border: 1px dashed #cbd5e1; display: none; }
+        .res-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 15px; }
+        .res-total { border-top: 1px solid #cbd5e1; padding-top: 8px; font-weight: bold; color: var(--primary); font-size: 18px; }
+    </style>
 </head>
 <body>
-    <div class="biz-container">
-        <div id="google_translate_element" class="translator-box"></div>
 
-        <div class="header">
-            <h2>Universal Tax Helper</h2>
-            <p>Smart Billing for Everyone, Everywhere</p>
-        </div>
-
-        <div class="input-group">
-            <label>Currency / मुद्रा</label>
-            <select id="currency">
-                <option value="₹">Rupee (₹) - India</option>
-                <option value="$">Dollar ($) - USA/Global</option>
-                <option value="€">Euro (€) - Europe</option>
-                <option value="£">Pound (£) - UK</option>
-                <option value="¥">Yen (¥) - Japan</option>
-                <option value="฿">Baht (฿) - Thailand</option>
-            </select>
-        </div>
-
-        <div class="input-group">
-            <label>Amount / राशि</label>
-            <input type="number" id="billAmount" placeholder="Enter Amount">
-        </div>
-
-        <div class="input-group">
-            <label>Tax Rate (%) / टैक्स दर</label>
-            <input type="number" id="gstRate" value="18" placeholder="e.g. 10, 18, 28">
-        </div>
-
-        <div class="main-buttons">
-            <button onclick="calculateGST('add')" class="calc-btn">+ Add Tax</button>
-            <button onclick="calculateGST('remove')" class="calc-btn remove-btn">- Remove Tax</button>
-        </div>
-
-        <div id="invoice-result" class="result-box" style="display: none;">
-            <div class="row"><span id="labelBase">Actual Price:</span> <span id="resBase"></span></div>
-            <div class="row"><span id="labelTax">Tax Amount:</span> <span id="resTax"></span></div>
-            <hr>
-            <div class="row total"><span>Final Total:</span> <span id="resTotal"></span></div>
-            
-            <div class="button-group">
-                <button onclick="copyToClipboard()" class="action-btn">Copy</button>
-                <button onclick="resetForm()" class="action-btn reset">Reset</button>
-            </div>
-        </div>
+<div class="card">
+    <h2 style="text-align: center; margin-top: 0;">Tax Helper Pro</h2>
+    
+    <div class="mode-container">
+        <span id="localLabel" class="mode-label active-mode">Local (Discount)</span>
+        <label class="switch">
+            <input type="checkbox" id="modeToggle" onchange="updateUI()">
+            <span class="slider"></span>
+        </label>
+        <span id="busLabel" class="mode-label">Business (GST)</span>
     </div>
 
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+    <div class="input-group">
+        <label>Amount / राशि</label>
+        <input type="number" id="amount" placeholder="e.g. 1000">
+    </div>
+
+    <div class="input-group">
+        <label>Tax/Discount Rate (%)</label>
+        <input type="number" id="taxRate" placeholder="e.g. 18">
+    </div>
+
+    <div class="btn-group">
+        <button class="btn-add" onclick="calculate('add')">+ Add Tax</button>
+        <button class="btn-remove" onclick="calculate('remove')">- Remove / Discount</button>
+    </div>
+
+    <div id="result">
+        <div class="res-row"><span>Base Price:</span> <span id="resBase">0</span></div>
+        <div class="res-row"><span id="taxLabel">Tax Amount:</span> <span id="resTax">0</span></div>
+        <div class="res-row res-total"><span id="totalLabel">Final Total:</span> <span id="resTotal">0</span></div>
+    </div>
+</div>
+
+<script>
+    function updateUI() {
+        const isBusiness = document.getElementById('modeToggle').checked;
+        document.getElementById('localLabel').classList.toggle('active-mode', !isBusiness);
+        document.getElementById('busLabel').classList.toggle('active-mode', isBusiness);
+        document.getElementById('result').style.display = 'none';
+    }
+
+    function calculate(type) {
+        let amt = parseFloat(document.getElementById('amount').value);
+        let rate = parseFloat(document.getElementById('taxRate').value);
+        let isBus = document.getElementById('modeToggle').checked;
+        
+        if (isNaN(amt) || isNaN(rate)) { alert("Please enter numbers!"); return; }
+
+        let base, tax, total, labelTotal, labelTax;
+
+        if (type === 'add') {
+            tax = (amt * rate) / 100;
+            base = amt;
+            total = amt + tax;
+            labelTax = "Tax Added (+):";
+            labelTotal = "Final Bill:";
+        } else {
+            if (isBus) {
+                // Business Mode: Reverse GST
+                base = amt / (1 + (rate / 100));
+                tax = amt - base;
+                total = amt;
+                labelTax = "Tax Included:";
+                labelTotal = "Original Price:";
+            } else {
+                // Local Mode: Simple Minus (Discount)
+                tax = (amt * rate) / 100;
+                base = amt;
+                total = amt - tax;
+                labelTax = "Discount (-):";
+                labelTotal = "Payable Amount:";
+            }
         }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <script src="gst-script.js"></script>
+
+        // Display Results
+        document.getElementById('resBase').innerText = "₹ " + base.toLocaleString('en-IN', {minimumFractionDigits: 2});
+        document.getElementById('resTax').innerText = "₹ " + tax.toLocaleString('en-IN', {minimumFractionDigits: 2});
+        document.getElementById('resTotal').innerText = "₹ " + total.toLocaleString('en-IN', {minimumFractionDigits: 2});
+        document.getElementById('taxLabel').innerText = labelTax;
+        document.getElementById('totalLabel').innerText = labelTotal;
+        document.getElementById('result').style.display = 'block';
+    }
+</script>
+
 </body>
 </html>
