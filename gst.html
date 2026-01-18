@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business GST Calculator</title>
+    <link rel="stylesheet" href="gst-style.css">
+</head>
+<body>
+    <div class="biz-container">
+        <div class="header">
+            <h2>Business Invoice Helper</h2>
+            <p>Calculate GST & Total Bill</p>
+        </div>
+
+        <div class="input-group">
+            <label>Net Amount (₹)</label>
+            <input type="number" id="billAmount" placeholder="e.g. 1000">
+        </div>
+
+        <div class="input-group">
+            <label>GST Rate (%)</label>
+            <select id="gstRate">
+                <option value="5">5% (Essentials)</option>
+                <option value="12">12% (Standard)</option>
+                <option value="18" selected>18% (Services/Corporate)</option>
+                <option value="28">28% (Luxury)</option>
+            </select>
+        </div>
+
+        <button onclick="calculateGST()" class="calc-btn">Generate Summary</button>
+
+        <div id="invoice-result" class="result-box" style="display: none;">
+            <div class="row">
+                <span>Base Price:</span>
+                <span id="resBase"></span>
+            </div>
+            <div class="row">
+                <span>GST Amount:</span>
+                <span id="resTax"></span>
+            </div>
+            <hr>
+            <div class="row total">
+                <span>Total Payable:</span>
+                <span id="resTotal"></span>
+            </div>
+        </div>
+    </div>
+    <script src="gst-script.js"></script>
+</body>
+</html>
