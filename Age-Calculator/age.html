@@ -19,7 +19,12 @@
             <a href="../Tip-Calculator/tip.html" class="nav-link">Tip</a>
         </div>
         <h1>Age Calculator</h1>
-        </div>
+        <label>Select Your Birthday:</label>
+        <input type="date" id="birthday" style="width:100%; padding:10px; margin:10px 0; border-radius:5px; border:1px solid #ccc;">
+        <button onclick="calculateAge()">Calculate Age</button>
+        <button onclick="clearAge()" class="clear-btn" style="background:#ff4d4d; margin-top:10px;">Clear All</button>
+        <div id="age-result" style="margin-top:20px; font-weight:bold;"></div>
+    </div>
     <script src="age-script.js"></script>
 </body>
 </html>
