@@ -1,39 +1,31 @@
-:root { --primary: #3f51b5; --bg: #f5f7ff; }
-body { font-family: 'Poppins', sans-serif; background-color: var(--bg); margin: 0; padding: 20px; display: flex; justify-content: center; }
+:root { --primary: #3f51b5; --bg: #f5f7ff; --card: white; --text: #1a1a1a; --border: #e2e8f0; }
+
+/* Dark Mode Variables */
+.dark-mode { --bg: #121212; --card: #1e1e1e; --text: #ffffff; --border: #333; }
+
+body { font-family: 'Poppins', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: 0.3s; display: flex; flex-direction: column; align-items: center; }
+
+.controls-overlay { margin-bottom: 20px; display: flex; gap: 10px; }
 
 .invoice-card { 
-    background: white; width: 100%; max-width: 900px; padding: 40px; 
-    border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); 
+    background: var(--card); width: 100%; max-width: 850px; padding: 40px; 
+    border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); 
     border-top: 8px solid var(--primary); position: relative;
 }
 
 h1 { font-family: 'Dancing Script', cursive; color: var(--primary); font-size: 38px; margin: 0; }
-.edition { color: #1a1a1a; font-weight: 600; margin-top: 5px; font-size: 14px; }
-.tagline { color: #64748b; font-size: 13px; margin-bottom: 30px; }
+.edition { color: var(--text); font-weight: 600; font-size: 14px; opacity: 0.8; }
+.tagline { color: #64748b; font-size: 12px; margin-bottom: 30px; }
 
-.header-section { display: flex; justify-content: space-between; margin-bottom: 40px; gap: 20px; }
-.input-group { flex: 1; }
-label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px; }
 input { 
-    width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; 
-    background: #fafbff; font-size: 14px; outline: none; box-sizing: border-box;
+    width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; 
+    background: transparent; color: var(--text); font-size: 14px; box-sizing: border-box;
 }
 
-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-th { background: #f8fafc; text-align: left; padding: 15px; color: #475569; font-size: 14px; border-bottom: 2px solid #f1f5f9; font-family: 'Dancing Script', cursive; font-size: 20px; }
-td { padding: 15px; border-bottom: 1px solid #f1f5f9; }
+th { background: rgba(0,0,0,0.02); text-align: left; padding: 15px; font-family: 'Dancing Script', cursive; font-size: 20px; color: var(--primary); border-bottom: 2px solid var(--border); }
+td { padding: 15px; border-bottom: 1px solid var(--border); }
 
-.btn-add { 
-    background: #eef2ff; color: var(--primary); border: none; padding: 10px 20px; 
-    border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; margin-top: 10px;
-}
+.btn-add { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px; opacity: 0.9; }
 
-.footer-section { display: flex; flex-direction: column; align-items: flex-end; margin-top: 40px; gap: 15px; }
-.total-display { font-size: 28px; font-weight: 800; color: #1a1a1a; display: flex; align-items: center; gap: 10px; }
-.total-label { font-size: 16px; color: #64748b; border: 1px solid #e2e8f0; padding: 5px 10px; border-radius: 5px; }
-
-.btn-download { 
-    background: var(--primary); color: white; border: none; padding: 18px 40px; 
-    border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 16px; width: 300px;
-    box-shadow: 0 10px 20px rgba(63, 81, 181, 0.2);
-}
+.total-display { font-size: 28px; font-weight: 800; margin-top: 20px; border-top: 2px dashed var(--border); padding-top: 20px; }
+.btn-download { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; width: 100%; margin-top: 20px; font-weight: bold; cursor: pointer; }
