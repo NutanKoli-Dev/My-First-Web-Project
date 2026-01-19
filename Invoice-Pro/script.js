@@ -1,3 +1,18 @@
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const btn = document.getElementById('modeBtn');
+    if(document.body.classList.contains('dark-mode')) {
+        btn.innerText = "☀️ Light Mode";
+    } else {
+        btn.innerText = "🌙 Dark Mode";
+    }
+}
+
+function changeThemeColor() {
+    const color = document.getElementById('themeColor').value;
+    document.documentElement.style.setProperty('--primary', color);
+}
+
 function addRow() {
     const tbody = document.getElementById('item-list');
     const row = document.createElement('tr');
