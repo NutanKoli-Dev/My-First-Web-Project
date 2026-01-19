@@ -1,29 +1,53 @@
-<div class="calculator">
-    <div class="nav-menu">
-        <a href="../BMI-Calculator/index.html" class="nav-link">BMI</a>
-        <a href="../Age-Calculator/age.html" class="nav-link">Age</a>
-        <a href="tip.html" class="nav-link active">Tip</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator</title>
+    <link rel="stylesheet" href="tip-style.css">
+    <style>
+        /* BMI aur Age jaisa stylish menu */
+        .nav-menu { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: center; background: #f8f9fa; border-radius: 8px; }
+        .nav-link { text-decoration: none; color: #3f72af; font-weight: bold; margin: 0 15px; font-size: 15px; padding: 5px 10px; }
+        .nav-link.active { color: #112d4e; border-bottom: 3px solid #3f72af; background: #e1e8f0; border-radius: 5px; }
+        
+        .calculator label { display: block; text-align: left; margin-top: 10px; font-weight: bold; color: #333; }
+        select, input { width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; }
+        button { width: 100%; background: #3f72af; color: white; padding: 15px; border: none; border-radius: 8px; margin-top: 20px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        #tip-result { margin-top: 20px; font-weight: bold; color: #112d4e; background: #e1e8f0; padding: 15px; border-radius: 8px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="nav-menu">
+            <a href="../BMI-Calculator/index.html" class="nav-link">BMI</a>
+            <a href="../Age-Calculator/age.html" class="nav-link">Age</a>
+            <a href="tip.html" class="nav-link active">Tip</a>
+        </div>
+
+        <h1>Tip Calculator</h1>
+        
+        <label>Select Currency:</label>
+        <select id="currency">
+            <option value="₹">Rupee (₹)</option>
+            <option value="$">Dollar ($)</option>
+            <option value="€">Euro (€)</option>
+        </select>
+
+        <label>Bill Amount:</label>
+        <input type="number" id="bill" placeholder="Total Bill Amount">
+
+        <label>Service Quality:</label>
+        <select id="tipPercentage">
+            <option value="5">5% (Ok)</option>
+            <option value="10">10% (Good)</option>
+            <option value="15" selected>15% (Great)</option>
+        </select>
+
+        <button onclick="calculateTip()">Calculate Total</button>
+        
+        <div id="tip-result"></div>
     </div>
-    <h1>Tip Calculator</h1>
-    
-    <label>Select Currency:</label>
-    <select id="currency" style="width:100%; padding:10px; margin-bottom:15px; border-radius:5px;">
-        <option value="₹">Rupee (₹)</option>
-        <option value="$">Dollar ($)</option>
-        <option value="€">Euro (€)</option>
-    </select>
-
-    <label>Bill Amount:</label>
-    <input type="number" id="bill" placeholder="Total Bill" style="width:100%; padding:10px; margin-bottom:15px;">
-
-    <label>Service Quality:</label>
-    <select id="tipPercentage" style="width:100%; padding:10px; margin-bottom:15px;">
-        <option value="5">5% (Ok)</option>
-        <option value="10">10% (Good)</option>
-        <option value="15">15% (Great)</option>
-    </select>
-
-    <button onclick="calculateTip()" style="width:100%; background:#3f72af; color:white; padding:12px; border:none; border-radius:5px;">Calculate Total</button>
-    <div id="tip-result" style="margin-top:20px; font-weight:bold; display:none; background:#f9f9f9; padding:10px; border-radius:5px;"></div>
-</div>
-<script src="tip-script.js"></script>
+    <script src="tip-script.js"></script>
+</body>
+</html>
