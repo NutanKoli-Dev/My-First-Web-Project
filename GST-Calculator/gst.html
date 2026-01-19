@@ -3,25 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GST Pro - Business Tool</title>
-    <link rel="stylesheet" href="gst-style.css">
+    <title>Tax Helper Pro</title>
     <style>
-        /* Naya Stylish Business Menu */
-        .business-nav { background: #1e293b; padding: 15px; border-radius: 8px; margin-bottom: 25px; display: flex; justify-content: center; gap: 20px; }
-        .biz-link { color: #cbd5e1; text-decoration: none; font-weight: 600; font-size: 15px; padding: 5px 12px; border-radius: 4px; }
-        .biz-link:hover { background: #334155; color: white; }
-        .biz-link.active { background: #4f46e5; color: white; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f8faff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; max-width: 380px; text-align: center; }
+        
+        h1 { font-family: 'Brush Script MT', cursive; font-size: 28px; color: #1a1a1a; margin-bottom: 20px; }
+
+        /* Magic Switch Design */
+        .switch-container { display: flex; align-items: center; justify-content: center; background: #f0f4ff; padding: 10px; border-radius: 50px; margin-bottom: 25px; }
+        .switch-label { font-size: 14px; font-weight: bold; margin: 0 10px; transition: 0.3s; }
+        .local-text { color: #7b86ff; }
+        .business-text { color: #7b86ff; }
+        
+        .toggle-switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #1e293b; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #10b981; }
+        input:checked + .slider:before { transform: translateX(26px); }
+
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 13px; font-weight: bold; color: #555; margin-left: 5px; }
+        input { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; margin-top: 5px; outline: none; font-size: 16px; }
+
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.3s; }
+        .add-btn { background: #7b86ff; color: white; }
+        .remove-btn { background: #e2e8f0; color: #64748b; }
+
+        /* Result Area */
+        .result-box { margin-top: 25px; padding: 15px; border: 1px dashed #cbd5e1; border-radius: 15px; text-align: left; }
+        .res-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 15px; font-weight: 600; }
+        .final-row { border-top: 1px solid #eee; padding-top: 10px; color: #7b86ff; font-size: 18px; }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <div class="business-nav">
-            <a href="gst.html" class="biz-link active">GST Calculator</a>
-            <a href="../Invoice-Pro/index.html" class="biz-link">Invoice Generator</a>
+
+<div class="container">
+    <h1>Tax Helper Pro</h1>
+
+    <div class="switch-container">
+        <span class="switch-label local-text">Local (Discount)</span>
+        <label class="toggle-switch">
+            <input type="checkbox" id="modeSwitch" onchange="updateUI()">
+            <span class="slider"></span>
+        </label>
+        <span class="switch-label business-text">Business (GST)</span>
+    </div>
+
+    <div class="input-group">
+        <label>Amount / राशि</label>
+        <input type="number" id="amount" placeholder="1000">
+    </div>
+
+    <div class="input-group">
+        <label id="rateLabel">Tax/Discount Rate (%)</label>
+        <input type="number" id="rate" placeholder="10">
+    </div>
+
+    <div class="btn-group">
+        <button class="add-btn" onclick="calculate(true)">+ Add Tax</button>
+        <button class="remove-btn" onclick="calculate(false)">- Remove / Discount</button>
+    </div>
+
+    <div class="result-box" id="resultBox" style="display:none;">
+        <div class="res-row">
+            <span id="label1">Base Price:</span>
+            <span id="val1">₹0.00</span>
         </div>
-        
-        <h1>GST Calculator</h1>
+        <div class="res-row">
+            <span id="label2">Tax/Discount:</span>
+            <span id="val2">₹0.00</span>
         </div>
-    <script src="gst-script.js"></script>
+        <div class="res-row final-row">
+            <span id="label3">Final Price:</span>
+            <span id="val3">₹0.00</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateUI() {
+        const isGST = document.getElementById('modeSwitch').checked;
+        document.querySelector('.add-btn').style.display = isGST ? 'block' : 'none';
+        // Reset results when switching
+        document.getElementById('resultBox').style.display = 'none';
+    }
+
+    function calculate(isAdding) {
+        const amount = parseFloat(document.getElementById('amount').value);
+        const rate = parseFloat(document.getElementById('rate').value);
+        const isGST = document.getElementById('modeSwitch').checked;
+
+        if (isNaN(amount) || isNaN(rate)) {
+            alert("Please enter values");
+            return;
+        }
+
+        let base, tax, final;
+
+        if (isGST) {
+            // Business (GST) Calculation
+            tax = (amount * rate) / (100 + rate);
+            base = amount - tax;
+            final = amount;
+            
+            document.getElementById('label1').innerText = "Base Price:";
+            document.getElementById('label2').innerText = "Tax Included:";
+            document.getElementById('label3').innerText = "Original Price:";
+        } else {
+            // Local (Discount) Calculation
+            tax = (amount * rate) / 100;
+            base = amount;
+            final = isAdding ? (amount + tax) : (amount - tax);
+            
+            document.getElementById('label1').innerText = "Base Price:";
+            document.getElementById('label2').innerText = isAdding ? "Tax (+):" : "Discount (-):";
+            document.getElementById('label3').innerText = isAdding ? "Total Amount:" : "Payable Amount:";
+        }
+
+        document.getElementById('val1').innerText = "₹" + base.toLocaleString(undefined, {minimumFractionDigits: 2});
+        document.getElementById('val2').innerText = "₹" + tax.toLocaleString(undefined, {minimumFractionDigits: 2});
+        document.getElementById('val3').innerText = "₹" + final.toLocaleString(undefined, {minimumFractionDigits: 2});
+        document.getElementById('resultBox').style.display = 'block';
+    }
+    
+    // Initial UI check
+    updateUI();
+</script>
+
 </body>
 </html>
