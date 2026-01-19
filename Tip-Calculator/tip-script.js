@@ -5,15 +5,13 @@ function calculateTip() {
     const resultDiv = document.getElementById('tip-result');
 
     if (isNaN(bill) || bill <= 0) {
-        alert("Please enter a valid bill amount");
+        alert("Enter valid amount!");
         return;
     }
 
     const tipAmount = (bill * tipPercent) / 100;
-    const totalBill = bill + tipAmount;
+    const total = bill + tipAmount;
 
-    document.getElementById('display-tip').innerText = currency + tipAmount.toFixed(2);
-    document.getElementById('display-total').innerText = currency + totalBill.toFixed(2);
-    
     resultDiv.style.display = "block";
+    resultDiv.innerHTML = `Tip: ${currency}${tipAmount.toFixed(2)} <br> Total: ${currency}${total.toFixed(2)}`;
 }
