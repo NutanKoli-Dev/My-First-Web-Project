@@ -3,24 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tax Helper Pro - Original</title>
+    <title>Tax Helper Pro - Custom Switch</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8faff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .container { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; max-width: 360px; text-align: center; }
         
-        h1 { font-size: 26px; color: #1a1a1a; margin-bottom: 20px; font-weight: 700; }
+        h1 { font-size: 26px; color: #1a1a1a; margin-bottom: 25px; font-weight: 700; }
 
-        /* Original Switch Logic from your screenshots */
-        .switch-container { display: flex; align-items: center; justify-content: center; background: #f0f4ff; padding: 10px; border-radius: 50px; margin-bottom: 25px; gap: 10px; }
-        .switch-label { font-size: 13px; font-weight: bold; color: #64748b; }
+        /* Magic Switch Styling */
+        .switch-container { display: flex; align-items: center; justify-content: center; background: #f0f4ff; padding: 12px; border-radius: 50px; margin-bottom: 25px; gap: 15px; }
         
+        .switch-label { font-size: 14px; font-weight: 800; color: #b0b9c8; transition: 0.3s; }
+        
+        /* Local side active - Indigo color (Add tax jaisa) */
+        .active-local { color: #5a67d8 !important; } 
+        /* Business side active - Solid Black */
+        .active-business { color: #000000 !important; }
+
         .toggle-switch { position: relative; display: inline-block; width: 50px; height: 26px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #10b981; transition: .4s; border-radius: 34px; }
         .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
         
-        /* Business Mode Switch Color (Black/Dark) */
-        input:checked + .slider { background-color: #1e293b; }
+        /* Switch button color changes to Black in Business mode */
+        input:checked + .slider { background-color: #000000; }
         input:checked + .slider:before { transform: translateX(24px); }
 
         .input-group { text-align: left; margin-bottom: 15px; }
@@ -29,13 +35,16 @@
 
         .btn-group { display: flex; gap: 10px; margin-top: 20px; }
         button { flex: 1; padding: 14px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.3s; }
-        .add-btn { background: #7b86ff; color: white; }
-        .remove-btn { background: #e2e8f7; color: #6366f1; }
+        
+        /* Darker/Loud Add Tax Button */
+        .add-btn { background: #4c51bf; color: white; box-shadow: 0 4px 10px rgba(76, 81, 191, 0.2); }
+        
+        /* Grey Remove Button */
+        .remove-btn { background: #e2e8f0; color: #475569; border: 1px solid #cbd5e1; }
 
-        /* Original Result Box with Dashed Lines */
         .result-box { margin-top: 25px; padding: 15px; border: 1px dashed #cbd5e1; border-radius: 15px; text-align: left; }
         .res-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; font-weight: 600; color: #444; }
-        .final-row { border-top: 1px solid #eee; padding-top: 10px; color: #7b86ff; font-size: 18px; font-weight: 800; }
+        .final-row { border-top: 1px solid #eee; padding-top: 10px; color: #4c51bf; font-size: 18px; font-weight: 800; }
     </style>
 </head>
 <body>
@@ -44,22 +53,22 @@
     <h1>Tax Helper Pro</h1>
 
     <div class="switch-container">
-        <span class="switch-label">Local (Discount)</span>
+        <span id="labelLocal" class="switch-label active-local">Local (Discount)</span>
         <label class="toggle-switch">
-            <input type="checkbox" id="modeToggle" onchange="updateMode()">
+            <input type="checkbox" id="modeToggle" onchange="updateMagicSwitch()">
             <span class="slider"></span>
         </label>
-        <span class="switch-label">Business (GST)</span>
+        <span id="labelBiz" class="switch-label">Business (GST)</span>
     </div>
 
     <div class="input-group">
         <label>Amount / राशि</label>
-        <input type="number" id="mainAmount" placeholder="1000">
+        <input type="number" id="mainAmount" placeholder="Enter Amount">
     </div>
 
     <div class="input-group">
         <label>Tax/Discount Rate (%)</label>
-        <input type="number" id="mainRate" placeholder="10">
+        <input type="number" id="mainRate" placeholder="Enter Rate">
     </div>
 
     <div class="btn-group">
@@ -75,7 +84,18 @@
 </div>
 
 <script>
-    function updateMode() {
+    function updateMagicSwitch() {
+        const isBusiness = document.getElementById('modeToggle').checked;
+        const labelLocal = document.getElementById('labelLocal');
+        const labelBiz = document.getElementById('labelBiz');
+        
+        if (isBusiness) {
+            labelBiz.classList.add('active-business');
+            labelLocal.classList.remove('active-local');
+        } else {
+            labelLocal.classList.add('active-local');
+            labelBiz.classList.remove('active-business');
+        }
         document.getElementById('resDisplay').style.display = 'none';
     }
 
