@@ -19,7 +19,17 @@
             <a href="tip.html" class="nav-link active">Tip</a>
         </div>
         <h1>Tip Calculator</h1>
+        <div class="input-group">
+            <label>Bill Amount:</label>
+            <input type="number" id="bill" placeholder="Total Bill">
         </div>
+        <div class="input-group">
+            <label>Service Tip (%):</label>
+            <input type="number" id="tipPercentage" placeholder="Example: 10">
+        </div>
+        <button onclick="calculateTip()">Calculate Tip</button>
+        <div id="tip-result" style="margin-top:20px; font-weight:bold;"></div>
+    </div>
     <script src="tip-script.js"></script>
 </body>
 </html>
