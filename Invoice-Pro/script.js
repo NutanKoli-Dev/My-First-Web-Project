@@ -1,40 +1,40 @@
-// Currency aur Calculation Logic
-function calculate() {
-    let grandTotal = 0;
-    const symbol = document.getElementById('currency').value;
-    document.getElementById('symbol').innerText = symbol;
+function addRow() {
+    const tbody = document.getElementById('items');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td><input type="text" placeholder="Item name"></td>
+        <td><input type="number" class="p" value="0" oninput="calc()"></td>
+        <td><input type="number" class="q" value="1" oninput="calc()"></td>
+        <td style="text-align:right; font-weight:bold;"><span class="row-total">0.00</span></td>
+    `;
+    tbody.appendChild(tr);
+}
 
-    const rows = document.querySelectorAll('#item-list tr');
-    rows.forEach(row => {
-        const p = row.querySelector('.price').value || 0;
-        const q = row.querySelector('.qty').value || 0;
-        const total = p * q;
-        row.querySelector('.row-total').innerText = total.toFixed(2);
-        grandTotal += total;
+function calc() {
+    let total = 0;
+    const currencySym = document.getElementById('curr').value;
+    document.getElementById('sym').innerText = currencySym;
+
+    document.querySelectorAll('#items tr').forEach(row => {
+        const price = row.querySelector('.p').value || 0;
+        const qty = row.querySelector('.q').value || 0;
+        const rowTotal = price * qty;
+        row.querySelector('.row-total').innerText = rowTotal.toFixed(2);
+        total += rowTotal;
     });
-    document.getElementById('grand-total').innerText = grandTotal.toFixed(2);
+    document.getElementById('grand').innerText = total.toFixed(2);
 }
 
-// PDF Download Function
-function downloadBill() {
-    const customer = document.querySelector('input[placeholder="Enter Client Name"]').value || "Customer";
-    const total = document.getElementById('grand-total').innerText;
-    const symbol = document.getElementById('symbol').innerText;
-    
-    // Simple Print command jo PDF ki tarah save karega
-    window.print(); 
-    
-    alert("Invoice for " + customer + " generated successfully!");
-}
-
-// Dark Mode & Theme Color Logic (Pehle wala)
-function toggleDarkMode() {
+function toggleMode() {
     document.body.classList.toggle('dark-mode');
     const btn = document.getElementById('modeBtn');
     btn.innerText = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
 }
 
-function changeThemeColor() {
-    const color = document.getElementById('themeColor').value;
+function changeTheme(color) {
     document.documentElement.style.setProperty('--primary', color);
+}
+
+function generatePDF() {
+    window.print();
 }
