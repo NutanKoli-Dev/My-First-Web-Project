@@ -6,35 +6,24 @@
     </div>
     <h1>Tip Calculator</h1>
     
-    <div class="input-group">
-        <label>Select Currency:</label>
-        <select id="currency" style="width:100%; padding:10px; margin-bottom:15px; border-radius:5px;">
-            <option value="₹">Indian Rupee (₹)</option>
-            <option value="$">US Dollar ($)</option>
-            <option value="€">Euro (€)</option>
-            <option value="£">Pound (£)</option>
-        </select>
-    </div>
+    <label>Select Currency:</label>
+    <select id="currency" style="width:100%; padding:10px; margin-bottom:15px; border-radius:5px;">
+        <option value="₹">Rupee (₹)</option>
+        <option value="$">Dollar ($)</option>
+        <option value="€">Euro (€)</option>
+    </select>
 
-    <div class="input-group">
-        <label>Total Bill Amount:</label>
-        <input type="number" id="bill" placeholder="Enter amount">
-    </div>
+    <label>Bill Amount:</label>
+    <input type="number" id="bill" placeholder="Total Bill" style="width:100%; padding:10px; margin-bottom:15px;">
 
-    <div class="input-group">
-        <label>Service Quality (Tip %):</label>
-        <select id="tipPercentage" style="width:100%; padding:10px; margin-bottom:15px; border-radius:5px;">
-            <option value="5">5% (Average)</option>
-            <option value="10">10% (Good)</option>
-            <option value="15" selected>15% (Great!)</option>
-            <option value="20">20% (Excellent!!)</option>
-        </select>
-    </div>
+    <label>Service Quality:</label>
+    <select id="tipPercentage" style="width:100%; padding:10px; margin-bottom:15px;">
+        <option value="5">5% (Ok)</option>
+        <option value="10">10% (Good)</option>
+        <option value="15">15% (Great)</option>
+    </select>
 
-    <button onclick="calculateTip()">Calculate Total</button>
-    
-    <div id="tip-result" style="margin-top:20px; padding:15px; background:#f0f5ff; border-radius:8px; display:none;">
-        <p>Tip Amount: <span id="display-tip"></span></p>
-        <p style="font-size:1.2rem; color:#112d4e;">Total Bill: <span id="display-total"></span></p>
-    </div>
+    <button onclick="calculateTip()" style="width:100%; background:#3f72af; color:white; padding:12px; border:none; border-radius:5px;">Calculate Total</button>
+    <div id="tip-result" style="margin-top:20px; font-weight:bold; display:none; background:#f9f9f9; padding:10px; border-radius:5px;"></div>
 </div>
+<script src="tip-script.js"></script>
