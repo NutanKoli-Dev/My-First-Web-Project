@@ -6,7 +6,7 @@
     <title>GST Calculator</title>
     <link rel="stylesheet" href="gst-style.css">
     <style>
-        .nav-menu { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .nav-menu { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: center; }
         .nav-link { text-decoration: none; color: #3f72af; font-weight: bold; margin: 0 10px; font-size: 14px; }
         .nav-link.active { color: #112d4e; border-bottom: 2px solid #3f72af; }
     </style>
@@ -14,16 +14,14 @@
 <body>
     <div class="calculator">
         <div class="nav-menu">
-            <a href="../index.html" class="nav-link">BMI</a>
+            <a href="../BMI-Calculator/index.html" class="nav-link">BMI</a>
             <a href="../Age-Calculator/age.html" class="nav-link">Age</a>
+            <a href="../Tip-Calculator/tip.html" class="nav-link">Tip</a>
             <a href="gst.html" class="nav-link active">GST</a>
         </div>
         <h1>GST Calculator</h1>
-        <div id="gst-form">
-            <input type="number" id="amount" placeholder="Enter Amount">
-            <button onclick="calculateGST()">Calculate</button>
+        
         </div>
-    </div>
     <script src="gst-script.js"></script>
 </body>
 </html>
