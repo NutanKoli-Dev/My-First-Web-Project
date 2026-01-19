@@ -4,46 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tax Helper Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #f0f4ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 90%; max-width: 380px; text-align: center; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f7ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: white; padding: 25px; border-radius: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); width: 90%; max-width: 380px; text-align: center; }
         
-        /* 1. Unique Script Font (Number 1 jaisa) */
-        h1 { font-family: 'Dancing Script', cursive; font-size: 36px; color: #1a1a1a; margin: 0 0 20px 0; font-weight: 700; }
+        /* 1. Circle 1: Designer Heading (Number 1 jaisa) */
+        h1 { font-family: 'Dancing Script', cursive; font-size: 34px; color: #000; margin-bottom: 25px; font-weight: 700; }
 
-        /* 2. Smart Switch (Green for Local, Dark for Business) */
-        .switch-container { display: flex; align-items: center; justify-content: center; background: #f1f5ff; padding: 12px; border-radius: 50px; margin-bottom: 25px; gap: 10px; }
-        .switch-label { font-size: 13px; font-weight: 600; color: #8a94ad; transition: 0.3s; }
-        .active-local { color: #10b981; } /* Green for Local */
-        .active-business { color: #1e293b; } /* Dark for Business */
+        /* 2. Circle 2: Input Labels (Number 1 jaisa font) */
+        .input-group { text-align: left; margin-bottom: 18px; }
+        label { font-family: 'Dancing Script', cursive; font-size: 19px; font-weight: 700; color: #333; margin-left: 5px; }
+        input { width: 100%; padding: 14px; border: 1px solid #e0e6ed; border-radius: 12px; font-size: 16px; outline: none; background: #fff; box-sizing: border-box; margin-top: 5px; color: #000; }
+
+        /* 3. Dynamic Switch (Jo side active, wo bright) */
+        .switch-container { display: flex; align-items: center; justify-content: center; background: #f0f3ff; padding: 12px; border-radius: 50px; margin-bottom: 25px; gap: 12px; }
+        .switch-label { font-size: 14px; font-weight: 600; color: #a5b0c5; transition: 0.4s; }
         
-        .toggle-switch { position: relative; display: inline-block; width: 54px; height: 28px; }
+        /* Bright Colour Logic (BMI/Add-Tax wala color) */
+        .active-label { color: #6366f1 !important; font-weight: 800; }
+
+        .toggle-switch { position: relative; display: inline-block; width: 55px; height: 28px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #10b981; transition: .4s; border-radius: 34px; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #1e293b; transition: .4s; border-radius: 34px; }
         .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
         
-        /* Switch Point logic */
         input:checked + .slider { background-color: #1e293b; }
         input:checked + .slider:before { transform: translateX(26px); }
 
-        .input-group { text-align: left; margin-bottom: 18px; }
-        label { font-size: 14px; font-weight: 600; color: #444; margin-bottom: 6px; display: block; }
-        input { width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 12px; box-sizing: border-box; font-size: 16px; outline: none; background: #fafbff; }
-
-        /* 3. Colourful Buttons (Number 1 Design) */
+        /* 4. Brightened Buttons */
         .btn-group { display: flex; gap: 12px; margin-top: 25px; }
-        .btn { flex: 1; padding: 15px; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.3s; }
-        .add-btn { background: #7b86ff; color: white; box-shadow: 0 4px 15px rgba(123, 134, 255, 0.3); }
-        .remove-btn { background: #eef2ff; color: #6366f1; border: 1px solid #e0e7ff; }
+        button { flex: 1; padding: 15px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.3s; }
+        
+        .add-btn { background: #6366f1; color: white; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
+        .remove-btn { background: #eef2ff; color: #6366f1; border: 1px solid #d0d7ff; }
 
         /* Result Section */
-        .result-box { margin-top: 25px; padding: 20px; border-top: 1px solid #f0f0f0; text-align: left; }
-        .res-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; color: #555; }
-        .res-row span:last-child { font-weight: 600; color: #1a1a1a; }
-        .final-row { margin-top: 15px; padding-top: 15px; border-top: 2px dashed #eee; }
-        .final-row span:first-child { color: #6366f1; font-weight: bold; font-size: 18px; }
-        .final-row span:last-child { color: #6366f1; font-weight: 800; font-size: 20px; }
+        .result-box { margin-top: 25px; padding: 15px; border-top: 1px solid #eee; text-align: left; }
+        .res-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 15px; font-weight: 600; }
+        .final-row { color: #6366f1; font-size: 18px; margin-top: 10px; border-top: 2px dashed #eee; padding-top: 10px; }
     </style>
 </head>
 <body>
@@ -52,86 +51,73 @@
     <h1>Tax Helper Pro</h1>
 
     <div class="switch-container">
-        <span id="localTxt" class="switch-label active-local">Local (Discount)</span>
+        <span id="lTxt" class="switch-label active-label">Local (Discount)</span>
         <label class="toggle-switch">
-            <input type="checkbox" id="modeSwitch" onchange="updateColors()">
+            <input type="checkbox" id="mSwitch" onchange="toggleStyle()">
             <span class="slider"></span>
         </label>
-        <span id="bizTxt" class="switch-label">Business (GST)</span>
+        <span id="bTxt" class="switch-label">Business (GST)</span>
     </div>
 
     <div class="input-group">
         <label>Amount / राशि</label>
-        <input type="number" id="amount" placeholder="1000">
+        <input type="number" id="amt" placeholder="1000">
     </div>
 
     <div class="input-group">
         <label>Tax/Discount Rate (%)</label>
-        <input type="number" id="rate" placeholder="10">
+        <input type="number" id="rt" placeholder="10">
     </div>
 
     <div class="btn-group">
-        <button class="btn add-btn" onclick="calculate(true)">+ Add Tax</button>
-        <button class="btn remove-btn" onclick="calculate(false)">- Remove / Discount</button>
+        <button class="add-btn" onclick="calc(true)">+ Add Tax</button>
+        <button class="remove-btn" onclick="calc(false)">- Remove / Discount</button>
     </div>
 
-    <div id="resultBox" class="result-box" style="display:none;">
-        <div class="res-row">
-            <span id="l1">Base Price:</span> <span id="v1">₹0.00</span>
-        </div>
-        <div class="res-row">
-            <span id="l2">Tax/Discount:</span> <span id="v2">₹0.00</span>
-        </div>
-        <div class="res-row final-row">
-            <span id="l3">Final Price:</span> <span id="v3">₹0.00</span>
-        </div>
+    <div id="resBox" class="result-box" style="display:none;">
+        <div class="res-row"> <span id="lbl1">Base Price:</span> <span id="v1">₹0.00</span> </div>
+        <div class="res-row"> <span id="lbl2">Tax/Discount:</span> <span id="v2">₹0.00</span> </div>
+        <div class="res-row final-row"> <span id="lbl3">Final Price:</span> <span id="v3">₹0.00</span> </div>
     </div>
 </div>
 
 <script>
-    function updateColors() {
-        const isBiz = document.getElementById('modeSwitch').checked;
-        const localTxt = document.getElementById('localTxt');
-        const bizTxt = document.getElementById('bizTxt');
+    function toggleStyle() {
+        const isBiz = document.getElementById('mSwitch').checked;
+        const lTxt = document.getElementById('lTxt');
+        const bTxt = document.getElementById('bTxt');
         
         if(isBiz) {
-            bizTxt.classList.add('active-business');
-            localTxt.classList.remove('active-local');
+            bTxt.classList.add('active-label');
+            lTxt.classList.remove('active-label');
         } else {
-            localTxt.classList.add('active-local');
-            bizTxt.classList.remove('active-business');
+            lTxt.classList.add('active-label');
+            bTxt.classList.remove('active-label');
         }
-        document.getElementById('resultBox').style.display = 'none';
     }
 
-    function calculate(isAdding) {
-        const amount = parseFloat(document.getElementById('amount').value);
-        const rate = parseFloat(document.getElementById('rate').value);
-        const isBiz = document.getElementById('modeSwitch').checked;
+    function calc(isAdd) {
+        const a = parseFloat(document.getElementById('amt').value);
+        const r = parseFloat(document.getElementById('rt').value);
+        const isB = document.getElementById('mSwitch').checked;
+        if (isNaN(a) || isNaN(r)) return;
 
-        if (isNaN(amount) || isNaN(rate)) return;
-
-        let base, tax, final;
-        if (isBiz) {
-            tax = (amount * rate) / (100 + rate);
-            base = amount - tax;
-            final = amount;
-            document.getElementById('l1').innerText = "Base Price:";
-            document.getElementById('l2').innerText = "Tax Included:";
-            document.getElementById('l3').innerText = "Original Price:";
+        let b, t, f;
+        if (isB) {
+            t = (a * r) / (100 + r); b = a - t; f = a;
+            document.getElementById('lbl1').innerText = "Base Price:";
+            document.getElementById('lbl2').innerText = "Tax Included:";
+            document.getElementById('lbl3').innerText = "Original Price:";
         } else {
-            tax = (amount * rate) / 100;
-            base = amount;
-            final = isAdding ? (amount + tax) : (amount - tax);
-            document.getElementById('l1').innerText = "Base Price:";
-            document.getElementById('l2').innerText = isAdding ? "Tax (+):" : "Discount (-):";
-            document.getElementById('l3').innerText = isAdding ? "Total Amount:" : "Payable Amount:";
+            t = (a * r) / 100; b = a; f = isAdd ? (a + t) : (a - t);
+            document.getElementById('lbl1').innerText = "Base Price:";
+            document.getElementById('lbl2').innerText = isAdd ? "Tax (+):" : "Discount (-):";
+            document.getElementById('lbl3').innerText = isAdd ? "Total Amount:" : "Payable Amount:";
         }
-
-        document.getElementById('v1').innerText = "₹" + base.toLocaleString(undefined, {minimumFractionDigits: 2});
-        document.getElementById('v2').innerText = "₹" + tax.toLocaleString(undefined, {minimumFractionDigits: 2});
-        document.getElementById('v3').innerText = "₹" + final.toLocaleString(undefined, {minimumFractionDigits: 2});
-        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('v1').innerText = "₹" + b.toFixed(2);
+        document.getElementById('v2').innerText = "₹" + t.toFixed(2);
+        document.getElementById('v3').innerText = "₹" + f.toFixed(2);
+        document.getElementById('resBox').style.display = 'block';
     }
 </script>
 </body>
