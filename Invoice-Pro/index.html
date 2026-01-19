@@ -3,72 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Invoice Pro</title>
+    <title>Invoice Pro - Professional Billing</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="invoice-container" id="invoice">
-        <header>
-            <div class="header-top">
-                <h1>Invoice Generator</h1>
-                <div class="theme-switch">
-                    <label class="switch">
-                        <input type="checkbox" onclick="toggleDarkMode()">
-                        <span class="slider round"></span>
-                    </label>
-                    <span id="mode-text">🌙 Mode</span>
-                </div>
-            </div>
-            <p>Professional Billing • Global Edition</p>
-        </header>
 
-        <section class="bill-details">
-            <div class="input-field">
-                <label>Customer Name</label>
-                <input type="text" id="clientName" placeholder="Enter Client Name">
-            </div>
-            <div class="input-field">
-                <label>Billing Date</label>
-                <input type="date" id="billDate">
-            </div>
-        </section>
+<div class="invoice-card">
+    <h1>Invoice Generator</h1>
+    <div class="edition">Global Edition</div>
+    <div class="tagline">Create and download professional bills instantly</div>
 
-        <table id="invoiceTable">
-            <thead>
-                <tr>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Qty</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody id="itemList">
-                <tr>
-                    <td><input type="text" placeholder="Item name" class="item-name"></td>
-                    <td><input type="number" placeholder="0" class="item-price" oninput="calculateRow(this)"></td>
-                    <td><input type="number" placeholder="1" class="item-qty" oninput="calculateRow(this)"></td>
-                    <td class="row-total">0.00</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <button class="add-btn" onclick="addItem()">+ Add New Item</button>
-
-        <footer class="summary">
-            <div class="total-box">
-                <select id="currency" onchange="calculateGrandTotal()">
-                    <option value="₹">INR (₹)</option>
-                    <option value="$">USD ($)</option>
-                    <option value="€">EUR (€)</option>
-                    <option value="£">GBP (£)</option>
-                </select>
-                <span id="grandTotal">0.00</span>
-            </div>
-            <button class="generate-btn" onclick="downloadPDF()">Download PDF Bill</button>
-        </footer>
+    <div class="header-section">
+        <div class="input-group">
+            <label>Customer Name</label>
+            <input type="text" placeholder="Global Creative Agency">
+        </div>
+        <div class="input-group" style="max-width: 200px;">
+            <label>Billing Date</label>
+            <input type="date" value="2026-01-19">
+        </div>
     </div>
-    <script src="script.js"></script>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 40%;">Description</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th style="text-align: right;">Total</th>
+            </tr>
+        </thead>
+        <tbody id="item-list">
+            <tr>
+                <td><input type="text" placeholder="Item name"></td>
+                <td><input type="number" class="price" value="0" oninput="calculate()"></td>
+                <td><input type="number" class="qty" value="1" oninput="calculate()"></td>
+                <td style="text-align: right; font-weight: bold;">₹<span class="row-total">0.00</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="btn-add" onclick="addRow()">+ Add Item</button>
+
+    <div class="footer-section">
+        <div class="total-display">
+            <span class="total-label">INR (₹)</span> ₹<span id="grand-total">0.00</span>
+        </div>
+        <button class="btn-download">Download PDF Bill</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
-
