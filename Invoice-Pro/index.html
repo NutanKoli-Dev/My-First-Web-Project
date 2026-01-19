@@ -1,67 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Pro - Professional Billing</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body class="light-mode"> <div class="controls-overlay">
-    <button onclick="toggleDarkMode()" id="modeBtn">🌙 Dark Mode</button>
-    <select id="themeColor" onchange="changeThemeColor()">
-        <option value="#3f51b5">Indigo (Default)</option>
-        <option value="#e91e63">Pink</option>
-        <option value="#009688">Teal</option>
-        <option value="#ff9800">Orange</option>
-    </select>
-</div>
-
-<div class="invoice-card">
-    <h1>Invoice Generator</h1>
-    <div class="edition">Global Edition</div>
-    <div class="tagline">Create and download professional bills instantly</div>
-
-    <div class="header-section">
-        <div class="input-group">
-            <label>Customer Name / ग्राहक का नाम</label>
-            <input type="text" placeholder="Enter Client Name">
+<div class="footer-section">
+    <div class="total-display">
+        <div class="currency-box">
+            <label style="font-size: 10px; display: block; margin-bottom: 2px;">Currency</label>
+            <select id="currency" onchange="calculate()" style="width: auto; padding: 5px; border-radius: 5px; background: var(--card); color: var(--text); border: 1px solid var(--border);">
+                <option value="₹">INR (₹)</option>
+                <option value="$">USD ($)</option>
+                <option value="€">EUR (€)</option>
+                <option value="£">GBP (£)</option>
+            </select>
         </div>
-        <div class="input-group" style="max-width: 200px;">
-            <label>Billing Date</label>
-            <input type="date" value="2026-01-19">
+        
+        <div style="margin-left: 15px;">
+            <span class="total-label" id="symbol">₹</span>
+            <span id="grand-total" style="font-size: 32px; font-weight: 800;">0.00</span>
         </div>
     </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th style="width: 40%;">Description</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th style="text-align: right;">Total</th>
-            </tr>
-        </thead>
-        <tbody id="item-list">
-            <tr>
-                <td><input type="text" placeholder="Item name"></td>
-                <td><input type="number" class="price" value="0" oninput="calculate()"></td>
-                <td><input type="number" class="qty" value="1" oninput="calculate()"></td>
-                <td style="text-align: right; font-weight: bold;">₹<span class="row-total">0.00</span></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <button class="btn-add" onclick="addRow()">+ Add New Item</button>
-
-    <div class="footer-section">
-        <div class="total-display">
-            <span class="total-label">Grand Total:</span> ₹<span id="grand-total">0.00</span>
-        </div>
-        <button class="btn-download">DOWNLOAD PDF BILL</button>
-    </div>
+    
+    <button class="btn-download" onclick="downloadBill()">DOWNLOAD PDF BILL</button>
 </div>
-
-<script src="script.js"></script>
-</body>
-</html>
