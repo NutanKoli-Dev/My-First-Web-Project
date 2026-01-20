@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Belt</title>
+    <link rel="stylesheet" href="demo-style.css">
+</head>
+<body>
+    <div id="nudgeBox"><span id="nudgeMessage"></span></div>
+
+    <div class="card-container">
+        <a href="index.html" class="back-btn">← DASHBOARD</a>
+        <div class="status-badge">Wellness</div>
+        <h2>Health Belt</h2>
+        <input type="number" class="input-field" placeholder="Water Intake (L)">
+        <button onclick="friendlyNudge()" style="width:100%; background:#4f46e5; border:none; color:white; padding:10px; border-radius:8px; cursor:pointer; font-size:11px;">✨ Pulse Check</button>
+        <div class="developer-tag">Signature: Nutan</div>
+    </div>
+
+    <script>
+    function friendlyNudge() {
+        let box = document.getElementById('nudgeBox');
+        let msg = document.getElementById('nudgeMessage');
+        msg.innerHTML = "<b>Hey Founder!</b><br>You've been focused for a while. Take a 2-minute deep breath break after your meeting. You're doing great!";
+        box.style.display = 'block';
+        setTimeout(() => { box.style.display = 'none'; }, 5000);
+    }
+    </script>
+</body>
+</html>
