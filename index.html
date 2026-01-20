@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Studio Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>CREATOR STUDIO</h1>
+            <p>Mobile-First Content Manager</p>
+        </header>
+
+        <section class="card">
+            <h2>🖼️ Thumbnail Previewer</h2>
+            <p class="hint">Check visibility on Mobile & Desktop</p>
+            <input type="file" id="imageInput" accept="image/*" class="file-btn">
+            
+            <div class="preview-area">
+                <div class="preview-item mobile">
+                    <div id="mob-frame" class="frame"><span>Upload Image</span></div>
+                    <p>Mobile View</p>
+                </div>
+                <div class="preview-item desktop">
+                    <div id="desk-frame" class="frame"></div>
+                    <p>Desktop View</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🚀 Emergency Publishing Kit</h2>
+            <p class="hint">Quick Copy Tags & Links</p>
+            <div class="button-group">
+                <button onclick="copyData('shorts')">Viral Tags</button>
+                <button onclick="copyData('vlog')">Vlog Desc</button>
+                <button onclick="copyData('links')">Social Links</button>
+            </div>
+            <textarea id="output" placeholder="Ready to paste text..."></textarea>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
