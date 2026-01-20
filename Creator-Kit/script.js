@@ -1,17 +1,32 @@
-// 1. Page khulte hi purana data load karo
+// 1. Auto-Load Data & Theme
 window.onload = function() {
+    // Load Text
     if(localStorage.getItem('creator_idea')) {
         document.getElementById('output').value = localStorage.getItem('creator_idea');
     }
+    // Load Theme
+    const savedTheme = localStorage.getItem('user-theme');
+    if(savedTheme) setTheme(savedTheme);
 };
 
-// 2. Jaise hi user kuch likhe, use turant Save karo (Auto-Save)
+// 2. Theme Switching Logic
+function setTheme(mode) {
+    document.body.classList.remove('light-mode', 'gold-mode');
+    if(mode === 'light') document.body.classList.add('light-mode');
+    if(mode === 'gold') document.body.classList.add('gold-mode');
+    localStorage.setItem('user-theme', mode);
+}
+
+// 3. Auto-Save Text Logic
 document.getElementById('output').addEventListener('input', function() {
-    const textToSave = document.getElementById('output').value;
-    localStorage.setItem('creator_idea', textToSave);
+    localStorage.setItem('creator_idea', this.value);
+    document.getElementById('save-status').innerText = "Saving...";
+    setTimeout(() => {
+        document.getElementById('save-status').innerText = "All changes saved.";
+    }, 1000);
 });
 
-// 3. Image Preview Logic (Same as before)
+// 4. Image Preview Logic
 document.getElementById('imageInput').addEventListener('change', function(e) {
     const reader = new FileReader();
     reader.onload = function() {
@@ -20,12 +35,11 @@ document.getElementById('imageInput').addEventListener('change', function(e) {
         const imgHtml = `<img src="${reader.result}">`;
         mob.innerHTML = imgHtml;
         desk.innerHTML = imgHtml;
-        // Image ko bhi save kar sakte hain par wo memory zyada leti hai
     }
     reader.readAsDataURL(e.target.files[0]);
 });
 
-// 4. Copy Data Logic
+// 5. Copy Data Logic
 const data = {
     shorts: "#shorts #viral #trending #contentcreator #2026",
     vlog: "Hi guys! Welcome back to my channel. Today I'm sharing something special...",
@@ -35,9 +49,8 @@ const data = {
 function copyData(type) {
     const output = document.getElementById('output');
     output.value = data[type];
-    localStorage.setItem('creator_idea', output.value); // Copy karte hi save bhi kar lo
+    localStorage.setItem('creator_idea', output.value);
     output.select();
     document.execCommand('copy');
     alert("Copied & Auto-Saved!");
 }
-
