@@ -1,79 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Pro - Professional Billing</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<div class="controls">
-    <button onclick="toggleMode()" id="modeBtn">🌙 Dark Mode</button>
-    <select onchange="changeTheme(this.value)">
-        <option value="#3f51b5">Indigo</option>
-        <option value="#e91e63">Pink</option>
-        <option value="#009688">Teal</option>
-        <option value="#ff9800">Orange</option>
-    </select>
-</div>
-
-<div class="invoice-card" id="invoice">
-    <h1>Invoice Generator</h1>
-    <div class="tagline">Create professional bills instantly • Global Edition</div>
-    
-    <div class="header-grid">
-        <div class="input-field">
-            <label>Customer Name</label>
-            <input type="text" placeholder="Enter Client Name">
-        </div>
-        <div class="input-field">
-            <label>Billing Date</label>
-            <input type="date" value="2026-01-20">
-        </div>
+<section class="card">
+    <h2>📄 Professional Invoice Generator</h2>
+    <p class="hint">Create & Print Bill for Brands</p>
+    <div class="button-group">
+        <button onclick="openInvoice()" style="background: #00d4ff; color: black; font-weight: bold;">+ Create New Invoice</button>
     </div>
+</section>
 
-    <table>
-        <thead>
+<div id="invoiceModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:white; color:black; z-index:9999; overflow-y:auto; padding:20px;">
+    <button onclick="closeInvoice()" style="background:red; color:white; padding:10px; border:none; border-radius:5px; margin-bottom:20px;">Back to Studio</button>
+    <div id="printArea" style="border:1px solid #eee; padding:20px;">
+        <h1 style="color:#ff00ea; border-bottom:2px solid #ff00ea;">INVOICE</h1>
+        <p><strong>From:</strong> <input type="text" placeholder="Your Channel" style="border:none; border-bottom:1px solid #ddd;"></p>
+        <p><strong>Bill To:</strong> <input type="text" placeholder="Brand Name" style="width:100%; border:none; border-bottom:1px solid #ddd;"></p>
+        <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+            <tr style="background:#f4f4f4;"><th>Description</th><th>Amount (₹)</th></tr>
             <tr>
-                <th style="width: 45%;">Item Description</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th style="text-align:right">Total</th>
+                <td><input type="text" placeholder="Service Name" style="width:100%; border:none;"></td>
+                <td><input type="number" id="invPrice" oninput="document.getElementById('totalInv').innerText = this.value" style="width:100%; border:none;"></td>
             </tr>
-        </thead>
-        <tbody id="items">
-            <tr>
-                <td><input type="text" placeholder="Service/Product name"></td>
-                <td><input type="number" class="p" value="0" oninput="calc()"></td>
-                <td><input type="number" class="q" value="1" oninput="calc()"></td>
-                <td style="text-align:right; font-weight:bold;"><span class="row-total">0.00</span></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <button class="btn-add" onclick="addRow()">+ Add New Item</button>
-
-    <div class="footer">
-        <div class="total-row">
-            <div class="currency-select">
-                <label>Currency</label>
-                <select id="curr" onchange="calc()">
-                    <option value="₹">INR (₹)</option>
-                    <option value="$">USD ($)</option>
-                    <option value="€">EUR (€)</option>
-                    <option value="£">GBP (£)</option>
-                </select>
-            </div>
-            <div class="grand-total-box">
-                <span id="sym">₹</span> <span id="grand">0.00</span>
-            </div>
-        </div>
-        <button class="btn-download" onclick="generatePDF()">DOWNLOAD PDF BILL</button>
+        </table>
+        <h3 style="text-align:right; margin-top:30px;">Total: ₹<span id="totalInv">0</span></h3>
+        <button onclick="window.print()" style="background:#ff00ea; color:white; padding:10px 20px; border:none; margin-top:20px;">Download/Print PDF</button>
     </div>
 </div>
-
-<script src="script.js"></script>
-</body>
-</html>
