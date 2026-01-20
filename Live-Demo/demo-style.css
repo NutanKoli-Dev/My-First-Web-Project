@@ -1,0 +1,18 @@
+body {
+    margin: 0; background: #050811;
+    display: flex; justify-content: center; align-items: center;
+    height: 100vh; font-family: 'Poppins', sans-serif; color: white;
+}
+.profile-card {
+    background: #161b2c; padding: 30px; border-radius: 20px;
+    border: 1px solid #2d364f; text-align: center; max-width: 320px;
+}
+.status-badge { color: #22c55e; font-size: 12px; margin-bottom: 10px; }
+h2 { color: #6366f1; margin: 10px 0; }
+.tagline { color: #94a3b8; font-size: 13px; }
+.trait-grid { margin: 20px 0; text-align: left; }
+.trait { background: #1e253a; padding: 10px; margin: 5px 0; border-radius: 8px; font-size: 13px; border-left: 4px solid #6366f1; }
+.project-links a {
+    display: block; background: #6366f1; color: white;
+    text-decoration: none; padding: 12px; border-radius: 10px; margin-top: 20px;
+}
