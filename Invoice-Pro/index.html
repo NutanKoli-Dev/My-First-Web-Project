@@ -1,25 +1,79 @@
-<section class="card">
-    <h2>📄 Professional Invoice Generator</h2>
-    <p class="hint">Create & Print Bill for Brands</p>
-    <div class="button-group">
-        <button onclick="openInvoice()" style="background: #00d4ff; color: black; font-weight: bold;">+ Create New Invoice</button>
-    </div>
-</section>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Invoice Generator</title>
+    <link rel="stylesheet" href="style-invoice.css">
+</head>
+<body class="light-mode">
 
-<div id="invoiceModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:white; color:black; z-index:9999; overflow-y:auto; padding:20px;">
-    <button onclick="closeInvoice()" style="background:red; color:white; padding:10px; border:none; border-radius:5px; margin-bottom:20px;">Back to Studio</button>
-    <div id="printArea" style="border:1px solid #eee; padding:20px;">
-        <h1 style="color:#ff00ea; border-bottom:2px solid #ff00ea;">INVOICE</h1>
-        <p><strong>From:</strong> <input type="text" placeholder="Your Channel" style="border:none; border-bottom:1px solid #ddd;"></p>
-        <p><strong>Bill To:</strong> <input type="text" placeholder="Brand Name" style="width:100%; border:none; border-bottom:1px solid #ddd;"></p>
-        <table style="width:100%; border-collapse:collapse; margin-top:20px;">
-            <tr style="background:#f4f4f4;"><th>Description</th><th>Amount (₹)</th></tr>
-            <tr>
-                <td><input type="text" placeholder="Service Name" style="width:100%; border:none;"></td>
-                <td><input type="number" id="invPrice" oninput="document.getElementById('totalInv').innerText = this.value" style="width:100%; border:none;"></td>
-            </tr>
-        </table>
-        <h3 style="text-align:right; margin-top:30px;">Total: ₹<span id="totalInv">0</span></h3>
-        <button onclick="window.print()" style="background:#ff00ea; color:white; padding:10px 20px; border:none; margin-top:20px;">Download/Print PDF</button>
+    <div class="top-controls no-print">
+        <button onclick="toggleTheme()" id="themeBtn">🌙 Dark Mode</button>
+        <select id="colorTheme" onchange="changeColor(this.value)">
+            <option value="indigo">Indigo</option>
+            <option value="pink">Ruby Pink</option>
+            <option value="gold">Cyber Gold</option>
+        </select>
     </div>
-</div>
+
+    <div class="invoice-container" id="invoice">
+        <header class="invoice-header">
+            <div>
+                <h1 class="brand-title">Invoice Generator</h1>
+                <p class="subtitle">Create professional bills instantly • Global Edition</p>
+            </div>
+        </header>
+
+        <div class="billing-info">
+            <div class="info-group">
+                <label>Customer Name</label>
+                <input type="text" placeholder="Enter Client Name">
+            </div>
+            <div class="info-group">
+                <label>Billing Date</label>
+                <input type="date" id="billingDate">
+            </div>
+        </div>
+
+        <table class="item-table" id="itemTable">
+            <thead>
+                <tr>
+                    <th>Item Description</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" placeholder="Service/Product name"></td>
+                    <td><input type="number" class="price" value="0" oninput="calculate()"></td>
+                    <td><input type="number" class="qty" value="1" oninput="calculate()"></td>
+                    <td class="row-total">0.00</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="add-btn no-print" onclick="addRow()">+ Add New Item</button>
+
+        <div class="footer-section">
+            <div class="currency-box">
+                <label>Currency</label>
+                <select id="currency" onchange="calculate()">
+                    <option value="₹">INR (₹)</option>
+                    <option value="$">USD ($)</option>
+                    <option value="€">EUR (€)</option>
+                </select>
+            </div>
+            <div class="grand-total">
+                <span id="symbol">₹</span> <span id="finalTotal">0.00</span>
+            </div>
+        </div>
+
+        <button class="download-btn no-print" onclick="window.print()">DOWNLOAD PDF BILL</button>
+    </div>
+
+    <script src="script-invoice.js"></script>
+</body>
+</html>
