@@ -1,21 +1,83 @@
-<div class="dashboard-grid">
-    <div class="card" onclick="location.href='health-belt.html'">
-        <h3>❤️ Health Monitor</h3>
-        <p>Pulse & Stress Check</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Founder Hub Pro</title>
+    <style>
+        body { background-color: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .dashboard { width: 90%; max-width: 400px; text-align: center; }
+        h1 { color: #38bdf8; font-size: 24px; margin-bottom: 5px; }
+        .subtitle { color: #94a3b8; font-size: 14px; margin-bottom: 30px; }
+        
+        /* Card Grid Setup */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .card { background: #1e293b; padding: 20px; border-radius: 15px; border: 1px solid #334155; cursor: pointer; transition: 0.3s; text-align: center; }
+        .card:hover { border-color: #38bdf8; transform: translateY(-5px); }
+        .card h3 { font-size: 16px; margin: 10px 0 5px; }
+        .card p { font-size: 11px; color: #94a3b8; margin: 0; }
+        .icon { font-size: 24px; }
+
+        /* Security Feature Special Style */
+        .security-gold { border: 1px dashed #fbbf24; }
+        
+        /* Footer Signature */
+        .footer { margin-top: 30px; font-size: 10px; color: #475569; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <h1>Founder Hub</h1>
+    <p class="subtitle">Efficiency meets Wellness.</p>
+
+    <div class="grid">
+        <div class="card" onclick="location.href='health-belt.html'">
+            <div class="icon">❤️</div>
+            <h3>Health</h3>
+            <p>Pulse & Stress</p>
+        </div>
+
+        <div class="card" onclick="checkWater()">
+            <div class="icon">💧</div>
+            <h3>Brain Fuel</h3>
+            <p>Target: 3L</p>
+        </div>
+
+        <div class="card" onclick="checkFinance()">
+            <div class="icon">💰</div>
+            <h3>Finance</h3>
+            <p>Revenue Check</p>
+        </div>
+
+        <div class="card security-gold" onclick="alert('Scanning for Hidden Infrared Signals... Coming Soon!')">
+            <div class="icon">🛡️</div>
+            <h3>Safe Space</h3>
+            <p>Camera Detector</p>
+        </div>
     </div>
 
-    <div class="card" onclick="location.href='index.html'">
-        <h3>💧 Brain Fuel</h3>
-        <p>Water Intake: 3L Target</p>
-    </div>
-
-    <div class="card" onclick="location.href='invoice-pro/index.html'">
-        <h3>💰 Finance Hub</h3>
-        <p>Invoices & Expenses</p>
-    </div>
-
-    <div class="card security-gold" onclick="alert('Coming Soon: Infrared Camera Scanner!')">
-        <h3>🛡️ Safe Space</h3>
-        <p>Detect Hidden Cameras</p>
-    </div>
+    <p class="footer">BY NUTAN</p>
 </div>
+
+<script>
+    function checkWater() {
+        let liters = prompt("Today's Water Intake (L):", "0");
+        if(liters >= 3) alert("✨ Great Job, Founder! Brain at 100% Power.");
+        else alert("⚠️ Warning: Low hydration. Focus might drop!");
+    }
+
+    function checkFinance() {
+        let revenue = prompt("Enter Today's Revenue (₹):", "0");
+        let expense = prompt("Enter Today's Expenses (₹):", "0");
+        
+        if(parseInt(revenue) > parseInt(expense)) {
+            alert("✅ PROFIT: You are scaling! Keep it up.");
+        } else {
+            alert("🚨 LOSS ALERT: Expenses are high. Review your strategy, Founder!");
+        }
+    }
+</script>
+
+</body>
+</html>
