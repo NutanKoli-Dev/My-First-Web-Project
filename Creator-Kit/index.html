@@ -11,8 +11,14 @@
     <div class="container">
         <header>
             <h1>CREATOR STUDIO</h1>
-            <p>Mobile-First Content Manager</p>
+            <p class="tagline">Next Viral Hit Starts Here</p>
         </header>
+
+        <div class="theme-switcher">
+            <button onclick="setTheme('dark')">Midnight</button>
+            <button onclick="setTheme('light')">Paper</button>
+            <button onclick="setTheme('gold')">Cyber</button>
+        </div>
 
         <section class="card">
             <h2>🖼️ Thumbnail Previewer</h2>
@@ -21,11 +27,11 @@
             
             <div class="preview-area">
                 <div class="preview-item mobile">
-                    <div id="mob-frame" class="frame"><span>Upload Image</span></div>
+                    <div id="mob-frame" class="frame"><span>📱</span></div>
                     <p>Mobile View</p>
                 </div>
                 <div class="preview-item desktop">
-                    <div id="desk-frame" class="frame"></div>
+                    <div id="desk-frame" class="frame"><span>💻 Upload Image</span></div>
                     <p>Desktop View</p>
                 </div>
             </div>
@@ -33,13 +39,14 @@
 
         <section class="card">
             <h2>🚀 Emergency Publishing Kit</h2>
-            <p class="hint">Quick Copy Tags & Links</p>
+            <p class="hint">Auto-saves everything you type</p>
             <div class="button-group">
                 <button onclick="copyData('shorts')">Viral Tags</button>
                 <button onclick="copyData('vlog')">Vlog Desc</button>
                 <button onclick="copyData('links')">Social Links</button>
             </div>
-            <textarea id="output" placeholder="Ready to paste text..."></textarea>
+            <textarea id="output" placeholder="Start typing your script or idea here..."></textarea>
+            <p id="save-status" style="font-size: 10px; color: #666; margin-top: 5px;">All changes saved.</p>
         </section>
     </div>
 
