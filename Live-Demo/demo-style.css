@@ -1,18 +1,36 @@
 body {
-    margin: 0; background: #050811;
+    margin: 0; background: #0f172a;
     display: flex; justify-content: center; align-items: center;
-    height: 100vh; font-family: 'Poppins', sans-serif; color: white;
+    height: 100vh; font-family: 'Poppins', sans-serif;
 }
 .profile-card {
-    background: #161b2c; padding: 30px; border-radius: 20px;
-    border: 1px solid #2d364f; text-align: center; max-width: 320px;
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    padding: 30px; border-radius: 30px; border: 1px solid #334155;
+    text-align: center; max-width: 360px; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
 }
-.status-badge { color: #22c55e; font-size: 12px; margin-bottom: 10px; }
-h2 { color: #6366f1; margin: 10px 0; }
-.tagline { color: #94a3b8; font-size: 13px; }
-.trait-grid { margin: 20px 0; text-align: left; }
-.trait { background: #1e253a; padding: 10px; margin: 5px 0; border-radius: 8px; font-size: 13px; border-left: 4px solid #6366f1; }
-.project-links a {
-    display: block; background: #6366f1; color: white;
-    text-decoration: none; padding: 12px; border-radius: 10px; margin-top: 20px;
+h2 { color: #f8fafc; font-size: 22px; margin: 10px 0; }
+.tagline { color: #94a3b8; font-size: 12px; margin-bottom: 25px; }
+
+.dashboard-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;
+}
+.category-box {
+    background: rgba(255, 255, 255, 0.03); padding: 15px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.icon { font-size: 24px; display: block; margin-bottom: 8px; }
+h4 { color: #6366f1; margin: 5px 0; font-size: 14px; }
+
+.btn-group a {
+    display: block; text-decoration: none; color: #cbd5e1; font-size: 11px;
+    background: #1e293b; padding: 6px; margin-top: 5px; border-radius: 8px;
+    border: 1px solid #334155; transition: 0.3s;
+}
+.btn-group a:hover { background: #6366f1; color: white; }
+
+.philosophy {
+    font-style: italic; color: #64748b; font-size: 11px; margin: 20px 0;
+}
+.developer-tag {
+    font-size: 10px; color: #475569; letter-spacing: 2px; text-transform: uppercase;
 }
