@@ -3,30 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Belt</title>
+    <title>Health Belt - Smart Alert</title>
     <link rel="stylesheet" href="demo-style.css">
+    <style>
+        .alert-active { background-color: #ff4d4d !important; color: white; animation: shake 0.5s; }
+        @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 100% { transform: translateX(0); } }
+    </style>
 </head>
 <body>
-    <div id="nudgeBox"><span id="nudgeMessage"></span></div>
-
-    <div class="card-container">
-        <a href="index.html" class="back-btn">← DASHBOARD</a>
-        <div class="status-badge">Wellness</div>
-        <h2>Health Belt</h2>
-        <input type="number" class="input-field" placeholder="Water Intake (L)">
-        <button onclick="friendlyNudge()" style="width:100%; background:#4f46e5; border:none; color:white; padding:10px; border-radius:8px; cursor:pointer; font-size:11px;">✨ Pulse Check</button>
-        <div class="developer-tag">Signature: Nutan</div>
+    <div class="container" id="main-box">
+        <h2>❤️ Health Belt</h2>
+        <p>Enter Pulse Rate (BPM):</p>
+        <input type="number" id="pulseInput" placeholder="e.g. 72" step="0.1">
+        
+        <button onclick="checkPulse()" class="btn-main">Pulse Check</button>
+        <p id="result-text"></p>
+        
+        <br>
+        <a href="index.html" class="back-link">← Back to Dashboard</a>
     </div>
 
+    <audio id="beepSound">
+        <source src="https://www.soundjay.com/buttons/beep-01a.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
-    function friendlyNudge() {
-        let box = document.getElementById('nudgeBox');
-        let msg = document.getElementById('nudgeMessage');
-        msg.innerHTML = "<b>Hey Founder!</b><br>You've been focused for a while. Take a 2-minute deep breath break after your meeting. You're doing great!";
-        box.style.display = 'block';
-        setTimeout(() => { box.style.display = 'none'; }, 5000);
-    }
+        function checkPulse() {
+            let pulse = document.getElementById("pulseInput").value;
+            let result = document.getElementById("result-text");
+            let box = document.getElementById("main-box");
+            let sound = document.getElementById("beepSound");
+
+            if (pulse == "") {
+                result.innerText = "Please enter a value first!";
+            } 
+            else if (pulse < 40 || pulse > 150) { 
+                // Agar 5.5 jaisi value hai toh Beep bajega aur box red hoga
+                result.innerText = "⚠️ DANGER: Inaccurate Reading! (Beep! Beep!)";
+                box.classList.add("alert-active");
+                sound.play(); // Ye hai aapka "Beep" feature
+            } 
+            else {
+                result.innerText = "Everything looks normal. Keep going, Founder!";
+                box.classList.remove("alert-active");
+            }
+        }
     </script>
 </body>
 </html>
-
