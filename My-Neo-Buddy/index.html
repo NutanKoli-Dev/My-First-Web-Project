@@ -1,111 +1,58 @@
+<!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neo: Neon Smart AI</title>
+    <title>Neo: Smart Assistant</title>
     <style>
-        /* Dark Futuristic Background */
-        body { background: #020617; margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
-
-        /* Neon Glowing Robot */
-        .neo-container { position: relative; width: 200px; height: 280px; animation: float 4s infinite ease-in-out; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
-        
-        .head { width: 180px; height: 160px; background: #1e293b; border-radius: 70px 70px 45px 45px; border: 4px solid #0ea5e9; box-shadow: 0 0 40px rgba(14, 165, 233, 0.6); position: relative; z-index: 10; display: flex; justify-content: center; align-items: center; }
-        
+        body { background: #020617; margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: sans-serif; }
+        .neo-box { position: relative; width: 200px; height: 280px; animation: float 4s infinite ease-in-out; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+        .head { width: 180px; height: 160px; background: #1e293b; border-radius: 70px 70px 45px 45px; border: 4px solid #0ea5e9; box-shadow: 0 0 40px rgba(14, 165, 233, 0.6); z-index: 10; display: flex; justify-content: center; align-items: center; }
         .screen { width: 88%; height: 82%; background: #000; border-radius: 45px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        
-        /* Eyes with Cyan Glow */
         .eyes { display: flex; gap: 30px; }
-        .eye { width: 30px; height: 30px; background: #22d3ee; border-radius: 50%; box-shadow: 0 0 20px #22d3ee; transition: 0.3s; }
-        
-        /* Interactive Mouth */
-        .mouth { width: 45px; height: 12px; border: 4px solid #22d3ee; border-top: 0; border-radius: 0 0 25px 25px; margin-top: 15px; display: none; }
-
-        /* Glowing Hands */
-        .hand { width: 40px; height: 55px; background: #1e293b; border: 3px solid #0ea5e9; border-radius: 30px; position: absolute; top: 140px; z-index: 5; transition: 0.5s; box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }
-        .l-hand { left: -15px; transform: rotate(-15deg); }
-        .r-hand { right: -15px; transform: rotate(15deg); }
-
-        .torso { width: 145px; height: 100px; background: #1e293b; border: 4px solid #0ea5e9; border-radius: 60px 60px 100px 100px; margin-top: -35px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-
-        /* Animations */
+        .eye { width: 30px; height: 30px; background: #22d3ee; border-radius: 50%; box-shadow: 0 0 20px #22d3ee; }
+        .mouth { width: 45px; height: 10px; border: 4px solid #22d3ee; border-top: 0; border-radius: 0 0 20px 20px; margin-top: 15px; display: none; }
+        .hand { width: 35px; height: 50px; background: #1e293b; border: 3px solid #0ea5e9; border-radius: 20px; position: absolute; top: 130px; z-index: 5; }
+        .l-hand { left: -10px; transform: rotate(-15deg); }
+        .r-hand { right: -10px; transform: rotate(15deg); }
+        .torso { width: 140px; height: 100px; background: #1e293b; border: 4px solid #0ea5e9; border-radius: 50px 50px 90px 90px; margin-top: -35px; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
         .talking .mouth { display: block; animation: speak 0.2s infinite; }
-        .talking .l-hand { transform: translateY(-20px) rotate(-40deg); }
-        .talking .r-hand { transform: translateY(-20px) rotate(40deg); }
-        
-        .crying .eye { height: 6px; background: #f43f5e; box-shadow: 0 0 20px #f43f5e; border-radius: 2px; }
-        .happy .eye { border-radius: 10px 10px 50px 50px; height: 18px; }
-        
         @keyframes speak { 0% { height: 5px; } 100% { height: 15px; } }
-
-        #status-btn { margin-top: 50px; padding: 12px 30px; background: transparent; border: 2px solid #22d3ee; color: #22d3ee; border-radius: 50px; cursor: pointer; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; box-shadow: 0 0 10px rgba(34, 211, 238, 0.2); }
-        #status-btn:hover { background: #22d3ee; color: #020617; box-shadow: 0 0 25px #22d3ee; }
+        #status { color: #22d3ee; margin-top: 20px; font-weight: bold; height: 20px; }
+        #btn { margin-top: 30px; padding: 12px 30px; background: #22d3ee; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
-
-    <div class="neo-container" id="neo" onclick="handleTouch()">
-        <div class="head">
-            <div class="screen">
-                <div class="eyes">
-                    <div class="eye"></div>
-                    <div class="eye"></div>
-                </div>
-                <div class="mouth"></div>
-            </div>
-        </div>
-        <div class="hand l-hand"></div>
-        <div class="hand r-hand"></div>
+    <div id="status"></div>
+    <div class="neo-container" id="neo">
+        <div class="head"><div class="screen"><div class="eyes"><div class="eye"></div><div class="eye"></div></div><div class="mouth"></div></div></div>
+        <div class="hand l-hand"></div><div class="hand r-hand"></div>
         <div class="torso"></div>
     </div>
-
-    <button id="status-btn" onclick="startAI()">Activate Neo AI</button>
+    <button id="btn" onclick="startAI()">Neo se baat karein</button>
 
     <script>
-        let lastTap = 0;
-        let tapCount = 0;
-
-        function handleTouch() {
-            let now = Date.now();
-            if (now - lastTap < 400) {
-                tapCount++;
-                if (tapCount > 2) {
-                    setMood("crying", "Dard ho raha hai! Please maaro mat!");
-                    tapCount = 0;
-                }
-            } else {
-                tapCount = 0;
-                setMood("happy", "Hehehe! Ye toh bahut mazedaar hai!");
-            }
-            lastTap = now;
-        }
-
         function startAI() {
             const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!Rec) return alert("Mic support nahi hai!");
-            
             const recognition = new Rec();
             recognition.lang = 'hi-IN';
-            document.getElementById('status-btn').innerText = "Neo Sun Raha Hai...";
+            document.getElementById('status').innerText = "Neo sun raha hai...";
 
             recognition.onresult = (e) => {
-                const query = e.results[0][0].transcript.toLowerCase();
-                if (query.includes("neo")) {
-                    speak("Ji Boss! Kahiye, kya madad kar sakta hoon?");
+                const query = e.results[0][0].transcript;
+                document.getElementById('status').innerText = "Aapne kaha: " + query;
+                
+                // Smart Response Logic
+                let response = "";
+                if (query.toLowerCase().includes("neo")) {
+                    response = "Ji Boss! Main hazir hoon. Aapne kaha " + query + ". Main aapki kya madad karun?";
                 } else {
-                    speak("Hmm, bahut badiya baat kahi aapne!");
+                    response = "Aapne kaha " + query + ". Ye sunkar mujhe bahut achha laga!";
                 }
+                speak(response);
             };
-            recognition.onend = () => document.getElementById('status-btn').innerText = "Activate Neo AI";
             recognition.start();
-        }
-
-        function setMood(mood, text) {
-            const el = document.getElementById('neo');
-            el.className = "neo-container " + mood;
-            speak(text);
-            setTimeout(() => el.className = "neo-container", 4000);
         }
 
         function speak(text) {
@@ -114,7 +61,10 @@
             speech.lang = 'hi-IN';
             speech.pitch = 1.6;
             speech.onstart = () => document.getElementById('neo').classList.add('talking');
-            speech.onend = () => document.getElementById('neo').classList.remove('talking');
+            speech.onend = () => {
+                document.getElementById('neo').classList.remove('talking');
+                document.getElementById('status').innerText = "";
+            };
             window.speechSynthesis.speak(speech);
         }
     </script>
