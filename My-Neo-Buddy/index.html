@@ -3,83 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neo Floating AI</title>
-    <style>
-        body { background: #fdf2f8; height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        
-        /* Floating Body (No Legs) */
-        .neo-body { 
-            position: relative; width: 200px; height: 240px; 
-            animation: float 3s infinite ease-in-out; display: flex; flex-direction: column; align-items: center;
-        }
-
-        .head {
-            width: 170px; height: 160px; background: white; border-radius: 80px 80px 60px 60px;
-            border: 5px solid #fbcfe8; position: relative; z-index: 5; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .face-black {
-            width: 85%; height: 75%; background: #27272a; margin: 12.5% auto;
-            border-radius: 40px; position: relative; display: flex; justify-content: space-around; align-items: center;
-        }
-
-        .eye { width: 30px; height: 30px; background: #f472b6; border-radius: 50%; box-shadow: 0 0 15px #f472b6; }
-        .mouth { width: 40px; height: 10px; border: 4px solid #f472b6; border-top: 0; position: absolute; bottom: 25px; border-radius: 0 0 20px 20px; display: none; }
-
-        /* Joint Hands */
-        .hand {
-            width: 45px; height: 45px; background: white; border: 4px solid #fbcfe8;
-            border-radius: 50%; position: absolute; top: 140px; z-index: 2; transition: 0.5s;
-        }
-        .hand-l { left: -15px; } .hand-r { right: -15px; }
-
-        /* Speaking Animation Class */
-        .speaking .hand-l { transform: translateY(-30px) rotate(-20deg); }
-        .speaking .hand-r { transform: translateY(-30px) rotate(20deg); }
-        .speaking .mouth { display: block; }
-
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-    </style>
+    <title>Neo: Your Eilik Buddy</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body onclick="talk()">
-
-    <div class="neo-body" id="neo">
-        <div class="head">
-            <div class="face-black">
-                <div class="eye"></div>
-                <div class="eye"></div>
-                <div class="mouth" id="mouth"></div>
+<body onclick="wakeUp()">
+    <div class="container">
+        <div class="neo" id="neo-body">
+            <div class="head">
+                <div class="face">
+                    <div class="eye-row">
+                        <div class="eye" id="l-eye"></div>
+                        <div class="eye" id="r-eye"></div>
+                    </div>
+                    <div class="mouth" id="mouth"></div>
+                </div>
             </div>
+            <div class="hand l-hand" id="l-hand"></div>
+            <div class="hand r-hand" id="r-hand"></div>
+            <div class="torso"></div>
         </div>
-        <div class="hand hand-l"></div>
-        <div class="hand hand-r"></div>
+        <div id="status">Tap to Wake Neo</div>
     </div>
-
-    <script>
-        const hindiQuotes = [
-            "Namaste! Aaj ka mausam kitna suhana hai na?",
-            "Kya aap mere saath ek game khelenge? Main taiyar hoon!",
-            "Mujhe aapke saath baatein karna bahut pasand hai.",
-            "Aaj hum kuch naya seekhte hain, chaliye shuru karein!"
-        ];
-
-        function talk() {
-            const neo = document.getElementById('neo');
-            const quote = hindiQuotes[Math.floor(Math.random() * hindiQuotes.length)];
-            
-            // Start Animation
-            neo.classList.add('speaking');
-            
-            const utterance = new SpeechSynthesisUtterance(quote);
-            utterance.lang = 'hi-IN';
-            utterance.pitch = 1.5;
-            
-            utterance.onend = () => {
-                neo.classList.remove('speaking'); // Stop animation when done
-            };
-
-            window.speechSynthesis.speak(utterance);
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
