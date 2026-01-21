@@ -30,6 +30,7 @@ body {
     flex-direction: column;
     align-items: center;
     animation: float 4s infinite ease-in-out;
+    background: transparent;
 }
 
 .head {
@@ -98,6 +99,12 @@ body {
     background: #22d3ee;
     border: none;
     border-radius: 50px;
+    color: #020617;
     font-weight: bold;
+    font-size: 1rem;
     cursor: pointer;
+    box-shadow: 0 5px 20px rgba(34, 211, 238, 0.4);
+    transition: 0.3s;
 }
+
+.btn-activate:hover { transform: scale(1.05); background: #ffffff; }
