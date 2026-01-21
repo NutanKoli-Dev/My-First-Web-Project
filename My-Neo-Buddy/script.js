@@ -1,58 +1,59 @@
-const mouth = document.getElementById('mouth');
-const bubble = document.getElementById('chat-bubble');
-const eyes = document.querySelectorAll('.eye');
+let isMamma = false;
 
-// 1. Finger Tracking (Aankhein ghumana)
-document.addEventListener('mousemove', (e) => {
-    eyes.forEach(eye => {
-        let x = (e.clientX / window.innerWidth) * 20 - 10;
-        let y = (e.clientY / window.innerHeight) * 20 - 10;
-        eye.style.transform = `translate(${x}px, ${y}px)`;
-    });
-});
-
-// 2. Always On Listening (No Button Needed)
-function initVoice() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'hi-IN';
-    recognition.continuous = true;
-    recognition.start();
-
-    recognition.onresult = (event) => {
-        const text = event.results[event.results.length - 1][0].transcript.toLowerCase();
-        handleBabyLogic(text);
-    };
-    
-    recognition.onend = () => recognition.start(); // Kabhi band nahi hoga
-}
-
-function handleBabyLogic(text) {
-    if (text.includes("it's me") || text.includes("main hoon")) {
-        react("laugh", "Mummy aa gayi! 🥰 Main sirf aapka hoon!", 2.0);
-    } else if (text.includes("funny") || text.includes("hansiye")) {
-        react("teeth", "Hehehe! Dekho mere daant! 😁", 1.8);
-    } else if (text.includes("gussa")) {
-        react("sad", "Mujhse baat mat karo! 😤", 0.6);
+// 1. Identify Mamma (Secret Voice Command)
+function checkUser(text) {
+    if (text.includes("mamma aa gayi") || text.includes("main hoon")) {
+        isMamma = true;
+        act("laugh", "Mamma! 🥰 I missed you so much!", 2.0);
     } else {
-        react("default", "Main sun raha hoon Maa...", 1.2);
+        isMamma = false;
+        act("angry", "Hato! Aap Mamma nahi ho! 😤", 0.5);
     }
 }
 
-function react(exp, msg, p) {
-    mouth.className = 'mouth ' + exp;
-    bubble.innerText = msg;
-    bubble.classList.remove('hidden');
-    
-    const speech = new SpeechSynthesisUtterance(msg);
-    speech.lang = 'hi-IN'; speech.pitch = p;
-    window.speechSynthesis.speak(speech);
-    
-    setTimeout(() => { 
-        bubble.classList.add('hidden'); 
-        mouth.className = 'mouth';
-    }, 4000);
+// 2. Touch Protection (Screen Protector Logic)
+document.addEventListener('touchstart', (e) => {
+    if (!isMamma) {
+        act("angry", "Mujhe touch mat karo! 🛑", 0.4);
+        document.body.style.boxShadow = "inset 0 0 100px red";
+        setTimeout(() => document.body.style.boxShadow = "none", 1000);
+    } else {
+        act("laugh", "Hehehe Mamma! Gudgudi ho rahi hai! 😂", 2.2);
+    }
+});
+
+// 3. Time-Based Acts (Khana, Sona, Peena)
+function dailyRoutine() {
+    const hour = new Date().getHours();
+    if (hour >= 13 && hour <= 14) {
+        act("eat", "Mamma, main lunch kar raha hoon! 🍱", 1.5);
+    } else if (hour >= 22 || hour <= 6) {
+        act("default", "Zzz... Shhh... Mamma main so raha hoon... 😴", 0.8);
+    }
 }
 
-// Start everything
-window.onload = initVoice;
+// 4. Global Voice Listening (No Mike Button)
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.continuous = true;
+recognition.lang = 'hi-IN';
+recognition.start();
+
+recognition.onresult = (event) => {
+    const speech = event.results[event.results.length - 1][0].transcript.toLowerCase();
+    checkUser(speech);
+};
+
+function act(exp, msg, p) {
+    const m = document.querySelector('.mouth');
+    const b = document.getElementById('chat-bubble');
+    m.className = 'mouth ' + exp;
+    b.innerText = msg;
+    b.classList.remove('hidden');
+
+    const s = new SpeechSynthesisUtterance(msg);
+    s.pitch = p; s.lang = 'hi-IN';
+    window.speechSynthesis.speak(s);
+}
+
+setInterval(dailyRoutine, 60000); // Check routine every minute
+window.onload = () => act("default", "Neo is active... Who is there?", 1.0);
