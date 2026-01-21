@@ -9,18 +9,20 @@
 <body>
 
     <div class="buddy-container">
-        <div id="chat-bubble" class="hidden">Hi Nutan! Main yahan hoon. 😊</div>
+        <div id="chat-bubble" class="hidden">Hi Nutan! 😊</div>
 
-        <div class="robot" onclick="talkToMe()">
+        <div class="robot float" id="neo-bot" onclick="talkWithEmotion()">
             <div class="head">
                 <div class="eye left"></div>
                 <div class="eye right"></div>
+                <div class="mouth" id="neo-mouth"></div>
             </div>
             <div class="body">
                 <div class="arm left-arm"></div>
                 <div class="arm right-arm"></div>
             </div>
         </div>
+        <p style="margin-top: 20px; color: #666; font-size: 12px;">Neo ko touch karo!</p>
     </div>
 
     <script src="script.js"></script>
