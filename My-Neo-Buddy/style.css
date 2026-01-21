@@ -1,50 +1,37 @@
-:root {
-    --neon-blue: #00f2ff;
-    --neon-purple: #bc13fe;
-    --glass: rgba(255, 255, 255, 0.1);
-}
+:root { --neon: #00f2ff; --bg: #0a0a1a; }
+body { background: var(--bg); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
 
-body {
-    background: radial-gradient(circle, #1a1a2e, #050510);
-    height: 100vh; display: flex; justify-content: center; align-items: center;
-    margin: 0; overflow: hidden;
-}
+.neo-container { position: relative; text-align: center; }
 
-/* Green Number 2 Jaisa Design */
+/* The "Green 2" Style Body */
 .neo-baby {
-    width: 170px; height: 210px; position: relative;
-    background: linear-gradient(145deg, #16213e, #0f3460);
-    border-radius: 60px; border: 4px solid var(--neon-blue);
-    box-shadow: 0 0 30px var(--neon-blue), inset 0 0 15px var(--neon-blue);
-    animation: floating 4s infinite ease-in-out;
+    width: 180px; height: 210px; background: linear-gradient(145deg, #16213e, #0f3460);
+    border-radius: 65px; border: 4px solid var(--neon);
+    box-shadow: 0 0 35px var(--neon), inset 0 0 20px var(--neon);
+    position: relative; animation: float 3s infinite ease-in-out;
 }
 
-.face-plate {
-    width: 85%; height: 60%; background: #000;
-    margin: 15px auto; border-radius: 45px;
-    border: 2px solid var(--neon-blue); position: relative;
-    box-shadow: 0 0 10px var(--neon-blue);
+.face-glass {
+    width: 85%; height: 65%; background: #000; margin: 15px auto;
+    border-radius: 45px; border: 2px solid var(--neon); position: relative;
 }
 
 .eye {
-    width: 25px; height: 35px; background: var(--neon-blue);
-    border-radius: 50%; position: absolute; top: 30px;
-    box-shadow: 0 0 20px var(--neon-blue); transition: 0.1s;
+    width: 25px; height: 35px; background: var(--neon); border-radius: 50%;
+    position: absolute; top: 35px; box-shadow: 0 0 25px var(--neon);
 }
 .left { left: 25px; } .right { right: 25px; }
 
 .mouth {
-    width: 40px; height: 10px; background: var(--neon-blue);
-    position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%);
+    width: 45px; height: 8px; background: var(--neon); position: absolute;
+    bottom: 30px; left: 50%; transform: translateX(-50%);
     border-radius: 20px; transition: 0.3s;
 }
 
-/* Cute Expressions */
-.mouth.smile { height: 20px; border-radius: 0 0 20px 20px; }
-.mouth.laugh { height: 25px; border-radius: 5px; background: white; box-shadow: 0 0 10px white; }
+/* Emotions */
+.mouth.smile { height: 20px; border-radius: 0 0 25px 25px; }
+.mouth.laugh { height: 30px; border-radius: 10px; background: #fff; }
+.mouth.eat { width: 25px; height: 25px; border-radius: 50%; animation: chew 0.5s infinite; }
 
-/* Friendly Glow Animation */
-@keyframes floating {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-15px) rotate(2deg); }
-}
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+@keyframes chew { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
