@@ -1,37 +1,26 @@
-/* Neo ki Body ko Golu aur Shiny banane ke liye */
-.body-main { 
-    width: 100%; height: 100%; 
-    background: linear-gradient(135deg, #1e2a78 0%, #0d1b4d 100%); /* Deep Blue Shade */
-    border-radius: 70px; /* Ekdam Golu-Molu Shape */
-    border: 4px solid #00f2ff; /* Neon Border */
-    
-    /* Ye hai असली jadu: Multiple Layers of Glow */
-    box-shadow: 
-        0 0 20px #00f2ff,            /* Bahar ka Neon */
-        inset 0 10px 20px rgba(255,255,255,0.3), /* Upar ki chamak (Glass look) */
-        inset 0 -10px 20px rgba(0,0,0,0.5);    /* Neeche ki shadow (3D look) */
-        
-    position: relative; 
-    z-index: 2;
-    overflow: hidden;
-}
+body { background: #fdf2f8; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: 'Comic Sans MS', sans-serif; }
+.container { text-align: center; position: relative; }
 
-/* Shishe jaisa chehra (Glass Face) */
-.face-screen {
-    width: 80%; height: 55%; 
-    background: rgba(0, 0, 0, 0.8); /* Dark Glass */
-    margin: 20px auto; 
-    border-radius: 40px; 
-    border: 2px solid rgba(0, 242, 255, 0.5);
-    box-shadow: inset 0 0 15px #00f2ff; /* Screen ke andar ki lighting */
-    position: relative;
-}
+.neo { position: relative; width: 180px; height: 260px; animation: float 3s infinite ease-in-out; transition: 0.3s; cursor: pointer; }
 
-/* Aankhon ka Neon Glow */
-.eye { 
-    width: 22px; height: 32px; 
-    background: #00f2ff; 
-    border-radius: 50%; 
-    box-shadow: 0 0 15px #00f2ff, 0 0 30px #00f2ff; /* Extra Glowy Eyes */
-    animation: blink 4s infinite; 
-}
+/* Head & Face */
+.head { width: 160px; height: 140px; background: #fff; border: 5px solid #fbcfe8; border-radius: 80px 80px 40px 40px; position: relative; z-index: 10; margin: 0 auto; overflow: hidden; }
+.face { width: 85%; height: 80%; background: #27272a; margin: 10% auto; border-radius: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+
+.eye-row { display: flex; gap: 30px; }
+.eye { width: 25px; height: 25px; background: #f472b6; border-radius: 50%; box-shadow: 0 0 15px #f472b6; transition: 0.2s; }
+.mouth { width: 40px; height: 15px; border: 4px solid #f472b6; border-top: 0; border-radius: 0 0 20px 20px; margin-top: 15px; display: none; }
+
+/* Hands - Connected to Body */
+.hand { width: 35px; height: 50px; background: #fff; border: 4px solid #fbcfe8; border-radius: 20px; position: absolute; top: 130px; z-index: 5; transition: 0.4s; }
+.l-hand { left: 0px; transform-origin: top right; }
+.r-hand { right: 0px; transform-origin: top left; }
+
+.torso { width: 110px; height: 90px; background: #fff; border: 5px solid #fbcfe8; border-radius: 50px 50px 80px 80px; margin: -30px auto 0; }
+
+/* Animations */
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+.cry .eye { height: 5px; transform: scaleX(1.5); }
+.happy .eye { border-radius: 10px 10px 50px 50px; height: 15px; }
+.talking .mouth { display: block; animation: talk 0.2s infinite; }
+@keyframes talk { 0% { height: 5px; } 100% { height: 15px; } }
