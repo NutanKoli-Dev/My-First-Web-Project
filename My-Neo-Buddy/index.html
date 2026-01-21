@@ -2,27 +2,40 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neo - My Digital Buddy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neo - Created by Nutan</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        }
+    </script>
 </head>
-<body>
+<body class="nutan-exclusive">
 
     <div class="buddy-container">
-        <div id="chat-bubble" class="hidden">Hi Nutan! 😊</div>
+        <div id="chat-bubble" class="hidden">Hi Nutan! Main sirf aapka hoon. 🥰</div>
 
         <div class="robot float" id="neo-bot" onclick="talkWithEmotion()">
             <div class="head">
                 <div class="eye left"></div>
                 <div class="eye right"></div>
-                <div class="mouth" id="neo-mouth"></div>
+                <div class="mouth"></div>
             </div>
             <div class="body">
-                <div class="arm left-arm"></div>
-                <div class="arm right-arm"></div>
+                <div class="arm left-arm wave"></div> <div class="arm right-arm"></div>
             </div>
         </div>
-        <p style="margin-top: 20px; color: #666; font-size: 12px;">Neo ko touch karo!</p>
+        
+        <div class="mic-btn" onclick="startListening()">🎤 Baat Karo</div>
+        
+        <div class="owner-tag">© 2026 Crafted with ❤️ by Nutan Koli</div>
     </div>
 
     <script src="script.js"></script>
