@@ -4,128 +4,55 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #f0f2f5;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #eef2f3;
+    font-family: 'Comic Sans MS', cursive;
     overflow: hidden;
+    user-select: none; /* Text copy nahi hoga */
 }
 
-.buddy-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-}
+.buddy-container { display: flex; flex-direction: column; align-items: center; }
 
 #chat-bubble {
-    background: white;
-    padding: 15px 25px;
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    margin-bottom: 25px;
-    font-weight: bold;
-    color: #333;
-    border: 2px solid #3f51b5;
-    position: relative;
-    transition: 0.3s;
-    max-width: 250px;
-    text-align: center;
+    background: white; padding: 15px; border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 20px;
+    font-size: 14px; border: 2px solid #ff4081; text-align: center;
 }
 
-#chat-bubble::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid white;
-}
-
-/* Robot Design */
+/* Neo's Body */
 .robot {
-    width: 120px;
-    height: 140px;
-    position: relative;
-    transition: background 0.5s ease;
-    background: #3f51b5;
-    border-radius: 30px;
+    width: 120px; height: 130px; background: #3f51b5;
+    border-radius: 35px; position: relative; transition: 0.5s;
 }
 
-.head {
-    width: 100%;
-    height: 80px;
-    position: relative;
-    background: inherit;
-    border-radius: 30px 30px 10px 10px;
-}
+.head { width: 100%; height: 70px; position: relative; border-radius: 35px 35px 10px 10px; }
+.eye { width: 12px; height: 12px; background: #00ffea; border-radius: 50%; position: absolute; top: 30px; animation: blink 4s infinite; }
+.left { left: 25px; } .right { right: 25px; }
+.mouth { width: 30px; height: 5px; background: rgba(255,255,255,0.3); position: absolute; bottom: 15px; left: 45px; border-radius: 5px; }
 
-.eye {
-    width: 12px;
-    height: 12px;
-    background: #00ffea;
-    border-radius: 50%;
-    position: absolute;
-    top: 30px;
-    box-shadow: 0 0 10px #00ffea;
-    animation: blink 4s infinite;
-}
-.left { left: 25px; }
-.right { right: 25px; }
+/* Arms & Waving */
+.arm { width: 15px; height: 45px; background: #283593; position: absolute; border-radius: 10px; top: 70px; }
+.left-arm { left: -12px; transform-origin: top; }
+.right-arm { right: -12px; }
 
-.mouth {
-    width: 30px;
-    height: 4px;
-    background: rgba(255,255,255,0.4);
-    position: absolute;
-    bottom: 15px;
-    left: 45px;
-    border-radius: 10px;
-    transition: 0.3s;
-}
+.wave { animation: wavingHand 2s ease-in-out infinite; }
 
-.body {
-    width: 90px;
-    height: 50px;
-    background: inherit;
-    margin: -5px auto 0;
-    border-radius: 10px 10px 20px 20px;
-    opacity: 0.9;
+@keyframes wavingHand {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-40deg); }
 }
-
-.arm {
-    width: 15px;
-    height: 45px;
-    background: rgba(0,0,0,0.2);
-    position: absolute;
-    border-radius: 10px;
-}
-.left-arm { left: -10px; top: 70px; transform-origin: top; }
-.right-arm { right: -10px; top: 70px; }
 
 /* Animations */
-.float { animation: floatAnim 3s ease-in-out infinite; }
-@keyframes floatAnim {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
+.float { animation: floating 3s ease-in-out infinite; }
+@keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
 .shake { animation: shakeAnim 0.3s infinite; }
-@keyframes shakeAnim {
-    0% { transform: translate(1px, 1px); }
-    50% { transform: translate(-3px, -1px); }
-    100% { transform: translate(1px, 1px); }
+@keyframes shakeAnim { 0% { transform: translateX(0); } 50% { transform: translateX(5px); } 100% { transform: translateX(0); } }
+
+.mic-btn {
+    margin-top: 30px; background: #ff4081; color: white;
+    padding: 10px 20px; border-radius: 50px; cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-.spin { animation: spinAnim 1s linear infinite; }
-@keyframes spinAnim {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes blink {
-    0%, 90%, 100% { transform: scaleY(1); }
-    95% { transform: scaleY(0.1); }
-}
-
-.hidden { visibility: hidden; opacity: 0; }
+.owner-tag { font-size: 10px; color: #aaa; margin-top: 20px; }
+.hidden { display: none; }
