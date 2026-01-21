@@ -1,104 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neo AI Pet</title>
+    <title>Neo Floating AI</title>
     <style>
-        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-        body { 
-            background: #fdf2f8; height: 100vh; margin: 0; 
-            display: flex; justify-content: center; align-items: center; 
-            font-family: 'Segoe UI', sans-serif; overflow: hidden;
+        body { background: #fdf2f8; height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        
+        /* Floating Body (No Legs) */
+        .neo-body { 
+            position: relative; width: 200px; height: 240px; 
+            animation: float 3s infinite ease-in-out; display: flex; flex-direction: column; align-items: center;
         }
 
-        /* Robot Body */
-        .robot { position: relative; width: 220px; height: 280px; display: flex; flex-direction: column; align-items: center; }
-
         .head {
-            width: 160px; height: 160px; background: #ffffff; border-radius: 50%;
-            border: 6px solid #fbcfe8; position: relative; z-index: 5;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 170px; height: 160px; background: white; border-radius: 80px 80px 60px 60px;
+            border: 5px solid #fbcfe8; position: relative; z-index: 5; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .face-black {
             width: 85%; height: 75%; background: #27272a; margin: 12.5% auto;
-            border-radius: 50%; position: relative; overflow: hidden;
+            border-radius: 40px; position: relative; display: flex; justify-content: space-around; align-items: center;
         }
 
-        /* Animated Eyes */
-        .eye { width: 30px; height: 30px; background: #f472b6; border-radius: 50%; position: absolute; top: 40px; box-shadow: 0 0 15px #f472b6; transition: 0.3s; }
-        .left { left: 25px; } .right { right: 25px; }
+        .eye { width: 30px; height: 30px; background: #f472b6; border-radius: 50%; box-shadow: 0 0 15px #f472b6; }
+        .mouth { width: 40px; height: 10px; border: 4px solid #f472b6; border-top: 0; position: absolute; bottom: 25px; border-radius: 0 0 20px 20px; display: none; }
 
-        /* Moving Hands */
+        /* Joint Hands */
         .hand {
-            width: 45px; height: 45px; background: #ffffff; border: 4px solid #fbcfe8;
-            border-radius: 50%; position: absolute; top: 160px; z-index: 2;
-            animation: wave 2s infinite ease-in-out;
+            width: 45px; height: 45px; background: white; border: 4px solid #fbcfe8;
+            border-radius: 50%; position: absolute; top: 140px; z-index: 2; transition: 0.5s;
         }
-        .hand-l { left: -10px; transform-origin: right; }
-        .hand-r { right: -10px; animation-delay: 1s; transform-origin: left; }
+        .hand-l { left: -15px; } .hand-r { right: -15px; }
 
-        .torso {
-            width: 140px; height: 120px; background: #ffffff; border-radius: 60px 60px 40px 40px;
-            margin-top: -40px; border: 5px solid #fbcfe8; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
+        /* Speaking Animation Class */
+        .speaking .hand-l { transform: translateY(-30px) rotate(-20deg); }
+        .speaking .hand-r { transform: translateY(-30px) rotate(20deg); }
+        .speaking .mouth { display: block; }
 
-        /* Hand Animation */
-        @keyframes wave {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(15deg); }
-        }
-
-        .message-box { position: absolute; bottom: -60px; background: white; padding: 10px 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: none; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     </style>
 </head>
-<body onclick="interact()">
+<body onclick="talk()">
 
-    <div class="robot">
+    <div class="neo-body" id="neo">
         <div class="head">
             <div class="face-black">
-                <div class="eye left" id="l"></div>
-                <div class="eye right" id="r"></div>
+                <div class="eye"></div>
+                <div class="eye"></div>
+                <div class="mouth" id="mouth"></div>
             </div>
         </div>
         <div class="hand hand-l"></div>
         <div class="hand hand-r"></div>
-        <div class="torso"></div>
-        <div class="message-box" id="msg"></div>
     </div>
 
     <script>
-        const responses = [
-            "Hey! How's your day going?",
-            "I'm feeling amazing today! Let's do something fun.",
-            "You're my best friend, you know that right?",
-            "Need any help, or just want to chat?",
-            "Hehehe, that tickles! Stop it!"
+        const hindiQuotes = [
+            "Namaste! Aaj ka mausam kitna suhana hai na?",
+            "Kya aap mere saath ek game khelenge? Main taiyar hoon!",
+            "Mujhe aapke saath baatein karna bahut pasand hai.",
+            "Aaj hum kuch naya seekhte hain, chaliye shuru karein!"
         ];
 
-        function interact() {
-            const randomMsg = responses[Math.floor(Math.random() * responses.length)];
+        function talk() {
+            const neo = document.getElementById('neo');
+            const quote = hindiQuotes[Math.floor(Math.random() * hindiQuotes.length)];
             
-            // Visual Change
-            document.getElementById('l').style.height = "10px";
-            document.getElementById('r').style.height = "10px";
+            // Start Animation
+            neo.classList.add('speaking');
             
-            say(randomMsg);
+            const utterance = new SpeechSynthesisUtterance(quote);
+            utterance.lang = 'hi-IN';
+            utterance.pitch = 1.5;
+            
+            utterance.onend = () => {
+                neo.classList.remove('speaking'); // Stop animation when done
+            };
 
-            setTimeout(() => {
-                document.getElementById('l').style.height = "30px";
-                document.getElementById('r').style.height = "30px";
-            }, 2000);
-        }
-
-        function say(text) {
-            window.speechSynthesis.cancel();
-            const speech = new SpeechSynthesisUtterance(text);
-            speech.lang = 'en-US';
-            speech.pitch = 1.8;
-            speech.rate = 1.0;
-            window.speechSynthesis.speak(speech);
+            window.speechSynthesis.speak(utterance);
         }
     </script>
 </body>
