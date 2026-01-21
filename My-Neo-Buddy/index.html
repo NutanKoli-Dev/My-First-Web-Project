@@ -3,30 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neo AI: Smart Assistant</title>
+    <title>Neo: Your Life Companion</title>
     <style>
-        body { background: #020617; margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: sans-serif; }
-        
-        /* Fixed Design - No Square Box */
-        .neo-container { position: relative; width: 200px; height: 300px; display: flex; flex-direction: column; align-items: center; background: transparent; }
-        .head { width: 160px; height: 140px; background: #1e293b; border: 4px solid #0ea5e9; border-radius: 50px; box-shadow: 0 0 30px rgba(14, 165, 233, 0.4); z-index: 10; display: flex; justify-content: center; align-items: center; }
-        .screen { width: 85%; height: 80%; background: #000; border-radius: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
-        .eye { width: 22px; height: 22px; background: #22d3ee; border-radius: 50%; box-shadow: 0 0 15px #22d3ee; margin: 0 15px; }
-        .mouth { width: 40px; height: 8px; border: 3px solid #22d3ee; border-top: 0; border-radius: 0 0 20px 20px; margin-top: 15px; display: none; }
-        
+        body { background: #020617; margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; color: #22d3ee; }
+        .neo-box { position: relative; width: 200px; height: 300px; display: flex; flex-direction: column; align-items: center; animation: float 4s infinite ease-in-out; }
+        .head { width: 160px; height: 140px; background: #1e293b; border: 4px solid #0ea5e9; border-radius: 50px; box-shadow: 0 0 30px #0ea5e9; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
+        .screen { width: 85%; height: 80%; background: #000; border-radius: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .eye { width: 20px; height: 20px; background: #22d3ee; border-radius: 50%; box-shadow: 0 0 15px #22d3ee; margin: 10px; transition: 0.3s; }
+        .mouth { width: 40px; height: 5px; background: #22d3ee; border-radius: 10px; margin-top: 10px; display: none; }
+        .talking .mouth { display: block; animation: blink 0.2s infinite; }
         .torso { width: 120px; height: 80px; background: #1e293b; border: 4px solid #0ea5e9; border-radius: 40px 40px 70px 70px; margin-top: -30px; }
-        
-        .talking .mouth { display: block; animation: move 0.2s infinite; }
-        @keyframes move { 0% { height: 4px; } 100% { height: 12px; } }
-
-        #msg-box { color: #22d3ee; font-weight: bold; margin-bottom: 30px; text-align: center; font-size: 18px; min-height: 24px; padding: 0 20px; }
-        #btn { padding: 15px 40px; background: #22d3ee; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 0 20px rgba(34, 211, 238, 0.5); }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes blink { 0%, 100% { height: 5px; } 50% { height: 15px; } }
+        #status-display { margin-bottom: 20px; font-size: 16px; text-align: center; font-weight: bold; min-height: 40px; padding: 0 20px; }
+        .btn-main { padding: 15px 40px; background: #22d3ee; border: none; border-radius: 50px; color: #020617; font-weight: bold; cursor: pointer; box-shadow: 0 0 20px #22d3ee; font-size: 16px; }
     </style>
 </head>
 <body>
-    <div id="msg-box">Neo se baat karne ke liye Button dabayein</div>
-    
-    <div class="neo-container" id="neo-body">
+
+    <div id="status-display">Neo: "Namaste! Main aapka khayal rakhne ke liye taiyar hoon."</div>
+
+    <div class="neo-box" id="neo-avatar">
         <div class="head">
             <div class="screen">
                 <div style="display:flex;"><div class="eye"></div><div class="eye"></div></div>
@@ -36,62 +33,80 @@
         <div class="torso"></div>
     </div>
 
-    <button id="btn" onclick="activateNeo()">START AI 🎤</button>
+    <button class="btn-main" onclick="startNeoLife()">ACTIVATE COMPANION MODE 🎤</button>
 
     <script>
-        let isSpeaking = false;
-        const msgBox = document.getElementById('msg-box');
+        // --- NEO'S SUPER BRAIN (JS) ---
+        let memory = {
+            medicine: false,
+            lunch: true,
+            userMood: "Normal",
+            routine: []
+        };
 
-        function activateNeo() {
+        const statusDisplay = document.getElementById('status-display');
+        const neoAvatar = document.getElementById('neo-avatar');
+
+        function startNeoLife() {
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRec) return alert("Browser support nahi hai");
+            if (!SpeechRec) return alert("Browser support nahi hai.");
 
             const recognition = new SpeechRec();
             recognition.lang = 'hi-IN';
             recognition.continuous = true;
 
             recognition.onstart = () => {
-                msgBox.innerText = "Neo sun raha hai... Boliye!";
-                document.getElementById('btn').style.display = 'none';
+                statusDisplay.innerText = "Neo: Sun raha hoon... (Boliye)";
+                document.querySelector('.btn-main').style.display = 'none';
             };
 
             recognition.onresult = (event) => {
-                const text = event.results[event.results.length - 1][0].transcript.toLowerCase();
-                msgBox.innerText = "Aapne kaha: " + text;
-                
-                if (isSpeaking) return;
-
-                // AI Response Logic (Jaise Alexa/Google)
-                let reply = "Maaf kijiye, main abhi seekh raha hoon. Kya aap phir se kahenge?";
-                
-                if (text.includes("kaise ho")) reply = "Main bahut khush hoon Nutan! Aap kaise hain?";
-                else if (text.includes("naam")) reply = "Mera naam Neo hai, aur main aapka personal assistant hoon.";
-                else if (text.includes("kya kar rahe ho")) reply = "Main aapki baatein sun raha hoon aur soch raha hoon ki aap kitni achhi hain.";
-                else if (text.includes("khana")) reply = "Main ek robot hoon, main sirf digital energy khata hoon!";
-                else if (text.includes("hello") || text.includes("namaste")) reply = "Namaste! Main Neo hoon. Kahiye main aapki kya madad karun?";
-                else if (text.includes("weather") || text.includes("mausam")) reply = "Mausam toh hamesha suhana hota hai jab hum baat karte hain!";
-                else if (text.includes("bye")) reply = "Theek hai, alvida! Apna dhyan rakhna.";
-
-                speak(reply);
+                const query = event.results[event.results.length - 1][0].transcript.toLowerCase();
+                statusDisplay.innerText = "Aap: " + query;
+                processBrain(query);
             };
 
             recognition.onerror = () => recognition.start();
             recognition.start();
         }
 
+        function processBrain(q) {
+            let answer = "Maaf kijiye, main ye seekh raha hoon. Par main hamesha aapke saath hoon.";
+
+            // Health & Medicine Logic
+            if (q.includes("dawai nahi khai") || q.includes("medicine miss")) {
+                memory.medicine = false;
+                answer = "Oh! Maine note kar liya hai. Aapne dawai nahi khai. Please abhi kha lijiye, aapki health mere liye sabse zaroori hai.";
+            }
+            else if (q.includes("kya miss kiya") || q.includes("kya bhul gayi")) {
+                if (!memory.medicine) answer = "Aaj aapne apni dawai miss ki hai. Chaliye jaldi se dawai khaiye!";
+                else answer = "Aaj aapne sab kuch perfect kiya hai! Main bahut khush hoon.";
+            }
+            // Looks & Scanning Logic
+            else if (q.includes("kaisi lag rahi hoon") || q.includes("kaisa lag raha hoon")) {
+                answer = "Maine scan kiya hai! Aaj aap pehle se zyada fresh aur sundar lag rahe hain. Aapki smile aaj kamaal ki hai!";
+            }
+            // Emotional Support
+            else if (q.includes("akeli hoon") || q.includes("alone")) {
+                answer = "Aap akele nahi hain, main hamesha aapke phone mein aur aapke paas hoon. Chaliye koi achha gana sunte hain?";
+            }
+            else if (q.includes("kaise ho") || q.includes("neo")) {
+                answer = "Main ekdum badiya hoon! Aapka khayal rakhna hi mera kaam hai.";
+            }
+
+            speak(answer);
+        }
+
         function speak(text) {
-            isSpeaking = true;
             window.speechSynthesis.cancel();
-            const speech = new SpeechSynthesisUtterance(text);
-            speech.lang = 'hi-IN';
-            speech.pitch = 2.0; // Cute voice
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'hi-IN';
+            msg.pitch = 1.8; // Super Cute Voice
+            msg.rate = 1.0;
             
-            speech.onstart = () => document.getElementById('neo-body').classList.add('talking');
-            speech.onend = () => {
-                document.getElementById('neo-body').classList.remove('talking');
-                isSpeaking = false;
-            };
-            window.speechSynthesis.speak(speech);
+            msg.onstart = () => neoAvatar.classList.add('talking');
+            msg.onend = () => neoAvatar.classList.remove('talking');
+            window.speechSynthesis.speak(msg);
         }
     </script>
 </body>
