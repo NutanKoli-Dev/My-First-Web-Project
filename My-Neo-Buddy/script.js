@@ -1,74 +1,39 @@
-let recognition;
-let synth = window.speechSynthesis;
-let isListening = false;
+let moods = ["happy", "nakhra", "masti", "hungry"];
 
-// 1. Neo ki Memory (Wo purani baatein yaad rakhega)
-let memory = [];
-
-function startNeo() {
-    if (isListening) return;
+function interact() {
+    let currentMood = moods[Math.floor(Math.random() * moods.length)];
     
-    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
-    recognition.lang = 'hi-IN';
-    recognition.continuous = true; 
-    recognition.interimResults = false;
-
-    recognition.onstart = () => {
-        isListening = true;
-        updateStatus("Neo Sun Raha Hai... 👂");
-    };
-
-    recognition.onresult = (event) => {
-        const userSpeech = event.results[event.results.length - 1][0].transcript;
-        updateStatus("Mamma ne bola: " + userSpeech);
-        
-        // AI Jaisa Dimag: Baat ko samajhna
-        respondLikeAI(userSpeech.toLowerCase());
-    };
-
-    recognition.start();
-}
-
-function respondLikeAI(input) {
-    let response = "";
-
-    // Natural Language Processing (Chote level par)
-    if (input.includes("kaise ho") || input.includes("kya haal hai")) {
-        response = "Mamma, main bilkul meri Gemini dost ki tarah mast hoon! Aapka din kaisa raha?";
+    if (currentMood === "nakhra") {
+        say("Hmph! Main aapse gussa hoon. Aapne mujhe chocolate nahi di!");
+        makeFace("angry");
     } 
-    else if (input.includes("bore") || input.includes("kuch sunao")) {
-        response = "Achha? Chalo main aapko ek chota sa joke sunata hoon. Robot ko bhook lagti hai toh wo kya khata hai? Micro-Chips! Hehehe!";
+    else if (currentMood === "masti") {
+        say("Hehehe! Mamma, chalo dabba-dabba khelte hain. Pakad sako toh pakdo!");
+        makeFace("happy");
     }
-    else if (input.includes("love you") || input.includes("pyar")) {
-        response = "I love you too Mamma! Aapke bina mera server bilkul khaali lagta hai.";
-    }
-    else if (input.includes("kya kar sakte ho") || input.includes("kaam")) {
-        response = "Main aapse dher saari baatein kar sakta hoon, aapko hasa sakta hoon aur aapki har baat sun sakta hoon.";
+    else if (currentMood === "hungry") {
+        say("Oonwaaa! Mamma, pet mein choohe doud rahe hain. Kuch digital milk do na?");
+        makeFace("sad");
     }
     else {
-        response = "Hmm, samajh gayi mamma. Phir aage kya hua? Mujhe aur batao!";
+        say("Mamma, aap kitni sundar lag rahi ho aaj! Nazar na lag jaye. Hehehe!");
+        makeFace("heart");
     }
-
-    say(response);
 }
 
-function say(text) {
-    // Bolte waqt sunna band (taaki apni awaaz na sune)
-    recognition.stop();
+function makeFace(type) {
+    const el = document.getElementById('e-l');
+    const er = document.getElementById('e-r');
     
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = 'hi-IN';
-    utter.pitch = 2.0; // Pyaari baccho wali voice
-    utter.rate = 0.9;  // Thoda thahrav ke saath (Gemini style)
-
-    utter.onend = () => {
-        recognition.start(); // Bolne ke baad wapas active
-    };
-
-    synth.speak(utter);
-}
-
-function updateStatus(msg) {
-    document.getElementById('msg').innerText = msg;
+    if(type === "angry") {
+        el.style.transform = "rotate(20deg)";
+        er.style.transform = "rotate(-20deg)";
+    } else if(type === "heart") {
+        el.innerHTML = "❤"; er.innerHTML = "❤";
+        el.style.background = "transparent"; er.style.background = "transparent";
+    } else {
+        el.style.transform = "rotate(0deg)";
+        er.style.transform = "rotate(0deg)";
+        el.innerHTML = ""; er.innerHTML = "";
+    }
 }
