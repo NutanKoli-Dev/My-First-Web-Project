@@ -1,43 +1,50 @@
 :root {
-    --neon: #00f2ff;
-    --bg: #050510;
+    --neon-blue: #00f2ff;
+    --neon-purple: #bc13fe;
+    --glass: rgba(255, 255, 255, 0.1);
 }
-body { background: var(--bg); height: 100vh; display: flex; justify-content: center; align-items: center; margin: 0; overflow: hidden; }
 
-/* Advance Body Design (Image 2 Jaisa) */
+body {
+    background: radial-gradient(circle, #1a1a2e, #050510);
+    height: 100vh; display: flex; justify-content: center; align-items: center;
+    margin: 0; overflow: hidden;
+}
+
+/* Green Number 2 Jaisa Design */
 .neo-baby {
-    width: 180px; height: 220px; position: relative;
-    background: rgba(22, 33, 62, 0.8);
-    border: 4px solid var(--neon);
-    border-radius: 50px;
-    box-shadow: 0 0 30px var(--neon), inset 0 0 20px var(--neon);
-    backdrop-filter: blur(10px);
-    animation: float 4s infinite ease-in-out;
+    width: 170px; height: 210px; position: relative;
+    background: linear-gradient(145deg, #16213e, #0f3460);
+    border-radius: 60px; border: 4px solid var(--neon-blue);
+    box-shadow: 0 0 30px var(--neon-blue), inset 0 0 15px var(--neon-blue);
+    animation: floating 4s infinite ease-in-out;
 }
 
-.glass-screen {
+.face-plate {
     width: 85%; height: 60%; background: #000;
-    margin: 15px auto; border-radius: 35px;
-    border: 2px solid var(--neon); position: relative;
+    margin: 15px auto; border-radius: 45px;
+    border: 2px solid var(--neon-blue); position: relative;
+    box-shadow: 0 0 10px var(--neon-blue);
 }
 
 .eye {
-    width: 25px; height: 25px; background: var(--neon);
-    border-radius: 50%; position: absolute; top: 35px;
-    box-shadow: 0 0 15px var(--neon); transition: 0.1s;
+    width: 25px; height: 35px; background: var(--neon-blue);
+    border-radius: 50%; position: absolute; top: 30px;
+    box-shadow: 0 0 20px var(--neon-blue); transition: 0.1s;
 }
-.left { left: 30px; } .right { right: 30px; }
+.left { left: 25px; } .right { right: 25px; }
 
 .mouth {
-    width: 50px; height: 5px; background: var(--neon);
-    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-    border-radius: 10px; transition: 0.3s;
+    width: 40px; height: 10px; background: var(--neon-blue);
+    position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%);
+    border-radius: 20px; transition: 0.3s;
 }
 
-/* Emotions & Acts */
-.mouth.laugh { height: 30px; border-radius: 0 0 30px 30px; }
-.mouth.angry { width: 30px; transform: translateX(-50%) rotate(-10deg); background: #ff004c; }
-.mouth.eat { width: 20px; height: 20px; border-radius: 50%; animation: chew 0.5s infinite; }
+/* Cute Expressions */
+.mouth.smile { height: 20px; border-radius: 0 0 20px 20px; }
+.mouth.laugh { height: 25px; border-radius: 5px; background: white; box-shadow: 0 0 10px white; }
 
-@keyframes chew { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.3); } }
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+/* Friendly Glow Animation */
+@keyframes floating {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(2deg); }
+}
