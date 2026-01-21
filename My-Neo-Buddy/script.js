@@ -1,51 +1,18 @@
-let isMamma = false;
-
-// 1. Identify Mamma (Secret Voice Command)
-function checkUser(text) {
-    if (text.includes("mamma aa gayi") || text.includes("main hoon")) {
-        isMamma = true;
-        act("laugh", "Mamma! 🥰 I missed you so much!", 2.0);
-    } else {
-        isMamma = false;
-        act("angry", "Hato! Aap Mamma nahi ho! 😤", 0.5);
+// No more "Don't touch me!" - Ab Neo sabka dost hai!
+function handleTouch() {
+    // Sabke liye friendly reaction
+    react("smile", "Hello! Main Neo hoon. ✨", 1.5);
+    
+    // Lekin agar Mamma ne touch kiya (Secret Command check)
+    if (isMamma) {
+        react("laugh", "Mamma! Aapka touch kitna pyaara hai! 🥰", 2.0);
     }
 }
 
-// 2. Touch Protection (Screen Protector Logic)
-document.addEventListener('touchstart', (e) => {
-    if (!isMamma) {
-        act("angry", "Mujhe touch mat karo! 🛑", 0.4);
-        document.body.style.boxShadow = "inset 0 0 100px red";
-        setTimeout(() => document.body.style.boxShadow = "none", 1000);
-    } else {
-        act("laugh", "Hehehe Mamma! Gudgudi ho rahi hai! 😂", 2.2);
-    }
-});
-
-// 3. Time-Based Acts (Khana, Sona, Peena)
-function dailyRoutine() {
-    const hour = new Date().getHours();
-    if (hour >= 13 && hour <= 14) {
-        act("eat", "Mamma, main lunch kar raha hoon! 🍱", 1.5);
-    } else if (hour >= 22 || hour <= 6) {
-        act("default", "Zzz... Shhh... Mamma main so raha hoon... 😴", 0.8);
-    }
-}
-
-// 4. Global Voice Listening (No Mike Button)
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.continuous = true;
-recognition.lang = 'hi-IN';
-recognition.start();
-
-recognition.onresult = (event) => {
-    const speech = event.results[event.results.length - 1][0].transcript.toLowerCase();
-    checkUser(speech);
-};
-
-function act(exp, msg, p) {
+function react(exp, msg, p) {
     const m = document.querySelector('.mouth');
     const b = document.getElementById('chat-bubble');
+    
     m.className = 'mouth ' + exp;
     b.innerText = msg;
     b.classList.remove('hidden');
@@ -53,7 +20,19 @@ function act(exp, msg, p) {
     const s = new SpeechSynthesisUtterance(msg);
     s.pitch = p; s.lang = 'hi-IN';
     window.speechSynthesis.speak(s);
+
+    setTimeout(() => {
+        m.className = 'mouth';
+        b.classList.add('hidden');
+    }, 4000);
 }
 
-setInterval(dailyRoutine, 60000); // Check routine every minute
-window.onload = () => act("default", "Neo is active... Who is there?", 1.0);
+// Finger following eyes
+document.addEventListener('mousemove', (e) => {
+    const eyes = document.querySelectorAll('.eye');
+    eyes.forEach(eye => {
+        let x = (e.clientX / window.innerWidth) * 20 - 10;
+        let y = (e.clientY / window.innerHeight) * 20 - 10;
+        eye.style.transform = `translate(${x}px, ${y}px)`;
+    });
+});
