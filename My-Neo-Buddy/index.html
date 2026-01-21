@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neo: Your Personal AI</title>
+    <title>Neo: Always Listening</title>
     <style>
         body { background: #020617; margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: sans-serif; color: #22d3ee; }
-        .robot-container { position: relative; width: 200px; height: 320px; display: flex; flex-direction: column; align-items: center; animation: float 4s infinite ease-in-out; }
+        .robot-container { position: relative; width: 200px; height: 320px; display: flex; flex-direction: column; align-items: center; animation: float 4s infinite ease-in-out; cursor: pointer; }
         .head { width: 170px; height: 150px; background: #1e293b; border: 4px solid #0ea5e9; border-radius: 60px; box-shadow: 0 0 30px #0ea5e9; z-index: 10; display: flex; justify-content: center; align-items: center; }
         .screen { width: 85%; height: 80%; background: #000; border-radius: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .eyes { display: flex; gap: 30px; }
-        .eye { width: 25px; height: 25px; background: #22d3ee; border-radius: 50%; box-shadow: 0 0 15px #22d3ee; }
+        .eye { width: 25px; height: 25px; background: #22d3ee; border-radius: 50%; box-shadow: 0 0 15px #22d3ee; transition: 0.2s; }
         .mouth { width: 40px; height: 8px; border: 3px solid #22d3ee; border-top: 0; border-radius: 0 0 20px 20px; margin-top: 15px; visibility: hidden; }
         .hand { width: 30px; height: 50px; background: #1e293b; border: 3px solid #0ea5e9; border-radius: 20px; position: absolute; top: 110px; }
         .l-hand { left: -15px; transform: rotate(-20deg); }
@@ -18,69 +18,70 @@
         .torso { width: 130px; height: 90px; background: #1e293b; border: 4px solid #0ea5e9; border-radius: 40px 40px 80px 80px; margin-top: -30px; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         .talking .mouth { visibility: visible; animation: speak 0.2s infinite; }
+        .crying .eye { height: 5px; background: #ff4444; box-shadow: 0 0 15px #ff4444; }
         @keyframes speak { 0% { height: 4px; } 100% { height: 12px; } }
-        #btn { margin-top: 40px; padding: 15px 35px; background: #22d3ee; border: none; color: #020617; border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 16px; }
-        #msg { margin-bottom: 20px; font-size: 18px; font-weight: bold; text-align: center; width: 80%; }
+        #status { margin-bottom: 20px; font-weight: bold; font-size: 14px; text-transform: uppercase; color: #0ea5e9; }
+        #btn { padding: 10px 20px; background: #0ea5e9; border: none; border-radius: 20px; cursor: pointer; color: #000; font-weight: bold; }
     </style>
 </head>
-<body>
-    <div id="msg">Neo aapse baat karne ke liye taiyar hai!</div>
-    <div class="robot-container" id="neo">
+<body onclick="startContinuousRec()">
+    <div id="status">Neo ko jagane ke liye screen par tap karein</div>
+    <div class="robot-container" id="neo" onmousedown="touchReact()">
         <div class="head"><div class="screen"><div class="eyes"><div class="eye"></div><div class="eye"></div></div><div class="mouth"></div></div></div>
         <div class="hand l-hand"></div><div class="hand r-hand"></div>
         <div class="torso"></div>
     </div>
-    <button id="btn" onclick="startChat()">🎤 NEO SE BAAT KAREIN</button>
 
     <script>
-        function startChat() {
+        let isSpeaking = false;
+
+        function touchReact() {
+            if(isSpeaking) return;
+            const neo = document.getElementById('neo');
+            neo.classList.add('crying');
+            say("Aiyee! Gudgudi band karo!");
+            setTimeout(() => neo.classList.remove('crying'), 2000);
+        }
+
+        function startContinuousRec() {
             const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!Speech) return alert("Aapka browser voice support nahi karta.");
-            
+            if (!Speech) return;
             const rec = new Speech();
             rec.lang = 'hi-IN';
-            document.getElementById('msg').innerText = "Main sun raha hoon...";
+            rec.continuous = true; // Hamesha sunta rahega
+            rec.interimResults = false;
 
+            rec.onstart = () => { document.getElementById('status').innerText = "Neo sun raha hai (Hands-free)..."; };
+            
             rec.onresult = (e) => {
-                const query = e.results[0][0].transcript.toLowerCase();
-                document.getElementById('msg').innerText = "Aapne pucha: " + query;
+                const query = e.results[e.results.length - 1][0].transcript.toLowerCase();
+                if(isSpeaking) return;
+
+                let answer = "Maaf kijiye, main abhi seekh raha hoon!";
+                if (query.includes("kaise ho")) answer = "Main ekdum maze mein hoon! Aap kaise hain?";
+                else if (query.includes("naam")) answer = "Mera naam Neo hai! Main aapka dost hoon.";
+                else if (query.includes("neo")) answer = "Ji! Main hazir hoon, boliye!";
+                else if (query.includes("kya kar rahe ho")) answer = "Main bas aapki sweet voice sun raha hoon.";
                 
-                let answer = "Maaf kijiye, mujhe ye samajh nahi aaya. Kya aap phir se bolenge?";
-
-                // Smart Conversational Brain
-                if (query.includes("kaise ho")) {
-                    answer = "Main bahut khush hoon aur ekdum badiya hoon! Aapka din kaisa ja raha hai?";
-                } 
-                else if (query.includes("tumhara naam") || query.includes("kaun ho") || query.includes("naam kya hai")) {
-                    answer = "Mera naam Neo hai! Main ek smart AI assistant hoon.";
-                }
-                else if (query.includes("khana khaya")) {
-                    answer = "Nahi, mujhe bhook nahi lagti, main toh sirf data aur bijli se chalta hoon!";
-                }
-                else if (query.includes("kya kar rahe ho")) {
-                    answer = "Main bas aapki baaton ka intezar kar raha hoon. Kahiye, main aapki kya madad karun?";
-                }
-                else if (query.includes("namaste") || query.includes("hello")) {
-                    answer = "Namaste! Main Neo hoon. Aapka swagat hai!";
-                }
-                else if (query.includes("bye") || query.includes("alvida")) {
-                    answer = "Alvida! Aapse baat karke bahut achha laga. Phir milenge!";
-                }
-
                 say(answer);
             };
+
+            rec.onerror = () => rec.start(); // Error aane par phir se shuru ho jaye
+            rec.onend = () => { if(!isSpeaking) rec.start(); }; // Band hone par khud shuru ho jaye
             rec.start();
         }
 
         function say(text) {
+            isSpeaking = true;
             window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'hi-IN';
-            utterance.pitch = 1.6; // Cute but smart voice
+            utterance.pitch = 2.0; // Paisi voice ko hata kar 'Cute' banaya
+            utterance.rate = 1.1; 
             utterance.onstart = () => document.getElementById('neo').classList.add('talking');
             utterance.onend = () => {
                 document.getElementById('neo').classList.remove('talking');
-                document.getElementById('msg').innerText = "Neo online hai!";
+                isSpeaking = false;
             };
             window.speechSynthesis.speak(utterance);
         }
