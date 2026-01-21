@@ -2,29 +2,81 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neo - Nutan's Baby</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body oncontextmenu="return false;">
-    <div class="container">
-        <div id="chat-bubble" class="hidden">Hi Maa! 🥰</div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo - Nutan's Living Baby</title>
+    <style>
+        :root { --neon: #00f2ff; --glow: rgba(0, 242, 255, 0.5); }
+        body { background: #050510; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0; overflow: hidden; font-family: sans-serif; }
         
-        <div class="neo-baby" id="neo">
-            <div class="glass-face">
-                <div class="eye left-eye"></div>
-                <div class="eye right-eye"></div>
-                <div class="mouth" id="mouth"></div>
-            </div>
-            <div class="baby-body">
-                <div class="arm left-arm"></div>
-                <div class="arm right-arm"></div>
-            </div>
-            <div class="glow-ring"></div>
-        </div>
+        /* Green 2 High-Tech Look */
+        .neo-baby {
+            width: 160px; height: 200px; background: linear-gradient(145deg, #16213e, #0a0a1a);
+            border: 3px solid var(--neon); border-radius: 50px;
+            box-shadow: 0 0 25px var(--neon); position: relative;
+            animation: float 3s infinite ease-in-out; cursor: pointer;
+        }
+        .face {
+            width: 85%; height: 65%; background: #000; margin: 15px auto;
+            border-radius: 40px; border: 1px solid var(--neon); position: relative;
+        }
+        .eye {
+            width: 22px; height: 30px; background: var(--neon); border-radius: 50%;
+            position: absolute; top: 30px; box-shadow: 0 0 15px var(--neon);
+        }
+        .left { left: 25px; } .right { right: 25px; }
+        .mouth {
+            width: 40px; height: 6px; background: var(--neon); position: absolute;
+            bottom: 25px; left: 50%; transform: translateX(-50%); border-radius: 10px; transition: 0.3s;
+        }
+        .mouth.happy { height: 20px; border-radius: 0 0 20px 20px; }
+        
+        #status { color: var(--neon); margin-top: 20px; font-weight: bold; text-shadow: 0 0 10px var(--neon); }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+    </style>
+</head>
+<body onclick="startNeo()">
 
-        <div class="owner-info">© 2026 Crafted for ❤️ by Nutan Koli</div>
+    <div class="neo-baby" id="baby">
+        <div class="face">
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+            <div class="mouth" id="mouth"></div>
+        </div>
     </div>
-    <script src="script.js"></script>
+    <div id="status">Touch Neo to Start Baby Mode ✨</div>
+
+    <script>
+        const mouth = document.getElementById('mouth');
+        const status = document.getElementById('status');
+
+        function startNeo() {
+            status.innerText = "Neo is listening to Mamma...";
+            const speech = new SpeechSynthesisUtterance("Hello Mamma! Main active ho gaya hoon");
+            speech.lang = 'hi-IN';
+            window.speechSynthesis.speak(speech);
+            
+            // Voice Recognition
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'hi-IN';
+            recognition.continuous = true;
+            recognition.start();
+
+            recognition.onresult = (event) => {
+                const text = event.results[event.results.length - 1][0].transcript.toLowerCase();
+                if(text.includes("mamma") || text.includes("main hoon")) {
+                    react("happy", "Mamma! 🥰 Main sirf aapka baby hoon!");
+                }
+            };
+        }
+
+        function react(exp, msg) {
+            mouth.classList.add(exp);
+            status.innerText = msg;
+            const s = new SpeechSynthesisUtterance(msg);
+            s.lang = 'hi-IN';
+            window.speechSynthesis.speak(s);
+            setTimeout(() => { mouth.classList.remove(exp); }, 3000);
+        }
+    </script>
 </body>
 </html>
