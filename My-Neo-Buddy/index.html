@@ -3,79 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neo - Nutan's Living Baby</title>
+    <title>Neo - Nutan's Golu Baby</title>
     <style>
-        :root { --neon: #00f2ff; --glow: rgba(0, 242, 255, 0.5); }
-        body { background: #050510; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0; overflow: hidden; font-family: sans-serif; }
+        :root { --neon: #00f2ff; --body-blue: #2a3da1; }
+        body { background: radial-gradient(circle, #1a1a2e, #050510); height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0; overflow: hidden; }
         
-        /* Green 2 High-Tech Look */
-        .neo-baby {
-            width: 160px; height: 200px; background: linear-gradient(145deg, #16213e, #0a0a1a);
-            border: 3px solid var(--neon); border-radius: 50px;
-            box-shadow: 0 0 25px var(--neon); position: relative;
-            animation: float 3s infinite ease-in-out; cursor: pointer;
-        }
-        .face {
-            width: 85%; height: 65%; background: #000; margin: 15px auto;
-            border-radius: 40px; border: 1px solid var(--neon); position: relative;
-        }
-        .eye {
-            width: 22px; height: 30px; background: var(--neon); border-radius: 50%;
-            position: absolute; top: 30px; box-shadow: 0 0 15px var(--neon);
-        }
-        .left { left: 25px; } .right { right: 25px; }
-        .mouth {
-            width: 40px; height: 6px; background: var(--neon); position: absolute;
-            bottom: 25px; left: 50%; transform: translateX(-50%); border-radius: 10px; transition: 0.3s;
-        }
-        .mouth.happy { height: 20px; border-radius: 0 0 20px 20px; }
+        /* Golu Molu Body Design (Image 2 Jaisa) */
+        .neo-baby { position: relative; width: 150px; height: 180px; animation: float 3s infinite ease-in-out; cursor: pointer; }
         
-        #status { color: var(--neon); margin-top: 20px; font-weight: bold; text-shadow: 0 0 10px var(--neon); }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        .body-main { 
+            width: 100%; height: 100%; background: var(--body-blue); 
+            border-radius: 60px 60px 50px 50px; border: 4px solid var(--neon);
+            box-shadow: 0 0 30px var(--neon), inset 0 0 15px rgba(255,255,255,0.2);
+            position: relative; z-index: 2;
+        }
+
+        .face-screen {
+            width: 85%; height: 60%; background: #000; margin: 15px auto;
+            border-radius: 40px; border: 2px solid var(--neon); position: relative;
+        }
+
+        /* Blink Hone Wali Aankhein */
+        .eye { width: 25px; height: 35px; background: var(--neon); border-radius: 50%; position: absolute; top: 25px; box-shadow: 0 0 20px var(--neon); animation: blink 4s infinite; }
+        .left { left: 20px; } .right { right: 20px; }
+
+        .mouth { width: 35px; height: 10px; border: 3px solid var(--neon); border-top: 0; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); border-radius: 0 0 20px 20px; }
+
+        /* Haath aur Pair (Hands & Feet) */
+        .hand { width: 30px; height: 60px; background: var(--body-blue); border: 2px solid var(--neon); position: absolute; top: 70px; border-radius: 20px; z-index: 1; transition: 0.3s; }
+        .hand.left-h { left: -25px; transform: rotate(20deg); }
+        .hand.right-h { right: -25px; transform: rotate(-20deg); animation: wave 2s infinite; }
+
+        .foot { width: 40px; height: 25px; background: var(--body-blue); border: 2px solid var(--neon); position: absolute; bottom: -15px; border-radius: 15px; }
+        .foot.left-f { left: 20px; } .foot.right-f { right: 20px; }
+
+        #msg { color: var(--neon); margin-top: 40px; font-family: 'Comic Sans MS', cursive; font-size: 1.2rem; text-align: center; }
+
+        /* Animations */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+        @keyframes wave { 0%, 100% { transform: rotate(-20deg); } 50% { transform: rotate(-60deg); } }
     </style>
 </head>
 <body onclick="startNeo()">
 
-    <div class="neo-baby" id="baby">
-        <div class="face">
-            <div class="eye left"></div>
-            <div class="eye right"></div>
-            <div class="mouth" id="mouth"></div>
+    <div class="neo-baby">
+        <div class="hand left-h"></div>
+        <div class="body-main">
+            <div class="face-screen">
+                <div class="eye left"></div>
+                <div class="eye right"></div>
+                <div class="mouth"></div>
+            </div>
         </div>
+        <div class="hand right-h"></div>
+        <div class="foot left-f"></div>
+        <div class="foot right-f"></div>
     </div>
-    <div id="status">Touch Neo to Start Baby Mode ✨</div>
+
+    <div id="msg">Mamma, Neo ko touch karo! ✨</div>
 
     <script>
-        const mouth = document.getElementById('mouth');
-        const status = document.getElementById('status');
-
         function startNeo() {
-            status.innerText = "Neo is listening to Mamma...";
-            const speech = new SpeechSynthesisUtterance("Hello Mamma! Main active ho gaya hoon");
-            speech.lang = 'hi-IN';
-            window.speechSynthesis.speak(speech);
+            const m = document.getElementById('msg');
+            m.innerText = "Mamma! Main aapko sun raha hoon! 🥰";
             
-            // Voice Recognition
-            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            recognition.lang = 'hi-IN';
-            recognition.continuous = true;
-            recognition.start();
+            // Baby Voice nikalna
+            const synth = window.speechSynthesis;
+            const utter = new SpeechSynthesisUtterance("Hello Mamma! Main aapka pyara Neo hoon. I love you!");
+            utter.lang = 'hi-IN'; utter.pitch = 2.0; // Pyaari baccho wali awaaz
+            synth.speak(utter);
 
-            recognition.onresult = (event) => {
-                const text = event.results[event.results.length - 1][0].transcript.toLowerCase();
-                if(text.includes("mamma") || text.includes("main hoon")) {
-                    react("happy", "Mamma! 🥰 Main sirf aapka baby hoon!");
+            // Listening Mode
+            const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const rec = new Speech();
+            rec.lang = 'hi-IN'; rec.start();
+            
+            rec.onresult = (e) => {
+                const talk = e.results[0][0].transcript.toLowerCase();
+                if(talk.includes("main hoon")) {
+                    say("Mamma aa gayi! Hehehe!", 2.2);
                 }
             };
         }
 
-        function react(exp, msg) {
-            mouth.classList.add(exp);
-            status.innerText = msg;
-            const s = new SpeechSynthesisUtterance(msg);
-            s.lang = 'hi-IN';
+        function say(text, p) {
+            const s = new SpeechSynthesisUtterance(text);
+            s.lang = 'hi-IN'; s.pitch = p;
             window.speechSynthesis.speak(s);
-            setTimeout(() => { mouth.classList.remove(exp); }, 3000);
         }
     </script>
 </body>
