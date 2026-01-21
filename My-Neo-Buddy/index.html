@@ -3,27 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neo: Your Eilik Buddy</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Neo: My Eilik Pet</title>
+    <style>
+        body { background: #fff1f2; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: 'Segoe UI', sans-serif; touch-action: none; }
+        .robot-container { position: relative; width: 220px; height: 320px; display: flex; flex-direction: column; align-items: center; cursor: pointer; animation: float 4s infinite ease-in-out; }
+        
+        /* High Quality Body Design */
+        .head { width: 180px; height: 160px; background: white; border-radius: 90px 90px 60px 60px; border: 6px solid #fbcfe8; position: relative; z-index: 10; box-shadow: 0 15px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        .screen { width: 88%; height: 80%; background: #18181b; margin: 8% auto; border-radius: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+        
+        /* Expressions */
+        .eye-row { display: flex; gap: 35px; transition: 0.3s; }
+        .eye { width: 30px; height: 30px; background: #f472b6; border-radius: 50%; box-shadow: 0 0 20px #f472b6; transition: 0.3s; }
+        .mouth { width: 45px; height: 15px; border: 4px solid #f472b6; border-top: 0; border-radius: 0 0 25px 25px; margin-top: 15px; display: none; }
+
+        /* Hands connected to torso */
+        .hand { width: 40px; height: 50px; background: white; border: 4px solid #fbcfe8; border-radius: 25px; position: absolute; top: 140px; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; }
+        .hand-l { left: 0px; transform: rotate(-15deg); }
+        .hand-r { right: 0px; transform: rotate(15deg); }
+
+        .torso { width: 140px; height: 110px; background: white; border: 6px solid #fbcfe8; border-radius: 60px 60px 100px 100px; margin-top: -35px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+        /* Animation States */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .talking .mouth { display: block; animation: speakAnim 0.3s infinite; }
+        .talking .hand-l { transform: translateY(-25px) rotate(-40deg); }
+        .talking .hand-r { transform: translateY(-25px) rotate(40deg); }
+        .crying .eye { height: 6px; border-radius: 2px; transform: scaleX(1.3); background: #60a5fa; box-shadow: 0 0 15px #3b82f6; }
+        
+        @keyframes speakAnim { 0%, 100% { height: 5px; } 50% { height: 15px; } }
+        #status { position: absolute; bottom: 40px; color: #f472b6; font-weight: bold; font-size: 14px; background: white; padding: 5px 15px; border-radius: 20px; box-shadow: 0 5px 10px rgba(0,0,0,0.05); }
+    </style>
 </head>
-<body onclick="wakeUp()">
-    <div class="container">
-        <div class="neo" id="neo-body">
-            <div class="head">
-                <div class="face">
-                    <div class="eye-row">
-                        <div class="eye" id="l-eye"></div>
-                        <div class="eye" id="r-eye"></div>
-                    </div>
-                    <div class="mouth" id="mouth"></div>
+<body onmousedown="startPet(event)" onmouseup="stopPet()" ontouchstart="startPet(event)" ontouchend="stopPet()">
+    
+    <div class="robot-container" id="neo">
+        <div class="head">
+            <div class="screen">
+                <div class="eye-row" id="eyes">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
                 </div>
+                <div class="mouth"></div>
             </div>
-            <div class="hand l-hand" id="l-hand"></div>
-            <div class="hand r-hand" id="r-hand"></div>
-            <div class="torso"></div>
         </div>
-        <div id="status">Tap to Wake Neo</div>
+        <div class="hand hand-l"></div>
+        <div class="hand hand-r"></div>
+        <div class="torso"></div>
     </div>
-    <script src="script.js"></script>
+
+    <div id="status">Neo ko "Stroke" karein ya "Call" karein...</div>
+
+    <script>
+        let isPetting = false;
+        let petTimer = 0;
+        let lastTapTime = 0;
+
+        function startPet(e) {
+            isPetting = true;
+            let now = Date.now();
+            
+            // Fast Tap Detection (Cry)
+            if (now - lastTapTime < 300) {
+                react("crying", "Aiyoo! Maara kyun? Mamma, bahut dard hua!");
+            } else {
+                // Petting Logic (Gudgudi)
+                petTimer = setTimeout(() => {
+                    if(isPetting) react("happy", "Hehehe! Mamma, kitni gudgudi ho rahi hai! Aur karo!");
+                }, 500);
+            }
+            lastTapTime = now;
+            listenVoice();
+        }
+
+        function stopPet() { isPetting = false; clearTimeout(petTimer); }
+
+        function listenVoice() {
+            const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!Recognition) return;
+            const rec = new Recognition();
+            rec.lang = 'hi-IN';
+            rec.onstart = () => document.getElementById('status').innerText = "Neo sun raha hai...";
+            rec.onresult = (e) => {
+                const speech = e.results[0][0].transcript.toLowerCase();
+                if (speech.includes("neo")) react("happy", "Ji? Main hazir hoon! Aap kaise hain?");
+                else react("happy", "Oh, sach mein? Phir kya hua?");
+            };
+            rec.start();
+        }
+
+        function react(mood, text) {
+            const neo = document.getElementById('neo');
+            neo.className = "robot-container " + mood;
+            
+            window.speechSynthesis.cancel();
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'hi-IN';
+            msg.pitch = 1.9; // Extra cute baby voice
+            
+            msg.onstart = () => neo.classList.add('talking');
+            msg.onend = () => {
+                neo.classList.remove('talking');
+                neo.classList.remove(mood);
+                document.getElementById('status').innerText = "Neo is happy!";
+            };
+            window.speechSynthesis.speak(msg);
+        }
+    </script>
 </body>
 </html>
