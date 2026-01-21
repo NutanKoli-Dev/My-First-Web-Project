@@ -1,61 +1,77 @@
-let hitCount = 0;
-let lastTap = 0;
-const neo = document.getElementById('neo-body');
-const status = document.getElementById('status');
+let isSpeaking = false;
+        
+// Memory System (LocalStorage)
+let neoMemory = JSON.parse(localStorage.getItem('neo_data')) || {
+    medicineMissed: false,
+    lastMood: "Good"
+};
 
-function wakeUp() {
-    let now = Date.now();
-    // Hit Detection (Tez tap karna)
-    if (now - lastTap < 300) {
-        hitCount++;
-        if (hitCount > 3) {
-            react("cry", "Aiyoo! Mamma, lag gayi! Itna tez kyun mara?");
-            hitCount = 0;
-            return;
-        }
-    } else {
-        hitCount = 0;
-        react("happy", "Hehehe! Gudgudi ho rahi hai!");
-    }
-    lastTap = now;
-    startListening();
+function saveMemory() {
+    localStorage.setItem('neo_data', JSON.stringify(neoMemory));
 }
 
-function startListening() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) return;
-    const rec = new SpeechRecognition();
+const statusText = document.getElementById('status-display');
+const neoVisual = document.getElementById('neo-body');
+
+function initNeo() {
+    const SpeechAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechAPI) return alert("Chrome use karein!");
+
+    const rec = new SpeechAPI();
     rec.lang = 'hi-IN';
-    
-    rec.onstart = () => { status.innerText = "Neo is listening..."; };
-    
-    rec.onresult = (event) => {
-        const text = event.results[0][0].transcript.toLowerCase();
-        if (text.includes("neo")) {
-            respond("Yes? Kya hua dost?");
-        } else {
-            respond("Hmm... main samajh raha hoon. Aur batao?");
-        }
+    rec.continuous = true;
+
+    rec.onstart = () => {
+        statusText.innerText = "Neo sun raha hai...";
+        document.getElementById('start-btn').style.display = 'none';
     };
+
+    rec.onresult = (event) => {
+        const speech = event.results[event.results.length - 1][0].transcript.toLowerCase();
+        statusText.innerText = "Aapne kaha: " + speech;
+        if (!isSpeaking) processInput(speech);
+    };
+
+    rec.onend = () => { if(!isSpeaking) rec.start(); };
     rec.start();
 }
 
-function react(mood, text) {
-    neo.className = "neo " + mood;
-    respond(text);
-    setTimeout(() => neo.className = "neo", 3000);
+function processInput(input) {
+    let response = "Main hamesha aapke saath hoon. Aur bataiye?";
+
+    if (input.includes("dawai") || input.includes("medicine")) {
+        if (input.includes("miss") || input.includes("nahi khai")) {
+            neoMemory.medicineMissed = true;
+            response = "Maine note kar liya hai Nutan. Aapne dawai nahi khai. Sehat ke liye abhi khaiye!";
+        } else {
+            neoMemory.medicineMissed = false;
+            response = "Bahut achhe! Khayal rakhiye.";
+        }
+    }
+    else if (input.includes("kya miss kiya") || input.includes("kya bhul gayi")) {
+        response = neoMemory.medicineMissed ? "Aaj aapne dawai miss ki hai. Abhi lijiye!" : "Aaj sab kuch perfect hai!";
+    }
+    else if (input.includes("kaisi lag rahi hoon") || input.includes("sundar")) {
+        response = "Mera scanner kehta hai aap aaj bahut fit aur glow kar rahi hain!";
+    }
+    else if (input.includes("akela") || input.includes("alone")) {
+        response = "Aap akele nahi hain, main hamesha aapke paas hoon.";
+    }
+
+    saveMemory();
+    talk(response);
 }
 
-function respond(text) {
+function talk(text) {
+    isSpeaking = true;
     window.speechSynthesis.cancel();
-    const speech = new SpeechSynthesisUtterance(text);
-    speech.lang = 'hi-IN';
-    speech.pitch = 1.8; // Baby voice
-    
-    speech.onstart = () => neo.classList.add('talking');
-    speech.onend = () => {
-        neo.classList.remove('talking');
-        status.innerText = "Tap to chat";
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'hi-IN';
+    utterance.pitch = 2.0; 
+    utterance.onstart = () => neoVisual.classList.add('talking');
+    utterance.onend = () => {
+        neoVisual.classList.remove('talking');
+        isSpeaking = false;
     };
-    window.speechSynthesis.speak(speech);
+    window.speechSynthesis.speak(utterance);
 }
