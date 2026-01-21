@@ -1,26 +1,103 @@
-body { background: #fdf2f8; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: 'Comic Sans MS', sans-serif; }
-.container { text-align: center; position: relative; }
+body { 
+    background: #020617; 
+    margin: 0; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    font-family: 'Segoe UI', sans-serif; 
+    color: #22d3ee; 
+    overflow: hidden;
+}
 
-.neo { position: relative; width: 180px; height: 260px; animation: float 3s infinite ease-in-out; transition: 0.3s; cursor: pointer; }
+#status-display {
+    margin-bottom: 30px;
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: 500;
+    min-height: 50px;
+    padding: 0 20px;
+    max-width: 80%;
+    text-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+}
 
-/* Head & Face */
-.head { width: 160px; height: 140px; background: #fff; border: 5px solid #fbcfe8; border-radius: 80px 80px 40px 40px; position: relative; z-index: 10; margin: 0 auto; overflow: hidden; }
-.face { width: 85%; height: 80%; background: #27272a; margin: 10% auto; border-radius: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+.neo-container {
+    position: relative;
+    width: 200px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: float 4s infinite ease-in-out;
+}
 
-.eye-row { display: flex; gap: 30px; }
-.eye { width: 25px; height: 25px; background: #f472b6; border-radius: 50%; box-shadow: 0 0 15px #f472b6; transition: 0.2s; }
-.mouth { width: 40px; height: 15px; border: 4px solid #f472b6; border-top: 0; border-radius: 0 0 20px 20px; margin-top: 15px; display: none; }
+.head {
+    width: 160px;
+    height: 140px;
+    background: #1e293b;
+    border: 4px solid #0ea5e9;
+    border-radius: 50px;
+    box-shadow: 0 0 30px rgba(14, 165, 233, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
 
-/* Hands - Connected to Body */
-.hand { width: 35px; height: 50px; background: #fff; border: 4px solid #fbcfe8; border-radius: 20px; position: absolute; top: 130px; z-index: 5; transition: 0.4s; }
-.l-hand { left: 0px; transform-origin: top right; }
-.r-hand { right: 0px; transform-origin: top left; }
+.screen {
+    width: 85%; height: 80%;
+    background: #000;
+    border-radius: 40px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+}
 
-.torso { width: 110px; height: 90px; background: #fff; border: 5px solid #fbcfe8; border-radius: 50px 50px 80px 80px; margin: -30px auto 0; }
+.eyes-row { display: flex; gap: 25px; }
+.eye {
+    width: 22px; height: 22px;
+    background: #22d3ee;
+    border-radius: 50%;
+    box-shadow: 0 0 15px #22d3ee;
+}
 
-/* Animations */
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-.cry .eye { height: 5px; transform: scaleX(1.5); }
-.happy .eye { border-radius: 10px 10px 50px 50px; height: 15px; }
-.talking .mouth { display: block; animation: talk 0.2s infinite; }
-@keyframes talk { 0% { height: 5px; } 100% { height: 15px; } }
+.mouth {
+    width: 45px; height: 6px;
+    background: #22d3ee;
+    border-radius: 10px;
+    margin-top: 15px;
+    display: none;
+}
+
+.torso {
+    width: 125px; height: 85px;
+    background: #1e293b;
+    border: 4px solid #0ea5e9;
+    border-radius: 40px 40px 75px 75px;
+    margin-top: -30px;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.talking .mouth {
+    display: block;
+    animation: speak-anim 0.2s infinite;
+}
+
+@keyframes speak-anim {
+    0%, 100% { height: 6px; }
+    50% { height: 16px; }
+}
+
+.btn-activate {
+    margin-top: 40px;
+    padding: 15px 35px;
+    background: #22d3ee;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+}
