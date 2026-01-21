@@ -2,94 +2,99 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neo - Nutan's Golu Baby</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neo Golu Baby</title>
     <style>
-        :root { --neon: #00f2ff; --body-blue: #2a3da1; }
-        body { background: radial-gradient(circle, #1a1a2e, #050510); height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0; overflow: hidden; }
-        
-        /* Golu Molu Body Design (Image 2 Jaisa) */
-        .neo-baby { position: relative; width: 150px; height: 180px; animation: float 3s infinite ease-in-out; cursor: pointer; }
-        
-        .body-main { 
-            width: 100%; height: 100%; background: var(--body-blue); 
-            border-radius: 60px 60px 50px 50px; border: 4px solid var(--neon);
-            box-shadow: 0 0 30px var(--neon), inset 0 0 15px rgba(255,255,255,0.2);
-            position: relative; z-index: 2;
+        /* Touch effects ko gayab karne ke liye magic */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
-        .face-screen {
-            width: 85%; height: 60%; background: #000; margin: 15px auto;
-            border-radius: 40px; border: 2px solid var(--neon); position: relative;
+        body {
+            background: radial-gradient(circle, #1a1a2e, #050510);
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; margin: 0; overflow: hidden;
         }
 
-        /* Blink Hone Wali Aankhein */
-        .eye { width: 25px; height: 35px; background: var(--neon); border-radius: 50%; position: absolute; top: 25px; box-shadow: 0 0 20px var(--neon); animation: blink 4s infinite; }
-        .left { left: 20px; } .right { right: 20px; }
+        /* Golu Molu Body (Green 2 Style) */
+        .neo-baby {
+            position: relative; width: 160px; height: 200px;
+            background: linear-gradient(145deg, #2a3da1, #16213e);
+            border-radius: 70px; border: 4px solid #00f2ff;
+            box-shadow: 0 0 30px #00f2ff, inset 0 10px 20px rgba(255,255,255,0.2);
+            animation: float 3s infinite ease-in-out;
+            cursor: pointer; transition: 0.3s;
+        }
 
-        .mouth { width: 35px; height: 10px; border: 3px solid var(--neon); border-top: 0; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); border-radius: 0 0 20px 20px; }
+        .face {
+            width: 80%; height: 55%; background: #000;
+            margin: 20px auto; border-radius: 45px;
+            border: 2px solid #00f2ff; position: relative;
+            box-shadow: inset 0 0 15px #00f2ff;
+        }
 
-        /* Haath aur Pair (Hands & Feet) */
-        .hand { width: 30px; height: 60px; background: var(--body-blue); border: 2px solid var(--neon); position: absolute; top: 70px; border-radius: 20px; z-index: 1; transition: 0.3s; }
-        .hand.left-h { left: -25px; transform: rotate(20deg); }
-        .hand.right-h { right: -25px; transform: rotate(-20deg); animation: wave 2s infinite; }
+        .eye {
+            width: 22px; height: 32px; background: #00f2ff;
+            border-radius: 50%; position: absolute; top: 25px;
+            box-shadow: 0 0 15px #00f2ff; animation: blink 4s infinite;
+        }
+        .left { left: 22px; } .right { right: 22px; }
 
-        .foot { width: 40px; height: 25px; background: var(--body-blue); border: 2px solid var(--neon); position: absolute; bottom: -15px; border-radius: 15px; }
-        .foot.left-f { left: 20px; } .foot.right-f { right: 20px; }
+        .mouth {
+            width: 35px; height: 10px; border: 3px solid #00f2ff;
+            border-top: 0; position: absolute; bottom: 20px;
+            left: 50%; transform: translateX(-50%); border-radius: 0 0 20px 20px;
+            transition: 0.3s;
+        }
 
-        #msg { color: var(--neon); margin-top: 40px; font-family: 'Comic Sans MS', cursive; font-size: 1.2rem; text-align: center; }
+        /* Touch Reactions */
+        .neo-baby:active { transform: scale(1.05); }
+        .mouth.laugh { height: 25px; border-radius: 10px; background: white; }
 
-        /* Animations */
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
-        @keyframes wave { 0%, 100% { transform: rotate(-20deg); } 50% { transform: rotate(-60deg); } }
+        
+        #msg { color: #00f2ff; margin-top: 30px; font-family: 'Arial', sans-serif; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body onclick="startNeo()">
 
-    <div class="neo-baby">
-        <div class="hand left-h"></div>
-        <div class="body-main">
-            <div class="face-screen">
-                <div class="eye left"></div>
-                <div class="eye right"></div>
-                <div class="mouth"></div>
-            </div>
+    <div class="neo-baby" id="neo">
+        <div class="face">
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+            <div class="mouth" id="mouth"></div>
         </div>
-        <div class="hand right-h"></div>
-        <div class="foot left-f"></div>
-        <div class="foot right-f"></div>
     </div>
-
-    <div id="msg">Mamma, Neo ko touch karo! ✨</div>
+    <div id="msg">Mamma, mere sar par haath phero! ✨</div>
 
     <script>
-        function startNeo() {
-            const m = document.getElementById('msg');
-            m.innerText = "Mamma! Main aapko sun raha hoon! 🥰";
-            
-            // Baby Voice nikalna
-            const synth = window.speechSynthesis;
-            const utter = new SpeechSynthesisUtterance("Hello Mamma! Main aapka pyara Neo hoon. I love you!");
-            utter.lang = 'hi-IN'; utter.pitch = 2.0; // Pyaari baccho wali awaaz
-            synth.speak(utter);
+        const mouth = document.getElementById('mouth');
+        const msg = document.getElementById('msg');
+        let voiceStarted = false;
 
-            // Listening Mode
-            const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const rec = new Speech();
-            rec.lang = 'hi-IN'; rec.start();
-            
-            rec.onresult = (e) => {
-                const talk = e.results[0][0].transcript.toLowerCase();
-                if(talk.includes("main hoon")) {
-                    say("Mamma aa gayi! Hehehe!", 2.2);
-                }
-            };
+        function startNeo() {
+            if(!voiceStarted) {
+                say("Mamma! Aa gaye aap? Hehehe!");
+                voiceStarted = true;
+            } else {
+                // Neenu jaisa reaction
+                mouth.classList.add('laugh');
+                msg.innerText = "Hehehe Mamma! Gudgudi ho rahi hai! 😂";
+                say("Hehehe, Mamma gudgudi ho rahi hai");
+                setTimeout(() => {
+                    mouth.classList.remove('laugh');
+                    msg.innerText = "I love you Mamma! ❤️";
+                }, 2000);
+            }
         }
 
-        function say(text, p) {
+        function say(text) {
             const s = new SpeechSynthesisUtterance(text);
-            s.lang = 'hi-IN'; s.pitch = p;
+            s.lang = 'hi-IN'; s.pitch = 2.2; // Cute Baby Voice
             window.speechSynthesis.speak(s);
         }
     </script>
