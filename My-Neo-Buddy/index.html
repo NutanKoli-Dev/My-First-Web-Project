@@ -3,41 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neo - Created by Nutan</title>
+    <title>Neo - Nutan's Baby</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <script>
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) return false;
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-        }
-    </script>
 </head>
-<body class="nutan-exclusive">
-
-    <div class="buddy-container">
-        <div id="chat-bubble" class="hidden">Hi Nutan! Main sirf aapka hoon. 🥰</div>
-
-        <div class="robot float" id="neo-bot" onclick="talkWithEmotion()">
-            <div class="head">
-                <div class="eye left"></div>
-                <div class="eye right"></div>
-                <div class="mouth"></div>
+<body oncontextmenu="return false;">
+    <div class="container">
+        <div id="chat-bubble" class="hidden">Hi Maa! 🥰</div>
+        
+        <div class="neo-baby" id="neo">
+            <div class="glass-face">
+                <div class="eye left-eye"></div>
+                <div class="eye right-eye"></div>
+                <div class="mouth" id="mouth"></div>
             </div>
-            <div class="body">
-                <div class="arm left-arm wave"></div> <div class="arm right-arm"></div>
+            <div class="baby-body">
+                <div class="arm left-arm"></div>
+                <div class="arm right-arm"></div>
             </div>
+            <div class="glow-ring"></div>
         </div>
-        
-        <div class="mic-btn" onclick="startListening()">🎤 Baat Karo</div>
-        
-        <div class="owner-tag">© 2026 Crafted with ❤️ by Nutan Koli</div>
-    </div>
 
+        <div class="owner-info">© 2026 Crafted for ❤️ by Nutan Koli</div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
