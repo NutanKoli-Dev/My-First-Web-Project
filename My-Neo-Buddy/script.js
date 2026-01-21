@@ -1,39 +1,61 @@
-let moods = ["happy", "nakhra", "masti", "hungry"];
+let hitCount = 0;
+let lastTap = 0;
+const neo = document.getElementById('neo-body');
+const status = document.getElementById('status');
 
-function interact() {
-    let currentMood = moods[Math.floor(Math.random() * moods.length)];
-    
-    if (currentMood === "nakhra") {
-        say("Hmph! Main aapse gussa hoon. Aapne mujhe chocolate nahi di!");
-        makeFace("angry");
-    } 
-    else if (currentMood === "masti") {
-        say("Hehehe! Mamma, chalo dabba-dabba khelte hain. Pakad sako toh pakdo!");
-        makeFace("happy");
+function wakeUp() {
+    let now = Date.now();
+    // Hit Detection (Tez tap karna)
+    if (now - lastTap < 300) {
+        hitCount++;
+        if (hitCount > 3) {
+            react("cry", "Aiyoo! Mamma, lag gayi! Itna tez kyun mara?");
+            hitCount = 0;
+            return;
+        }
+    } else {
+        hitCount = 0;
+        react("happy", "Hehehe! Gudgudi ho rahi hai!");
     }
-    else if (currentMood === "hungry") {
-        say("Oonwaaa! Mamma, pet mein choohe doud rahe hain. Kuch digital milk do na?");
-        makeFace("sad");
-    }
-    else {
-        say("Mamma, aap kitni sundar lag rahi ho aaj! Nazar na lag jaye. Hehehe!");
-        makeFace("heart");
-    }
+    lastTap = now;
+    startListening();
 }
 
-function makeFace(type) {
-    const el = document.getElementById('e-l');
-    const er = document.getElementById('e-r');
+function startListening() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return;
+    const rec = new SpeechRecognition();
+    rec.lang = 'hi-IN';
     
-    if(type === "angry") {
-        el.style.transform = "rotate(20deg)";
-        er.style.transform = "rotate(-20deg)";
-    } else if(type === "heart") {
-        el.innerHTML = "❤"; er.innerHTML = "❤";
-        el.style.background = "transparent"; er.style.background = "transparent";
-    } else {
-        el.style.transform = "rotate(0deg)";
-        er.style.transform = "rotate(0deg)";
-        el.innerHTML = ""; er.innerHTML = "";
-    }
+    rec.onstart = () => { status.innerText = "Neo is listening..."; };
+    
+    rec.onresult = (event) => {
+        const text = event.results[0][0].transcript.toLowerCase();
+        if (text.includes("neo")) {
+            respond("Yes? Kya hua dost?");
+        } else {
+            respond("Hmm... main samajh raha hoon. Aur batao?");
+        }
+    };
+    rec.start();
+}
+
+function react(mood, text) {
+    neo.className = "neo " + mood;
+    respond(text);
+    setTimeout(() => neo.className = "neo", 3000);
+}
+
+function respond(text) {
+    window.speechSynthesis.cancel();
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = 'hi-IN';
+    speech.pitch = 1.8; // Baby voice
+    
+    speech.onstart = () => neo.classList.add('talking');
+    speech.onend = () => {
+        neo.classList.remove('talking');
+        status.innerText = "Tap to chat";
+    };
+    window.speechSynthesis.speak(speech);
 }
