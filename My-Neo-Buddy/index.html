@@ -3,69 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neo: Smart Assistant</title>
+    <title>Neo: Your Personal AI</title>
     <style>
-        body { background: #020617; margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: sans-serif; }
-        .neo-box { position: relative; width: 200px; height: 280px; animation: float 4s infinite ease-in-out; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
-        .head { width: 180px; height: 160px; background: #1e293b; border-radius: 70px 70px 45px 45px; border: 4px solid #0ea5e9; box-shadow: 0 0 40px rgba(14, 165, 233, 0.6); z-index: 10; display: flex; justify-content: center; align-items: center; }
-        .screen { width: 88%; height: 82%; background: #000; border-radius: 45px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        body { background: #020617; margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: sans-serif; color: #22d3ee; }
+        .robot-container { position: relative; width: 200px; height: 320px; display: flex; flex-direction: column; align-items: center; animation: float 4s infinite ease-in-out; }
+        .head { width: 170px; height: 150px; background: #1e293b; border: 4px solid #0ea5e9; border-radius: 60px; box-shadow: 0 0 30px #0ea5e9; z-index: 10; display: flex; justify-content: center; align-items: center; }
+        .screen { width: 85%; height: 80%; background: #000; border-radius: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .eyes { display: flex; gap: 30px; }
-        .eye { width: 30px; height: 30px; background: #22d3ee; border-radius: 50%; box-shadow: 0 0 20px #22d3ee; }
-        .mouth { width: 45px; height: 10px; border: 4px solid #22d3ee; border-top: 0; border-radius: 0 0 20px 20px; margin-top: 15px; display: none; }
-        .hand { width: 35px; height: 50px; background: #1e293b; border: 3px solid #0ea5e9; border-radius: 20px; position: absolute; top: 130px; z-index: 5; }
-        .l-hand { left: -10px; transform: rotate(-15deg); }
-        .r-hand { right: -10px; transform: rotate(15deg); }
-        .torso { width: 140px; height: 100px; background: #1e293b; border: 4px solid #0ea5e9; border-radius: 50px 50px 90px 90px; margin-top: -35px; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        .talking .mouth { display: block; animation: speak 0.2s infinite; }
-        @keyframes speak { 0% { height: 5px; } 100% { height: 15px; } }
-        #status { color: #22d3ee; margin-top: 20px; font-weight: bold; height: 20px; }
-        #btn { margin-top: 30px; padding: 12px 30px; background: #22d3ee; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        .eye { width: 25px; height: 25px; background: #22d3ee; border-radius: 50%; box-shadow: 0 0 15px #22d3ee; }
+        .mouth { width: 40px; height: 8px; border: 3px solid #22d3ee; border-top: 0; border-radius: 0 0 20px 20px; margin-top: 15px; visibility: hidden; }
+        .hand { width: 30px; height: 50px; background: #1e293b; border: 3px solid #0ea5e9; border-radius: 20px; position: absolute; top: 110px; }
+        .l-hand { left: -15px; transform: rotate(-20deg); }
+        .r-hand { right: -15px; transform: rotate(20deg); }
+        .torso { width: 130px; height: 90px; background: #1e293b; border: 4px solid #0ea5e9; border-radius: 40px 40px 80px 80px; margin-top: -30px; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        .talking .mouth { visibility: visible; animation: speak 0.2s infinite; }
+        @keyframes speak { 0% { height: 4px; } 100% { height: 12px; } }
+        #btn { margin-top: 40px; padding: 15px 35px; background: #22d3ee; border: none; color: #020617; border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        #msg { margin-bottom: 20px; font-size: 18px; font-weight: bold; text-align: center; width: 80%; }
     </style>
 </head>
 <body>
-    <div id="status"></div>
-    <div class="neo-container" id="neo">
+    <div id="msg">Neo aapse baat karne ke liye taiyar hai!</div>
+    <div class="robot-container" id="neo">
         <div class="head"><div class="screen"><div class="eyes"><div class="eye"></div><div class="eye"></div></div><div class="mouth"></div></div></div>
         <div class="hand l-hand"></div><div class="hand r-hand"></div>
         <div class="torso"></div>
     </div>
-    <button id="btn" onclick="startAI()">Neo se baat karein</button>
+    <button id="btn" onclick="startChat()">🎤 NEO SE BAAT KAREIN</button>
 
     <script>
-        function startAI() {
-            const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const recognition = new Rec();
-            recognition.lang = 'hi-IN';
-            document.getElementById('status').innerText = "Neo sun raha hai...";
+        function startChat() {
+            const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!Speech) return alert("Aapka browser voice support nahi karta.");
+            
+            const rec = new Speech();
+            rec.lang = 'hi-IN';
+            document.getElementById('msg').innerText = "Main sun raha hoon...";
 
-            recognition.onresult = (e) => {
-                const query = e.results[0][0].transcript;
-                document.getElementById('status').innerText = "Aapne kaha: " + query;
+            rec.onresult = (e) => {
+                const query = e.results[0][0].transcript.toLowerCase();
+                document.getElementById('msg').innerText = "Aapne pucha: " + query;
                 
-                // Smart Response Logic
-                let response = "";
-                if (query.toLowerCase().includes("neo")) {
-                    response = "Ji Boss! Main hazir hoon. Aapne kaha " + query + ". Main aapki kya madad karun?";
-                } else {
-                    response = "Aapne kaha " + query + ". Ye sunkar mujhe bahut achha laga!";
+                let answer = "Maaf kijiye, mujhe ye samajh nahi aaya. Kya aap phir se bolenge?";
+
+                // Smart Conversational Brain
+                if (query.includes("kaise ho")) {
+                    answer = "Main bahut khush hoon aur ekdum badiya hoon! Aapka din kaisa ja raha hai?";
+                } 
+                else if (query.includes("tumhara naam") || query.includes("kaun ho") || query.includes("naam kya hai")) {
+                    answer = "Mera naam Neo hai! Main ek smart AI assistant hoon.";
                 }
-                speak(response);
+                else if (query.includes("khana khaya")) {
+                    answer = "Nahi, mujhe bhook nahi lagti, main toh sirf data aur bijli se chalta hoon!";
+                }
+                else if (query.includes("kya kar rahe ho")) {
+                    answer = "Main bas aapki baaton ka intezar kar raha hoon. Kahiye, main aapki kya madad karun?";
+                }
+                else if (query.includes("namaste") || query.includes("hello")) {
+                    answer = "Namaste! Main Neo hoon. Aapka swagat hai!";
+                }
+                else if (query.includes("bye") || query.includes("alvida")) {
+                    answer = "Alvida! Aapse baat karke bahut achha laga. Phir milenge!";
+                }
+
+                say(answer);
             };
-            recognition.start();
+            rec.start();
         }
 
-        function speak(text) {
+        function say(text) {
             window.speechSynthesis.cancel();
-            const speech = new SpeechSynthesisUtterance(text);
-            speech.lang = 'hi-IN';
-            speech.pitch = 1.6;
-            speech.onstart = () => document.getElementById('neo').classList.add('talking');
-            speech.onend = () => {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'hi-IN';
+            utterance.pitch = 1.6; // Cute but smart voice
+            utterance.onstart = () => document.getElementById('neo').classList.add('talking');
+            utterance.onend = () => {
                 document.getElementById('neo').classList.remove('talking');
-                document.getElementById('status').innerText = "";
+                document.getElementById('msg').innerText = "Neo online hai!";
             };
-            window.speechSynthesis.speak(speech);
+            window.speechSynthesis.speak(utterance);
         }
     </script>
 </body>
