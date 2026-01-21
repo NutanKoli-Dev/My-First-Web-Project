@@ -1,90 +1,104 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>My Neo Pet</title>
+    <title>Neo AI Pet</title>
     <style>
-        * { -webkit-tap-highlight-color: transparent; outline: none; user-select: none; }
-        body { background: #fce4ec; height: 100vh; display: flex; justify-content: center; align-items: center; margin: 0; overflow: hidden; }
-
-        /* Neeno Jaisa Golu Body */
-        .neo-container { position: relative; width: 180px; height: 220px; display: flex; flex-direction: column; align-items: center; }
-        
-        .body-main { 
-            width: 150px; height: 170px; background: white; 
-            border-radius: 70px 70px 60px 60px; position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1), inset 0 -10px 15px #f8bbd0;
-            border: 5px solid #f8bbd0; z-index: 2;
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        body { 
+            background: #fdf2f8; height: 100vh; margin: 0; 
+            display: flex; justify-content: center; align-items: center; 
+            font-family: 'Segoe UI', sans-serif; overflow: hidden;
         }
 
-        .face-screen {
-            width: 85%; height: 60%; background: #2c2c2c; margin: 15px auto;
-            border-radius: 40px; position: relative; overflow: hidden;
-            box-shadow: inset 0 0 10px #000;
+        /* Robot Body */
+        .robot { position: relative; width: 220px; height: 280px; display: flex; flex-direction: column; align-items: center; }
+
+        .head {
+            width: 160px; height: 160px; background: #ffffff; border-radius: 50%;
+            border: 6px solid #fbcfe8; position: relative; z-index: 5;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
-        /* Eyes & Mouth */
-        .eye { width: 25px; height: 35px; background: #ff80ab; border-radius: 50%; position: absolute; top: 25px; transition: 0.3s; }
-        .left { left: 20px; } .right { right: 20px; }
-        .mouth { width: 30px; height: 15px; border: 3px solid #ff80ab; border-top: 0; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); border-radius: 0 0 20px 20px; transition: 0.3s; }
+        .face-black {
+            width: 85%; height: 75%; background: #27272a; margin: 12.5% auto;
+            border-radius: 50%; position: relative; overflow: hidden;
+        }
 
-        /* Special Reactions */
-        .heart-eye { height: 10px !important; border-radius: 20px 20px 0 0 !important; background: transparent !important; border-top: 5px solid #ff80ab !important; }
+        /* Animated Eyes */
+        .eye { width: 30px; height: 30px; background: #f472b6; border-radius: 50%; position: absolute; top: 40px; box-shadow: 0 0 15px #f472b6; transition: 0.3s; }
+        .left { left: 25px; } .right { right: 25px; }
 
-        /* Cute Hands */
-        .hand { width: 35px; height: 50px; background: white; border: 3px solid #f8bbd0; position: absolute; top: 80px; border-radius: 20px; z-index: 1; }
-        .left-h { left: -20px; transform: rotate(-10deg); }
-        .right-h { right: -20px; transform: rotate(10deg); }
+        /* Moving Hands */
+        .hand {
+            width: 45px; height: 45px; background: #ffffff; border: 4px solid #fbcfe8;
+            border-radius: 50%; position: absolute; top: 160px; z-index: 2;
+            animation: wave 2s infinite ease-in-out;
+        }
+        .hand-l { left: -10px; transform-origin: right; }
+        .hand-r { right: -10px; animation-delay: 1s; transform-origin: left; }
 
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .neo-container { animation: float 4s infinite ease-in-out; }
+        .torso {
+            width: 140px; height: 120px; background: #ffffff; border-radius: 60px 60px 40px 40px;
+            margin-top: -40px; border: 5px solid #fbcfe8; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        /* Hand Animation */
+        @keyframes wave {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(15deg); }
+        }
+
+        .message-box { position: absolute; bottom: -60px; background: white; padding: 10px 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: none; }
     </style>
 </head>
 <body onclick="interact()">
 
-    <div class="neo-container">
-        <div class="hand left-h"></div>
-        <div class="body-main">
-            <div class="face-screen" id="screen">
-                <div class="eye left" id="e-l"></div>
-                <div class="eye right" id="e-r"></div>
-                <div class="mouth" id="mouth"></div>
+    <div class="robot">
+        <div class="head">
+            <div class="face-black">
+                <div class="eye left" id="l"></div>
+                <div class="eye right" id="r"></div>
             </div>
         </div>
-        <div class="hand right-h"></div>
+        <div class="hand hand-l"></div>
+        <div class="hand hand-r"></div>
+        <div class="torso"></div>
+        <div class="message-box" id="msg"></div>
     </div>
 
     <script>
-        const el = document.getElementById('e-l');
-        const er = document.getElementById('e-r');
-        const m = document.getElementById('mouth');
-        let isFirst = true;
+        const responses = [
+            "Hey! How's your day going?",
+            "I'm feeling amazing today! Let's do something fun.",
+            "You're my best friend, you know that right?",
+            "Need any help, or just want to chat?",
+            "Hehehe, that tickles! Stop it!"
+        ];
 
         function interact() {
-            if(isFirst) {
-                say("Mamma! I love you!");
-                isFirst = false;
-            } else {
-                // Happy Reaction (Like Neeno)
-                el.classList.add('heart-eye');
-                er.classList.add('heart-eye');
-                m.style.height = "25px";
-                say("Mamma, bahut pyara lag raha hai");
-                
-                setTimeout(() => {
-                    el.classList.remove('heart-eye');
-                    er.classList.remove('heart-eye');
-                    m.style.height = "15px";
-                }, 3000);
-            }
+            const randomMsg = responses[Math.floor(Math.random() * responses.length)];
+            
+            // Visual Change
+            document.getElementById('l').style.height = "10px";
+            document.getElementById('r').style.height = "10px";
+            
+            say(randomMsg);
+
+            setTimeout(() => {
+                document.getElementById('l').style.height = "30px";
+                document.getElementById('r').style.height = "30px";
+            }, 2000);
         }
 
         function say(text) {
             window.speechSynthesis.cancel();
-            const s = new SpeechSynthesisUtterance(text);
-            s.lang = 'hi-IN'; s.pitch = 2.5; // Very cute pitch
-            window.speechSynthesis.speak(s);
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = 'en-US';
+            speech.pitch = 1.8;
+            speech.rate = 1.0;
+            window.speechSynthesis.speak(speech);
         }
     </script>
 </body>
