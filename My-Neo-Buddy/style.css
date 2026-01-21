@@ -1,37 +1,37 @@
-:root { --neon: #00f2ff; --bg: #0a0a1a; }
-body { background: var(--bg); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
-
-.neo-container { position: relative; text-align: center; }
-
-/* The "Green 2" Style Body */
-.neo-baby {
-    width: 180px; height: 210px; background: linear-gradient(145deg, #16213e, #0f3460);
-    border-radius: 65px; border: 4px solid var(--neon);
-    box-shadow: 0 0 35px var(--neon), inset 0 0 20px var(--neon);
-    position: relative; animation: float 3s infinite ease-in-out;
+/* Neo ki Body ko Golu aur Shiny banane ke liye */
+.body-main { 
+    width: 100%; height: 100%; 
+    background: linear-gradient(135deg, #1e2a78 0%, #0d1b4d 100%); /* Deep Blue Shade */
+    border-radius: 70px; /* Ekdam Golu-Molu Shape */
+    border: 4px solid #00f2ff; /* Neon Border */
+    
+    /* Ye hai असली jadu: Multiple Layers of Glow */
+    box-shadow: 
+        0 0 20px #00f2ff,            /* Bahar ka Neon */
+        inset 0 10px 20px rgba(255,255,255,0.3), /* Upar ki chamak (Glass look) */
+        inset 0 -10px 20px rgba(0,0,0,0.5);    /* Neeche ki shadow (3D look) */
+        
+    position: relative; 
+    z-index: 2;
+    overflow: hidden;
 }
 
-.face-glass {
-    width: 85%; height: 65%; background: #000; margin: 15px auto;
-    border-radius: 45px; border: 2px solid var(--neon); position: relative;
+/* Shishe jaisa chehra (Glass Face) */
+.face-screen {
+    width: 80%; height: 55%; 
+    background: rgba(0, 0, 0, 0.8); /* Dark Glass */
+    margin: 20px auto; 
+    border-radius: 40px; 
+    border: 2px solid rgba(0, 242, 255, 0.5);
+    box-shadow: inset 0 0 15px #00f2ff; /* Screen ke andar ki lighting */
+    position: relative;
 }
 
-.eye {
-    width: 25px; height: 35px; background: var(--neon); border-radius: 50%;
-    position: absolute; top: 35px; box-shadow: 0 0 25px var(--neon);
+/* Aankhon ka Neon Glow */
+.eye { 
+    width: 22px; height: 32px; 
+    background: #00f2ff; 
+    border-radius: 50%; 
+    box-shadow: 0 0 15px #00f2ff, 0 0 30px #00f2ff; /* Extra Glowy Eyes */
+    animation: blink 4s infinite; 
 }
-.left { left: 25px; } .right { right: 25px; }
-
-.mouth {
-    width: 45px; height: 8px; background: var(--neon); position: absolute;
-    bottom: 30px; left: 50%; transform: translateX(-50%);
-    border-radius: 20px; transition: 0.3s;
-}
-
-/* Emotions */
-.mouth.smile { height: 20px; border-radius: 0 0 25px 25px; }
-.mouth.laugh { height: 30px; border-radius: 10px; background: #fff; }
-.mouth.eat { width: 25px; height: 25px; border-radius: 50%; animation: chew 0.5s infinite; }
-
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-@keyframes chew { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
