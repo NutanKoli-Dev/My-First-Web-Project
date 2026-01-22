@@ -1,110 +1,25 @@
-body { 
-    background: #020617; 
-    margin: 0; 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: center; 
-    height: 100vh; 
-    font-family: 'Segoe UI', sans-serif; 
-    color: #22d3ee; 
-    overflow: hidden;
-}
+/* Purana code hata kar ye paste karein */
+body { background: #020617; margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; color: #22d3ee; overflow: hidden; }
+#status-display { margin-bottom: 30px; font-size: 1.1rem; text-align: center; min-height: 50px; padding: 0 20px; }
 
-#status-display {
-    margin-bottom: 30px;
-    font-size: 1.2rem;
-    text-align: center;
-    font-weight: 500;
-    min-height: 50px;
-    padding: 0 20px;
-    max-width: 80%;
-    text-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
-}
+.neo-container { position: relative; width: 220px; height: 320px; display: flex; flex-direction: column; align-items: center; animation: float 4s infinite ease-in-out; }
 
-.neo-container {
-    position: relative;
-    width: 200px;
-    height: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: float 4s infinite ease-in-out;
-    background: transparent;
-}
-
-.head {
-    width: 160px;
-    height: 140px;
-    background: #1e293b;
-    border: 4px solid #0ea5e9;
-    border-radius: 50px;
-    box-shadow: 0 0 30px rgba(14, 165, 233, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-}
-
-.screen {
-    width: 85%; height: 80%;
-    background: #000;
-    border-radius: 40px;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-}
-
+/* Robot Parts */
+.head { width: 160px; height: 140px; background: #1e293b; border: 4px solid #0ea5e9; border-radius: 50px; box-shadow: 0 0 30px rgba(14, 165, 233, 0.5); display: flex; justify-content: center; align-items: center; z-index: 10; }
+.screen { width: 85%; height: 80%; background: #000; border-radius: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .eyes-row { display: flex; gap: 25px; }
-.eye {
-    width: 22px; height: 22px;
-    background: #22d3ee;
-    border-radius: 50%;
-    box-shadow: 0 0 15px #22d3ee;
-}
+.eye { width: 20px; height: 20px; background: #22d3ee; border-radius: 50%; box-shadow: 0 0 15px #22d3ee; }
+.mouth { width: 40px; height: 4px; background: #22d3ee; border-radius: 10px; margin-top: 15px; display: none; }
 
-.mouth {
-    width: 45px; height: 6px;
-    background: #22d3ee;
-    border-radius: 10px;
-    margin-top: 15px;
-    display: none;
-}
+/* Wapas Aaye Hath (Hands) */
+.hand { width: 30px; height: 60px; background: #1e293b; border: 3px solid #0ea5e9; border-radius: 20px; position: absolute; top: 110px; z-index: 5; }
+.l-hand { left: -10px; transform: rotate(-20deg); }
+.r-hand { right: -10px; transform: rotate(20deg); }
 
-.torso {
-    width: 125px; height: 85px;
-    background: #1e293b;
-    border: 4px solid #0ea5e9;
-    border-radius: 40px 40px 75px 75px;
-    margin-top: -30px;
-}
+.torso { width: 130px; height: 90px; background: #1e293b; border: 4px solid #0ea5e9; border-radius: 40px 40px 80px 80px; margin-top: -30px; }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+.talking .mouth { display: block; animation: speak-anim 0.2s infinite; }
+@keyframes speak-anim { 0%, 100% { height: 4px; } 50% { height: 14px; } }
 
-.talking .mouth {
-    display: block;
-    animation: speak-anim 0.2s infinite;
-}
-
-@keyframes speak-anim {
-    0%, 100% { height: 6px; }
-    50% { height: 16px; }
-}
-
-.btn-activate {
-    margin-top: 40px;
-    padding: 15px 35px;
-    background: #22d3ee;
-    border: none;
-    border-radius: 50px;
-    color: #020617;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 0 5px 20px rgba(34, 211, 238, 0.4);
-    transition: 0.3s;
-}
-
-.btn-activate:hover { transform: scale(1.05); background: #ffffff; }
+.btn-activate { margin-top: 30px; padding: 12px 30px; background: #22d3ee; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; }
