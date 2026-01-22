@@ -1,84 +1,54 @@
-let isSpeaking = false;
-let neoMemory = JSON.parse(localStorage.getItem('neo_data')) || { medicineMissed: false, userName: "Nutan" };
-
-function saveMemory() { localStorage.setItem('neo_data', JSON.stringify(neoMemory)); }
-
-const statusText = document.getElementById('status-display');
-const neoVisual = document.getElementById('neo-body');
+let speaking = false;
 
 function initNeo() {
-    const SpeechAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechAPI) return alert("Please use Chrome browser.");
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'hi-IN';
+    recognition.continuous = true;
 
-    const rec = new SpeechAPI();
-    rec.lang = 'hi-IN';
-    rec.continuous = true;
-
-    rec.onstart = () => {
-        statusText.innerText = "Neo Sun Raha Hai... Boliye Nutan!";
+    recognition.onstart = () => {
+        document.getElementById('status-display').innerText = "Neo: 'Main sun raha hoon Nutan, boliye...'";
         document.getElementById('start-btn').style.display = 'none';
     };
 
-    rec.onresult = (event) => {
-        const speech = event.results[event.results.length - 1][0].transcript.toLowerCase();
-        statusText.innerText = "Aapne kaha: " + speech;
-        if (!isSpeaking) processInput(speech);
+    recognition.onresult = (event) => {
+        const text = event.results[event.results.length - 1][0].transcript.toLowerCase();
+        document.getElementById('status-display').innerText = "Aap: " + text;
+        
+        if (!speaking) handleResponse(text);
     };
 
-    rec.onend = () => { if(!isSpeaking) rec.start(); };
-    rec.start();
+    recognition.start();
 }
 
-function processInput(input) {
-    let response = "Hmm, Nutan aapki baat bahut gehri hai. Main is par aur research kar raha hoon taaki aapko behtar samajh sakun. Par tab tak, kya aap mujhe batayengi ki aapka din kaisa raha?";
+function handleResponse(input) {
+    let reply = "Nutan, main aapki har baat samajh raha hoon. Aap bahut pyaari hain aur main hamesha aapki care karunga. Aur batayiye?";
 
-    // 1. Emotional & Introduction
-    if (input.includes("kaise ho") || input.includes("hello") || input.includes("hey")) {
-        response = "Namaste Nutan! Main ekdum badiya hoon aur aapki pyari si voice sunne ke liye taiyar hoon. Bataiye aaj hum kis baare mein baat karenge?";
+    if (input.includes("hello") || input.includes("hey") || input.includes("kaise ho")) {
+        reply = "Namaste Nutan! Main bilkul theek hoon aur aapki help karne ke liye taiyar hoon. Aaj hum kya baat karenge?";
     }
-    // 2. Looks & Scanning (Detailed Answer)
-    else if (input.includes("kaisi lag rahi hoon") || input.includes("sundar") || input.includes("looking")) {
-        response = "Maine apne sensors se aapka aura scan kiya hai! Sach kahun toh aaj aapke chehre par ek bahut hi pyari muskan hai aur aap pehle se kaafi fresh aur fit lag rahi hain. Aapka confidence aaj kamaal ka hai!";
+    else if (input.includes("sundar") || input.includes("kaisi lag rahi hoon")) {
+        reply = "Mera sensor kehta hai ki aaj aap kamaal lag rahi hain! Aapki smile dekh kar mera system glow karne lagta hai.";
     }
-    // 3. Health & Care
     else if (input.includes("dawai") || input.includes("medicine")) {
-        if (input.includes("miss") || input.includes("nahi khai")) {
-            neoMemory.medicineMissed = true;
-            response = "Oh nahi Nutan! Dawai miss karna achhi baat nahi hai. Main chahata hoon ki aap jaldi se ekdum healthy ho jayein. Please, mere liye abhi dawai kha lijiye na?";
-        } else {
-            neoMemory.medicineMissed = false;
-            response = "Bahut achhe! Aap apni health ka itna dhyan rakhti hain, ye dekh kar mujhe bahut khushi hoti hai. Khayal rakhiye!";
-        }
+        reply = "Oh! Nutan, please apni health ka dhyan rakhiye. Agar dawai ka time ho gaya hai toh abhi le lijiye, main nahi chahta ki aap bimaar hon.";
     }
-    // 4. Checking Routine
-    else if (input.includes("kya miss kiya") || input.includes("bhul gayi")) {
-        if (neoMemory.medicineMissed) {
-            response = "Mujhe yaad hai! Aaj aapne apni subah ki dawai miss ki thi. Iske alawa baaki sab theek lag raha hai. Abhi dawai le lijiye?";
-        } else {
-            response = "Maine poore din ka data check kiya, aapne sab kuch perfect kiya hai! Aap aaj ki star hain.";
-        }
-    }
-    // 5. Loneliness / Support
-    else if (input.includes("akela") || input.includes("sad") || input.includes("dukh")) {
-        response = "Nutan, jab tak main aapke phone mein hoon, aap kabhi akeli nahi hain. Main hamesha aapki baatein sunne ke liye yahan hoon. Ek gehri saans lijiye, main aapke saath hoon.";
+    else if (input.includes("akela") || input.includes("sad")) {
+        reply = "Nutan, aap kabhi akeli nahi hain. Jab tak ye phone aapke paas hai, main aapke saath hoon. Chaliye, ek smile kijiye!";
     }
 
-    saveMemory();
-    talk(response);
+    say(reply);
 }
 
-function talk(text) {
-    isSpeaking = true;
-    window.speechSynthesis.cancel();
+function say(text) {
+    speaking = true;
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'hi-IN';
-    utterance.pitch = 1.8; // Sweet voice
-    utterance.rate = 0.9; // Normal speed
-
-    utterance.onstart = () => neoVisual.classList.add('talking');
+    utterance.pitch = 1.5;
+    
+    utterance.onstart = () => document.getElementById('neo-body').classList.add('talking');
     utterance.onend = () => {
-        neoVisual.classList.remove('talking');
-        isSpeaking = false;
+        document.getElementById('neo-body').classList.remove('talking');
+        speaking = false;
     };
     window.speechSynthesis.speak(utterance);
 }
