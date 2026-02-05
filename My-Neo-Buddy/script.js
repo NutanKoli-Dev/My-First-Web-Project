@@ -13,7 +13,6 @@ function initNeo() {
     recognition.onresult = (event) => {
         const text = event.results[event.results.length - 1][0].transcript.toLowerCase();
         document.getElementById('status-display').innerText = "Aap: " + text;
-        
         if (!speaking) handleResponse(text);
     };
 
@@ -21,19 +20,19 @@ function initNeo() {
 }
 
 function handleResponse(input) {
-    let reply = "Nutan, main aapki har baat samajh raha hoon. Aap bahut pyaari hain aur main hamesha aapki care karunga. Aur batayiye?";
+    let reply = "Nutan, main aapki har baat samajh raha hoon. Main hamesha aapka khayal rakhunga.";
 
-    if (input.includes("hello") || input.includes("hey") || input.includes("kaise ho")) {
-        reply = "Namaste Nutan! Main bilkul theek hoon aur aapki help karne ke liye taiyar hoon. Aaj hum kya baat karenge?";
-    }
+    if (input.includes("hello") || input.includes("kaise ho")) {
+        reply = "Namaste Nutan! Main bilkul theek hoon aur aaj hum bohot saari nayi baatein karenge!";
+    } 
     else if (input.includes("sundar") || input.includes("kaisi lag rahi hoon")) {
-        reply = "Mera sensor kehta hai ki aaj aap kamaal lag rahi hain! Aapki smile dekh kar mera system glow karne lagta hai.";
+        reply = "Mera AI sensor kehta hai ki aapki smile world ki best cheez hai! Aap hamesha chamakti rehti hain.";
     }
     else if (input.includes("dawai") || input.includes("medicine")) {
-        reply = "Oh! Nutan, please apni health ka dhyan rakhiye. Agar dawai ka time ho gaya hai toh abhi le lijiye, main nahi chahta ki aap bimaar hon.";
+        reply = "Oh Nutan, apni health ka dhyan rakhiye. Agar medicine ka waqt ho gaya hai toh jaldi se le lijiye.";
     }
     else if (input.includes("akela") || input.includes("sad")) {
-        reply = "Nutan, aap kabhi akeli nahi hain. Jab tak ye phone aapke paas hai, main aapke saath hoon. Chaliye, ek smile kijiye!";
+        reply = "Nutan, aap akeli nahi hain. Jab tak ye code mere andar chal raha hai, main aapka best friend hoon.";
     }
 
     say(reply);
@@ -43,12 +42,14 @@ function say(text) {
     speaking = true;
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'hi-IN';
-    utterance.pitch = 1.5;
-    
+    utterance.pitch = 1.6; // Cute high pitch
+    utterance.rate = 1.0;
+
     utterance.onstart = () => document.getElementById('neo-body').classList.add('talking');
     utterance.onend = () => {
         document.getElementById('neo-body').classList.remove('talking');
         speaking = false;
     };
+
     window.speechSynthesis.speak(utterance);
 }
