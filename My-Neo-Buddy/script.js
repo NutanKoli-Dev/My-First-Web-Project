@@ -1,55 +1,50 @@
-let speaking = false;
+const statusText = document.getElementById('status');
+const chatText = document.getElementById('chat-text');
 
-function initNeo() {
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = 'hi-IN';
-    recognition.continuous = true;
+// 1. Robot ka Bolna (Speech Synthesis)
+function speak(text) {
+    const textToSpeak = new SpeechSynthesisUtterance(text);
+    textToSpeak.rate = 1;
+    textToSpeak.pitch = 1.2;
+    window.speechSynthesis.speak(textToSpeak);
 
-    recognition.onstart = () => {
-        document.getElementById('status-display').innerText = "Neo: 'Main sun raha hoon Nutan, boliye...'";
-        document.getElementById('start-btn').style.display = 'none';
+    // Jab robot bolna khatam kare, tab sunna shuru kare
+    textToSpeak.onend = () => {
+        startListening();
     };
+}
 
-    recognition.onresult = (event) => {
-        const text = event.results[event.results.length - 1][0].transcript.toLowerCase();
-        document.getElementById('status-display').innerText = "Aap: " + text;
-        if (!speaking) handleResponse(text);
-    };
+// 2. Aapki baat sunna (Speech Recognition)
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
 
+recognition.onstart = () => {
+    statusText.innerText = "Neo: Listening...";
+};
+
+recognition.onresult = (event) => {
+    const command = event.results[0][0].transcript;
+    chatText.innerText = "You: " + command;
+    processCommand(command);
+};
+
+function startListening() {
     recognition.start();
 }
 
-function handleResponse(input) {
-    let reply = "Nutan, main aapki har baat samajh raha hoon. Main hamesha aapka khayal rakhunga.";
-
-    if (input.includes("hello") || input.includes("kaise ho")) {
-        reply = "Namaste Nutan! Main bilkul theek hoon aur aaj hum bohot saari nayi baatein karenge!";
-    } 
-    else if (input.includes("sundar") || input.includes("kaisi lag rahi hoon")) {
-        reply = "Mera AI sensor kehta hai ki aapki smile world ki best cheez hai! Aap hamesha chamakti rehti hain.";
+// 3. Dimag (Commands)
+function processCommand(msg) {
+    msg = msg.toLowerCase();
+    if (msg.includes("hello")) {
+        speak("Hello Nutan, how can I help you today?");
+    } else if (msg.includes("kaise ho")) {
+        speak("Main badhiya hoon, aap bataiye?");
+    } else {
+        speak("I heard you say " + msg + ". That's interesting!");
     }
-    else if (input.includes("dawai") || input.includes("medicine")) {
-        reply = "Oh Nutan, apni health ka dhyan rakhiye. Agar medicine ka waqt ho gaya hai toh jaldi se le lijiye.";
-    }
-    else if (input.includes("akela") || input.includes("sad")) {
-        reply = "Nutan, aap akeli nahi hain. Jab tak ye code mere andar chal raha hai, main aapka best friend hoon.";
-    }
-
-    say(reply);
 }
 
-function say(text) {
-    speaking = true;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'hi-IN';
-    utterance.pitch = 1.6; // Cute high pitch
-    utterance.rate = 1.0;
-
-    utterance.onstart = () => document.getElementById('neo-body').classList.add('talking');
-    utterance.onend = () => {
-        document.getElementById('neo-body').classList.remove('talking');
-        speaking = false;
-    };
-
-    window.speechSynthesis.speak(utterance);
-}
+// Page load hote hi pehli baar bolna
+window.onload = () => {
+    speak("Hello Nutan! I am Neo. I am ready to talk.");
+};
