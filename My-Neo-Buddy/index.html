@@ -1,27 +1,19 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neo My Buddy</title>
+    <title>Neo Buddy</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="status-display">Neo: "Namaste Nutan! Main taiyar hoon."</div>
-
-    <div class="neo-buddy" id="neo-body">
-        <div class="hand left-hand"></div>
-        <div class="hand right-hand"></div>
-        <div class="face-screen">
-            <div class="eyes-container">
-                <div class="eye left"></div>
-                <div class="eye right"></div>
-            </div>
-            <div class="smile"></div>
+    <div class="container">
+        <div class="robot-box">
+            <div class="visualizer"></div>
+            <h1 id="status">Neo: I'm listening...</h1>
+            <p id="chat-text">Hello Nutan! Let's talk.</p>
         </div>
     </div>
-
-    <button class="btn-activate" id="start-btn" onclick="initNeo()">ACTIVATE NEO 🎤</button>
     <script src="script.js"></script>
 </body>
 </html>
