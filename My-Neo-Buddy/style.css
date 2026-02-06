@@ -1,99 +1,33 @@
 body {
-    background-color: #0b0e14;
+    background-color: #000;
+    color: #00e5ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: 100vh;
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    overflow: hidden;
 }
 
-#status-display {
-    color: #22d3ee;
-    text-shadow: 0 0 10px #0ea5e9;
-    font-size: 20px;
-    margin-bottom: 30px;
+.robot-box {
     text-align: center;
-}
-
-/* Neo Body with Floating Animation */
-.neo-buddy {
-    position: relative;
-    width: 180px;
-    height: 200px;
-    background: #1e293b;
-    border: 4px solid #22d3ee;
-    border-radius: 70px 70px 90px 90px;
-    box-shadow: 0 0 40px #0ea5e9, inset 0 0 20px #0ea5e9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: float 3s infinite ease-in-out;
-}
-
-.face-screen {
-    width: 80%;
-    height: 70%;
-    background: #000;
-    border-radius: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Blinking Eyes */
-.eyes-container { display: flex; gap: 30px; }
-.eye {
-    width: 25px;
-    height: 25px;
-    background: #22d3ee;
-    border-radius: 50%;
-    box-shadow: 0 0 15px #22d3ee;
-    animation: blink 4s infinite;
-}
-
-@keyframes blink {
-    0%, 90%, 100% { transform: scaleY(1); }
-    95% { transform: scaleY(0.1); }
-}
-
-.smile {
-    width: 40px;
-    height: 20px;
-    border-bottom: 4px solid #22d3ee;
-    border-radius: 50%;
-    margin-top: 10px;
-}
-
-/* Hands Fix */
-.hand {
-    position: absolute;
-    width: 30px;
-    height: 50px;
-    background: #1e293b;
-    border: 3px solid #22d3ee;
-    border-radius: 20px;
-    top: 80px;
-    z-index: 1; /* Fix: Taaki haath gayab na hon */
-}
-.left-hand { left: -20px; transform: rotate(-15deg); }
-.right-hand { right: -20px; transform: rotate(15deg); }
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
-.btn-activate {
-    margin-top: 40px;
-    padding: 15px 30px;
-    background: #22d3ee;
-    border: none;
+    border: 2px solid #00e5ff;
+    padding: 40px;
     border-radius: 30px;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 0 20px #22d3ee;
+    box-shadow: 0 0 20px #00e5ff;
+}
+
+.visualizer {
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, #00e5ff, #000);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 10px #00e5ff; }
+    50% { transform: scale(1.1); box-shadow: 0 0 30px #00e5ff; }
+    100% { transform: scale(1); box-shadow: 0 0 10px #00e5ff; }
 }
