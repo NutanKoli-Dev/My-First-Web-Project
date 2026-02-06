@@ -1,17 +1,25 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neo Buddy</title>
+    <title>Neo Buddy - Live</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <div class="robot-box">
-            <div class="visualizer"></div>
-            <h1 id="status">Neo: I'm listening...</h1>
-            <p id="chat-text">Hello Nutan! Let's talk.</p>
+            <div class="robot-face">
+                <div class="eyes">
+                    <div class="eye left-eye"></div>
+                    <div class="eye right-eye"></div>
+                </div>
+                <div class="mouth"></div>
+            </div>
+            
+            <h1 id="status">Neo: Ready to talk!</h1>
+            <p id="chat-text">Tap anywhere to start speaking with me.</p>
+            
+            <div class="visualizer" id="viz"></div>
         </div>
     </div>
     <script src="script.js"></script>
