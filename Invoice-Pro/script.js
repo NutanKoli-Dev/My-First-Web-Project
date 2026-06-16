@@ -1,41 +1,95 @@
-function toggleTheme() {
-    document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    document.getElementById('themeBtn').innerText = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
-}
+document.addEventListener('DOMContentLoaded', () => {
+    // Set current date inside input fields automatically
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('billingDate').value = today;
 
-function changeBrandColor(val) {
-    const root = document.documentElement;
-    if(val === 'indigo') root.style.setProperty('--main', '#3f51b5');
-    if(val === 'ruby') root.style.setProperty('--main', '#d81b60');
-    if(val === 'cyber') root.style.setProperty('--main', '#ff9800');
-}
+    const itemsContainer = document.getElementById('itemsContainer');
+    const addItemBtn = document.getElementById('addItemBtn');
+    const grandTotalSpan = document.getElementById('grandTotal');
+    const currencySelect = document.getElementById('currencySelect');
+    const currencySignSpan = document.getElementById('currencySign');
+    
+    // Theme and Dark mode selectors
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const themeSelect = document.getElementById('themeSelect');
 
-function addNewRow() {
-    const table = document.getElementById("billTable").getElementsByTagName('tbody')[0];
-    const row = table.insertRow();
-    row.innerHTML = `
-        <td><input type="text" placeholder="Service/Product name"></td>
-        <td><input type="number" class="p-input" value="0" oninput="calculate()"></td>
-        <td><input type="number" class="q-input" value="1" oninput="calculate()"></td>
-        <td class="line-total">0.00</td>
-    `;
-}
+    // --- Calculation Logic ---
+    function calculateTotals() {
+        let grandTotal = 0;
+        const rows = itemsContainer.querySelectorAll('.item-row');
 
-function calculate() {
-    let grand = 0;
-    const rows = document.querySelectorAll("#billTable tbody tr");
-    rows.forEach(r => {
-        const p = r.querySelector(".p-input").value;
-        const q = r.querySelector(".q-input").value;
-        const total = p * q;
-        r.querySelector(".line-total").innerText = total.toFixed(2);
-        grand += total;
+        rows.forEach(row => {
+            const price = parseFloat(row.querySelector('.item-price').value) || 0;
+            const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+            const total = price * qty;
+            
+            row.querySelector('.item-total').textContent = total.toFixed(2);
+            grandTotal += total;
+        });
+
+        grandTotalSpan.textContent = grandTotal.toFixed(2);
+    }
+
+    // --- Event Delegation for Dynamic Inputs ---
+    itemsContainer.addEventListener('input', (e) => {
+        if (e.target.classList.contains('item-price') || e.target.classList.contains('item-qty')) {
+            calculateTotals();
+        }
     });
-    const symbol = document.getElementById("currency").value;
-    document.getElementById("currSymbol").innerText = symbol;
-    document.getElementById("grandTotal").innerText = grand.toFixed(2);
-}
 
-// Auto-set Today's Date
-document.getElementById('invDate').valueAsDate = new Date();
+    // --- Add New Item Row System ---
+    addItemBtn.addEventListener('click', () => {
+        const newRow = document.createElement('div');
+        newRow.classList.add('item-row');
+        newRow.innerHTML = `
+            <input type="text" class="item-desc" placeholder="Item name">
+            <input type="number" class="item-price" placeholder="0">
+            <input type="number" class="item-qty" placeholder="0">
+            <span class="item-total">0.00</span>
+        `;
+        itemsContainer.appendChild(newRow);
+    });
+
+    // --- Currency Symbol Selector ---
+    currencySelect.addEventListener('change', (e) => {
+        currencySignSpan.textContent = e.target.value;
+    });
+
+    // --- Color Themes Control ---
+    themeSelect.addEventListener('change', (e) => {
+        // Clear old color themes
+        document.body.classList.remove('theme-indigo', 'theme-pink', 'theme-gold');
+        // Add new one
+        document.body.classList.add(e.target.value);
+    });
+
+    // --- Dark Mode Switcher ---
+    darkModeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        if(document.body.classList.contains('dark-mode')) {
+            darkModeToggle.textContent = "☀️ Light Mode";
+        } else {
+            darkModeToggle.textContent = "🌙 Dark Mode";
+        }
+    });
+
+    // --- PDF Generator Operation ---
+    document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+        const element = document.getElementById('invoiceCard');
+        
+        // Settings to clean preview before rendering PDF
+        const opt = {
+            margin:       10,
+            filename:     'Invoice_Bill.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Fire the library action
+        html2pdf().set(opt).from(element).save();
+    });
+
+    // Initial calculation when app loads
+    calculateTotals();
+});
