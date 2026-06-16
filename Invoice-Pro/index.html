@@ -1,79 +1,92 @@
-<!DOCTYPE html>
-<html lang="hi">
+<DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Pro - Creator Kit</title>
+    <title>Invoice Generator Pro</title>
     <link rel="stylesheet" href="style.css">
+    <-- Google Fonts for Cursive/Stylized look -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <-- html2pdf Library for downloading PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
-<body class="light-mode">
+<body class="theme-indigo">
 
-    <div class="top-bar no-print">
-        <button onclick="toggleTheme()" id="themeBtn">🌙 Dark Mode</button>
-        <select id="colorTheme" onchange="changeBrandColor(this.value)">
-            <option value="indigo">Indigo</option>
-            <option value="ruby">Ruby Pink</option>
-            <option value="cyber">Cyber Gold</option>
+    <-- Top Navigation for Controls -->
+    <div class="control-bar">
+        <button id="darkModeToggle" class="control-btn">🌙 Dark Mode</button>
+        <select id="themeSelect" class="control-select">
+            <option value="theme-indigo">Indigo</option>
+            <option value="theme-pink">Ruby Pink</option>
+            <option value="theme-gold">Cyber Gold</option>
         </select>
     </div>
 
-    <div class="invoice-card" id="invoice">
-        <div class="blue-border-top"></div>
-        
-        <header>
-            <h1 class="main-title">Invoice Generator</h1>
-            <p class="tagline">Create professional bills instantly • Global Edition</p>
-        </header>
+    <-- Main Invoice Card -->
+    <div class="invoice-container" id="invoiceCard">
+        <div class="invoice-header">
+            <h1>Invoice Generator</h1>
+            <p class="subtitle">Create professional bills instantly • Global Edition</p>
+        </div>
 
-        <div class="user-inputs">
-            <div class="input-box">
+        <-- Meta Inputs (Customer & Date) -->
+        <div class="meta-grid">
+            <div class="input-group">
                 <label>Customer Name</label>
-                <input type="text" placeholder="Enter Client Name">
+                <input type="text" id="customerName" value="Jeams">
             </div>
-            <div class="input-box">
+            <div class="input-group">
                 <label>Billing Date</label>
-                <input type="date" id="invDate">
+                <input type="date" id="billingDate">
             </div>
         </div>
 
-        <table id="billTable">
-            <thead>
-                <tr>
-                    <th>Item Description</th>
-                    <th>Price</th>
-                    <th>Qty</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><input type="text" placeholder="Service/Product name"></td>
-                    <td><input type="number" class="p-input" value="0" oninput="calculate()"></td>
-                    <td><input type="number" class="q-input" value="1" oninput="calculate()"></td>
-                    <td class="line-total">0.00</td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Items Table Header -->
+        <div class="items-table">
+            <div class="table-header">
+                <span class="col-desc">Item Description</span>
+                <span class="col-price">Price</span>
+                <span class="col-qty">Qty</span>
+                <span class="col-total">Total</span>
+            </div>
+            
+            <!-- Dynamic Rows Area -->
+            <div id="itemsContainer">
+                <div class="item-row">
+                    <input type="text" class="item-desc" value="Website" placeholder="Item name">
+                    <input type="number" class="item-price" value="523" placeholder="0">
+                    <input type="number" class="item-qty" value="9" placeholder="0">
+                    <span class="item-total">4707.00</span>
+                </div>
+            </div>
+        </div>
 
-        <button class="add-row-btn no-print" onclick="addNewRow()">+ Add New Item</button>
+        <!-- Add Item Button -->
+        <button id="addItemBtn" class="action-btn">+ Add New Item</button>
 
-        <div class="summary-section">
-            <div class="curr-select">
+        <hr class="divider">
+
+        <!-- Footer Row (Currency & Big Total) -->
+        <div class="invoice-footer">
+            <div class="input-group currency-group">
                 <label>Currency</label>
-                <select id="currency" onchange="calculate()">
-                    <option value="₹">INR (₹)</option>
+                <select id="currencySelect">
                     <option value="$">USD ($)</option>
+                    <option value="₹">INR (₹)</option>
+                    <option value="€">EUR (€)</option>
                     <option value="£">GBP (£)</option>
                 </select>
             </div>
-            <div class="final-amt">
-                <span id="currSymbol">₹</span> <span id="grandTotal">0.00</span>
+            <div class="grand-total-display">
+                <span id="currencySign">$</span> <span id="grandTotal">4707.00</span>
             </div>
         </div>
 
-        <button class="print-btn no-print" onclick="window.print()">DOWNLOAD PDF BILL</button>
+        <-- Download Button -->
+        <button id="downloadPdfBtn" class="download-btn">DOWNLOAD PDF BILL</button>
     </div>
 
     <script src="script.js"></script>
 </body>
-</html>
+        </html>
+            
