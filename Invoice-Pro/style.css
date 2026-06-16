@@ -123,13 +123,13 @@ input:focus, select:focus {
     border-color: var(--primary-color);
 }
 
-/* Dynamic Items Table System (Optimized for space) */
+/* Dynamic Items Table System */
 .items-table {
     margin-bottom: 20px;
 }
 .table-header, .item-row {
     display: grid;
-    grid-template-columns: 2.5fr 1fr 1fr 1.2fr; /* Total column ko zyada space diya */
+    grid-template-columns: 2.5fr 1fr 1fr 1.2fr 0.3fr; 
     gap: 15px;
     align-items: center;
     padding: 10px 0;
@@ -142,7 +142,6 @@ input:focus, select:focus {
     color: var(--primary-color);
 }
 
-/* Item boxes width optimization to stop cutting text */
 .item-desc { width: 100%; }
 .item-price, .item-qty { width: 100%; text-align: center; }
 
@@ -151,7 +150,22 @@ input:focus, select:focus {
     font-weight: 500;
     font-size: 15px;
     padding-right: 5px;
-    white-space: nowrap; /* Isse number kabhi nahi katega */
+    white-space: nowrap;
+}
+
+/* Chota Cancel Button Style */
+.delete-row-btn {
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 2px;
+    text-align: center;
+}
+.empty-space {
+    width: 100%;
 }
 
 /* Action Button */
@@ -204,4 +218,4 @@ input:focus, select:focus {
     letter-spacing: 1px;
     cursor: pointer;
     text-transform: uppercase;
-}
+    }
