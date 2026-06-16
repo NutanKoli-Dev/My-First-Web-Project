@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice Generator Pro</title>
     <link rel="stylesheet" href="style.css">
-    <-- Google Fonts for Cursive/Stylized look -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <-- html2pdf Library for downloading PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="theme-indigo">
 
-    <-- Top Navigation for Controls -->
     <div class="control-bar">
         <button id="darkModeToggle" class="control-btn">🌙 Dark Mode</button>
         <select id="themeSelect" class="control-select">
@@ -22,14 +19,12 @@
         </select>
     </div>
 
-    <-- Main Invoice Card -->
     <div class="invoice-container" id="invoiceCard">
         <div class="invoice-header">
             <h1>Invoice Generator</h1>
             <p class="subtitle">Create professional bills instantly • Global Edition</p>
         </div>
 
-        <-- Meta Inputs (Customer & Date) -->
         <div class="meta-grid">
             <div class="input-group">
                 <label>Customer Name</label>
@@ -41,32 +36,30 @@
             </div>
         </div>
 
-        <!-- Items Table Header -->
         <div class="items-table">
             <div class="table-header">
                 <span class="col-desc">Item Description</span>
                 <span class="col-price">Price</span>
                 <span class="col-qty">Qty</span>
                 <span class="col-total">Total</span>
+                <span class="col-action"></span>
             </div>
             
-            <!-- Dynamic Rows Area -->
             <div id="itemsContainer">
                 <div class="item-row">
                     <input type="text" class="item-desc" value="Website" placeholder="Item name">
                     <input type="number" class="item-price" value="523" placeholder="0">
                     <input type="number" class="item-qty" value="9" placeholder="0">
                     <span class="item-total">4707.00</span>
+                    <span class="empty-space"></span>
                 </div>
             </div>
         </div>
 
-        <!-- Add Item Button -->
         <button id="addItemBtn" class="action-btn">+ Add New Item</button>
 
         <hr class="divider">
 
-        <!-- Footer Row (Currency & Big Total) -->
         <div class="invoice-footer">
             <div class="input-group currency-group">
                 <label>Currency</label>
@@ -82,11 +75,9 @@
             </div>
         </div>
 
-        <-- Download Button -->
         <button id="downloadPdfBtn" class="download-btn">DOWNLOAD PDF BILL</button>
     </div>
 
     <script src="script.js"></script>
 </body>
-        </html>
-            
+</html>
