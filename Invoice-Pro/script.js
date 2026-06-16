@@ -41,13 +41,23 @@ document.addEventListener('DOMContentLoaded', () => {
     addItemBtn.addEventListener('click', () => {
         const newRow = document.createElement('div');
         newRow.classList.add('item-row');
+        // Sirf extra rows ke sath chota cross button banega
         newRow.innerHTML = `
             <input type="text" class="item-desc" placeholder="Item name">
             <input type="number" class="item-price" placeholder="0">
             <input type="number" class="item-qty" placeholder="0">
             <span class="item-total">0.00</span>
+            <button class="delete-row-btn">✖</button>
         `;
         itemsContainer.appendChild(newRow);
+    });
+
+    // --- Delete Row Functionality ---
+    itemsContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('delete-row-btn')) {
+            e.target.closest('.item-row').remove();
+            calculateTotals();
+        }
     });
 
     // --- Currency Symbol Selector ---
@@ -57,9 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Color Themes Control ---
     themeSelect.addEventListener('change', (e) => {
-        // Clear old color themes
         document.body.classList.remove('theme-indigo', 'theme-pink', 'theme-gold');
-        // Add new one
         document.body.classList.add(e.target.value);
     });
 
@@ -77,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('downloadPdfBtn').addEventListener('click', () => {
         const element = document.getElementById('invoiceCard');
         
-        // Settings to clean preview before rendering PDF
         const opt = {
             margin:       10,
             filename:     'Invoice_Bill.pdf',
@@ -86,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        // Fire the library action
         html2pdf().set(opt).from(element).save();
     });
 
