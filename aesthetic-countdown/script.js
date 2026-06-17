@@ -1,28 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    const themeSelect = document.getElementById('themeSelect');
+    // --- Tabs Switching Management ---
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
 
-    // Light/Dark Mode Logic
-    darkModeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        if (document.body.classList.contains('dark-mode')) {
-            darkModeToggle.textContent = '☀️ Light Mode';
-        } else {
-            darkModeToggle.textContent = '🌙 Dark Mode';
-        }
-    });
-
-    // Theme Picker Selection (Indigo, Pink, Gold)
-    themeSelect.addEventListener('change', (e) => {
-        document.body.classList.remove('theme-indigo', 'theme-pink', 'theme-gold');
-        if (e.target.value === 'indigo') document.body.classList.add('theme-indigo');
-        if (e.target.value === 'pink') document.body.classList.add('theme-pink');
-        if (e.target.value === 'gold') document.body.classList.add('theme-gold');
-    });
-
-    // Navigation Tabs Switch Management
     tabButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             tabButtons.forEach(b => b.classList.remove('active'));
@@ -33,100 +13,133 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Aesthetic Age Calculations & Descriptions
-    const btnCalculate = document.getElementById('btnCalculate');
-    const ageResult = document.getElementById('ageResult');
-    const txtAestheticAge = document.getElementById('txtAestheticAge');
-    const txtVibeDesc = document.getElementById('txtVibeDesc');
+    // --- Controls Bar (Theme & Dark Mode) ---
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const themeSelect = document.getElementById('themeSelect');
 
-    const descriptions = {
-        minimalist: { scale: -2, text: "Clean layouts, neutral tones, and pure peace. Your vibe is perfectly structured and calm." },
-        retro: { scale: 3, text: "Classic vinyl records, warm vintage aesthetics, and nostalgic memories. A timeless soul." },
-        cyber: { scale: -4, text: "Glitch art, matrix codes, and high-energy neon lights. You are fully living in the digital future." },
-        indie: { scale: 1, text: "Vinyl covers, cassette tapes, and raw grunge music. Authentically bold and unbothered." }
-    };
-
-    btnCalculate.addEventListener('click', () => {
-        const age = parseInt(document.getElementById('realAge').value);
-        const style = document.getElementById('vibeStyle').value;
-
-        if (!age || age <= 0) {
-            alert('Please enter a valid age!');
-            return;
-        }
-
-        const selectedStyle = descriptions[style];
-        txtAestheticAge.textContent = age + selectedStyle.scale;
-        txtVibeDesc.textContent = selectedStyle.text;
-        ageResult.classList.remove('hidden');
+    themeSelect.addEventListener('change', (e) => {
+        document.body.classList.remove('theme-indigo', 'theme-pink', 'theme-gold');
+        document.body.classList.add(e.target.value);
     });
 
-    // Live Event Timer Processing Logics
-    const btnStartCountdown = document.getElementById('btnStartCountdown');
-    const countdownCard = document.getElementById('countdownCard');
-    const lblEventHeading = document.getElementById('lblEventHeading');
-    const imageUpload = document.getElementById('imageUpload');
-
-    let runningClock;
-
-    imageUpload.addEventListener('change', (e) => {
-        const uploadedFile = e.target.files[0];
-        if (uploadedFile) {
-            const dataReader = new FileReader();
-            dataReader.onload = function(event) {
-                countdownCard.style.backgroundImage = `url('${event.target.result}')`;
-                countdownCard.style.backgroundSize = 'cover';
-                countdownCard.style.backgroundPosition = 'center';
-            };
-            dataReader.readAsDataURL(uploadedFile);
-        }
+    darkModeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
     });
 
-    btnStartCountdown.addEventListener('click', () => {
-        const nameText = document.getElementById('eventTitle').value || "Special Event";
-        const targetDateValue = document.getElementById('eventDate').value;
 
-        if (!targetDateValue) {
-            alert('Please select a target date and time!');
+    // --- Logic 1: Aesthetic Age System ---
+    const calculateAgeBtn = document.getElementById('calculateAgeBtn');
+    const realAgeInput = document.getElementById('realAge');
+    const vibeSelect = document.getElementById('vibeSelect');
+    const ageResultBox = document.getElementById('ageResultBox');
+    const calculatedAgeDisplay = document.getElementById('calculatedAgeDisplay');
+    const vibeDescription = document.getElementById('vibeDescription');
+
+    calculateAgeBtn.addEventListener('click', () => {
+        const realAge = parseInt(realAgeInput.value);
+        if (!realAge || realAge <= 0) {
+            alert("Please enter a valid age first!");
             return;
         }
 
-        const deadline = new Date(targetDateValue).getTime();
-        if (isNaN(deadline)) {
-            alert('Invalid date format!');
+        const vibe = vibeSelect.value;
+        let aestheticAge = realAge;
+        let desc = "";
+
+        if (vibe === 'retro') {
+            aestheticAge = realAge + 12;
+            desc = "You have an old soul! You belong to the golden era of cassettes, vinyl, and vintage polaroids.";
+        } else if (vibe === 'minimalist') {
+            aestheticAge = Math.max(18, realAge - 2);
+            desc = "Clean layouts, neutral tones, and pure peace. Your vibe is perfectly structured and calm.";
+        } else if (vibe === 'cyberpunk') {
+            aestheticAge = realAge + 5;
+            desc = "Living in 2050! You love futuristic neon lights, smart tech, and high-speed life.";
+        } else if (vibe === 'cottagecore') {
+            aestheticAge = realAge + 20;
+            desc = "Pure grandma warmth. You belong in a cozy wooden cabin surrounded by nature, books, and hot tea.";
+        } else if (vibe === 'genz') {
+            aestheticAge = Math.min(22, realAge - 5);
+            if (aestheticAge < 13) aestheticAge = 16;
+            desc = "No cap, your vibe is completely matching the latest internet trends, memes, and fast energy!";
+        }
+
+        calculatedAgeDisplay.textContent = aestheticAge;
+        vibeDescription.textContent = desc;
+        ageResultBox.classList.remove('hidden');
+    });
+
+
+    // --- Logic 2: PRO Countdown System ---
+    const startCountdownBtn = document.getElementById('startCountdownBtn');
+    const eventNameInput = document.getElementById('eventName');
+    const targetDateTimeInput = document.getElementById('targetDateTime');
+    const bgImageInput = document.getElementById('bgImageInput');
+    const countdownWidgetCard = document.getElementById('countdownWidgetCard');
+    const eventTitleDisplay = document.getElementById('eventTitleDisplay');
+
+    let countdownInterval;
+
+    startCountdownBtn.addEventListener('click', () => {
+        clearInterval(countdownInterval); 
+        
+        const targetTime = new Date(targetDateTimeInput.value).getTime();
+        const eventName = eventNameInput.value || "Your Special Event";
+
+        if (!targetTime || isNaN(targetTime)) {
+            alert("Please pick a valid Date & Time!");
             return;
         }
 
-        clearInterval(runningClock);
-        lblEventHeading.textContent = `⏳ Live Countdown for: ${nameText}`;
-        countdownCard.classList.remove('hidden');
+        if (targetTime < new Date().getTime()) {
+            alert("Please choose a future date! Time travel is not possible yet.");
+            return;
+        }
 
-        function renderClock() {
-            const currentMoment = new Date().getTime();
-            const distance = deadline - currentMoment;
+        // --- Handle Photo Upload Logic ---
+        const file = bgImageInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                countdownWidgetCard.style.backgroundImage = `url('${e.target.result}')`;
+                countdownWidgetCard.classList.add('has-bg');
+            }
+            reader.readAsDataURL(file);
+        } else {
+            countdownWidgetCard.style.backgroundImage = 'none';
+            countdownWidgetCard.classList.remove('has-bg');
+        }
 
-            if (distance <= 0) {
-                clearInterval(runningClock);
-                document.getElementById('boxDays').textContent = "00";
-                document.getElementById('boxHours').textContent = "00";
-                document.getElementById('boxMins').textContent = "00";
-                document.getElementById('boxSecs').textContent = "00";
+        countdownWidgetCard.classList.remove('hidden');
+        eventTitleDisplay.textContent = `⏳ Live Countdown for: ${eventName}`;
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const difference = targetTime - now;
+
+            if (difference <= 0) {
+                clearInterval(countdownInterval);
+                eventTitleDisplay.textContent = `🎉 The moment has arrived: ${eventName}!`;
+                document.getElementById('daysBox').textContent = "00";
+                document.getElementById('hoursBox').textContent = "00";
+                document.getElementById('minsBox').textContent = "00";
+                document.getElementById('secsBox').textContent = "00";
                 return;
             }
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-            document.getElementById('boxDays').textContent = days < 10 ? '0' + days : days;
-            document.getElementById('boxHours').textContent = hours < 10 ? '0' + hours : hours;
-            document.getElementById('boxMins').textContent = minutes < 10 ? '0' + minutes : minutes;
-            document.getElementById('boxSecs').textContent = seconds < 10 ? '0' + seconds : seconds;
+            document.getElementById('daysBox').textContent = days < 10 ? '0' + days : days;
+            document.getElementById('hoursBox').textContent = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minsBox').textContent = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('secsBox').textContent = seconds < 10 ? '0' + seconds : seconds;
         }
 
-        renderClock();
-        runningClock = setInterval(renderClock, 1000);
+        updateTimer(); 
+        countdownInterval = setInterval(updateTimer, 1000); 
     });
 });
-                
