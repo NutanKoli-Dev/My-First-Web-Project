@@ -1,11 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Tabs Switching Management ---
-    const tabButtons = document.querySelectorAll('.tab-btn');
+    const themeToggle = document.getElementById('themeToggle');
+    const colorPalette = document.getElementById('colorPalette');
+    const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
 
-    tabButtons.forEach(btn => {
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+            themeToggle.textContent = '🌙 Dark Mode';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeToggle.textContent = '☀️ Light Mode';
+        }
+    });
+
+    colorPalette.addEventListener('change', (e) => {
+        document.documentElement.setAttribute('data-palette', e.target.value);
+    });
+
+    tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            tabButtons.forEach(b => b.classList.remove('active'));
+            tabBtns.forEach(b => b.classList.remove('active'));
             tabContents.forEach(c => c.classList.remove('active'));
 
             btn.classList.add('active');
@@ -13,106 +29,74 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Controls Bar (Theme & Dark Mode) ---
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    const themeSelect = document.getElementById('themeSelect');
-
-    themeSelect.addEventListener('change', (e) => {
-        document.body.classList.remove('theme-indigo', 'theme-pink', 'theme-gold');
-        document.body.classList.add(e.target.value);
-    });
-
-    darkModeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
-    });
-
-
-    // --- Logic 1: Aesthetic Age System ---
     const calculateAgeBtn = document.getElementById('calculateAgeBtn');
-    const realAgeInput = document.getElementById('realAge');
-    const vibeSelect = document.getElementById('vibeSelect');
     const ageResultBox = document.getElementById('ageResultBox');
     const calculatedAgeDisplay = document.getElementById('calculatedAgeDisplay');
     const vibeDescription = document.getElementById('vibeDescription');
 
+    const vibeDetails = {
+        minimalist: { offset: -2, desc: "Clean layouts, neutral tones, and pure peace. Your vibe is perfectly structured and calm." },
+        vintage: { offset: 5, desc: "Classic vinyl records, warm vintage aesthetics, and nostalgic memories. A timeless soul." },
+        y2k: { offset: -4, desc: "Glitch art, matrix codes, and high-energy neon lights. You are fully living in the digital future." },
+        indie: { offset: 1, desc: "Vinyl covers, cassette tapes, and raw grunge music. Authentically bold and unbothered." }
+    };
+
     calculateAgeBtn.addEventListener('click', () => {
-        const realAge = parseInt(realAgeInput.value);
+        const realAge = parseInt(document.getElementById('realAge').value);
+        const selectedVibe = document.getElementById('vibeSelect').value;
+
         if (!realAge || realAge <= 0) {
-            alert("Please enter a valid age first!");
+            alert('Please enter a valid age!');
             return;
         }
 
-        const vibe = vibeSelect.value;
-        let aestheticAge = realAge;
-        let desc = "";
-
-        if (vibe === 'retro') {
-            aestheticAge = realAge + 12;
-            desc = "You have an old soul! You belong to the golden era of cassettes, vinyl, and vintage polaroids.";
-        } else if (vibe === 'minimalist') {
-            aestheticAge = Math.max(18, realAge - 2);
-            desc = "Clean layouts, neutral tones, and pure peace. Your vibe is perfectly structured and calm.";
-        } else if (vibe === 'cyberpunk') {
-            aestheticAge = realAge + 5;
-            desc = "Living in 2050! You love futuristic neon lights, smart tech, and high-speed life.";
-        } else if (vibe === 'cottagecore') {
-            aestheticAge = realAge + 20;
-            desc = "Pure grandma warmth. You belong in a cozy wooden cabin surrounded by nature, books, and hot tea.";
-        } else if (vibe === 'genz') {
-            aestheticAge = Math.min(22, realAge - 5);
-            if (aestheticAge < 13) aestheticAge = 16;
-            desc = "No cap, your vibe is completely matching the latest internet trends, memes, and fast energy!";
-        }
+        const data = vibeDetails[selectedVibe];
+        const aestheticAge = realAge + data.offset;
 
         calculatedAgeDisplay.textContent = aestheticAge;
-        vibeDescription.textContent = desc;
+        vibeDescription.textContent = data.desc;
         ageResultBox.classList.remove('hidden');
     });
 
-
-    // --- Logic 2: PRO Countdown System ---
     const startCountdownBtn = document.getElementById('startCountdownBtn');
-    const eventNameInput = document.getElementById('eventName');
-    const targetDateTimeInput = document.getElementById('targetDateTime');
-    const bgImageInput = document.getElementById('bgImageInput');
     const countdownWidgetCard = document.getElementById('countdownWidgetCard');
     const eventTitleDisplay = document.getElementById('eventTitleDisplay');
+    const bgImageInput = document.getElementById('bgImageInput');
 
     let countdownInterval;
 
-    startCountdownBtn.addEventListener('click', () => {
-        clearInterval(countdownInterval); 
-        
-        const targetTime = new Date(targetDateTimeInput.value).getTime();
-        const eventName = eventNameInput.value || "Your Special Event";
-
-        if (!targetTime || isNaN(targetTime)) {
-            alert("Please pick a valid Date & Time!");
-            return;
-        }
-
-        if (targetTime < new Date().getTime()) {
-            alert("Please choose a future date! Time travel is not possible yet.");
-            return;
-        }
-
-        // --- Handle Photo Upload Logic ---
-        const file = bgImageInput.files[0];
+    bgImageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                countdownWidgetCard.style.backgroundImage = `url('${e.target.result}')`;
-                countdownWidgetCard.classList.add('has-bg');
-            }
+            reader.onload = function(event) {
+                countdownWidgetCard.style.backgroundImage = `url('${event.target.result}')`;
+                countdownWidgetCard.style.backgroundSize = 'cover';
+                countdownWidgetCard.style.backgroundPosition = 'center';
+            };
             reader.readAsDataURL(file);
-        } else {
-            countdownWidgetCard.style.backgroundImage = 'none';
-            countdownWidgetCard.classList.remove('has-bg');
+        }
+    });
+
+    startCountdownBtn.addEventListener('click', () => {
+        const eventName = document.getElementById('eventName').value || "Special Event";
+        const targetDateTime = document.getElementById('targetDateTime').value;
+
+        if (!targetDateTime) {
+            alert('Please select a target date and time!');
+            return;
         }
 
-        countdownWidgetCard.classList.remove('hidden');
+        const targetTime = new Date(targetDateTime).getTime();
+
+        if (isNaN(targetTime)) {
+            alert('Invalid date format!');
+            return;
+        }
+
+        clearInterval(countdownInterval);
         eventTitleDisplay.textContent = `⏳ Live Countdown for: ${eventName}`;
+        countdownWidgetCard.classList.remove('hidden');
 
         function updateTimer() {
             const now = new Date().getTime();
@@ -120,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (difference <= 0) {
                 clearInterval(countdownInterval);
-                eventTitleDisplay.textContent = `🎉 The moment has arrived: ${eventName}!`;
                 document.getElementById('daysBox').textContent = "00";
                 document.getElementById('hoursBox').textContent = "00";
                 document.getElementById('minsBox').textContent = "00";
@@ -139,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('secsBox').textContent = seconds < 10 ? '0' + seconds : seconds;
         }
 
-        updateTimer(); 
-        countdownInterval = setInterval(updateTimer, 1000); 
+        updateTimer();
+        countdownInterval = setInterval(updateTimer, 1000);
     });
 });
