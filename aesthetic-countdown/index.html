@@ -1,0 +1,124 @@
+<DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aesthetic Age & Countdown Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for Modern & Stylized look -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="theme-indigo">
+
+    <!-- Top Controls Navigation -->
+    <div class="control-bar">
+        <button id="darkModeToggle" class="control-btn">🌙 Dark Mode</button>
+        <select id="themeSelect" class="control-select">
+            <option value="theme-indigo">Indigo</option>
+            <option value="theme-pink">Ruby Pink</option>
+            <option value="theme-gold">Cyber Gold</option>
+        </select>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        
+        <!-- Tab Switchers -->
+        <div class="tabs-header">
+            <button class="tab-btn active" data-tab="ageTab">✨ Aesthetic Age</button>
+            <button class="tab-btn" data-tab="countdownTab">⏳ Event Countdown</button>
+        </div>
+
+        <!-- TAB 1: Aesthetic Age Calculator -->
+        <div id="ageTab" class="tab-content active">
+            <div class="tool-header">
+                <h2>Aesthetic Age Calculator</h2>
+                <p class="subtitle">Discover your true age based on your style & vibe</p>
+            </div>
+
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Your Real Age</label>
+                    <input type="number" id="realAge" placeholder="Enter age" min="1" max="120">
+                </div>
+                <div class="input-group">
+                    <label>Select Your Vibe / Aesthetic</label>
+                    <select id="vibeSelect">
+                        <option value="retro">Retro / Vintage (90s Lover)</option>
+                        <option value="minimalist">Minimalist / Aesthetic Clean</option>
+                        <option value="cyberpunk">Cyberpunk / Futuristic Tech</option>
+                        <option value="cottagecore">Cottagecore / Nature & Peace</option>
+                        <option value="genz">Gen-Z / Trendy & Meme Culture</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="calculateAgeBtn" class="action-btn">Calculate My Aesthetic Age</button>
+
+            <!-- Result Box -->
+            <div id="ageResultBox" class="result-display hidden">
+                <p>Your Aesthetic Age is</p>
+                <h1 id="calculatedAgeDisplay">21</h1>
+                <p id="vibeDescription" class="vibe-desc"></p>
+            </div>
+        </div>
+
+        <!-- TAB 2: Countdown Calculator (PRO Version) -->
+        <div id="countdownTab" class="tab-content">
+            <div class="tool-header">
+                <h2>Premium Countdown <span class="pro-badge">PRO</span></h2>
+                <p class="subtitle">Track your special moments with your favorite background photo</p>
+            </div>
+
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Event Name</label>
+                    <input type="text" id="eventName" placeholder="e.g., My Birthday, New Year">
+                </div>
+                <div class="input-group">
+                    <label>Target Date & Time</label>
+                    <input type="datetime-local" id="targetDateTime">
+                </div>
+            </div>
+
+            <!-- PRO Photo Upload Input -->
+            <div class="input-group pro-upload-group">
+                <label>✨ Upload Background Photo (Optional)</label>
+                <input type="file" id="bgImageInput" accept="image/*">
+            </div>
+
+            <button id="startCountdownBtn" class="action-btn">Start Countdown</button>
+
+            <!-- PRO Widget Display Card -->
+            <div id="countdownWidgetCard" class="widget-card hidden">
+                <div class="widget-overlay"></div>
+                <div class="widget-content">
+                    <h3 id="eventTitleDisplay" class="event-title"></h3>
+                    
+                    <div id="countdownDisplayBox" class="countdown-grid">
+                        <div class="timer-block">
+                            <span id="daysBox">00</span>
+                            <label>Days</label>
+                        </div>
+                        <div class="timer-block">
+                            <span id="hoursBox">00</span>
+                            <label>Hours</label>
+                        </div>
+                        <div class="timer-block">
+                            <span id="minsBox">00</span>
+                            <label>Mins</label>
+                        </div>
+                        <div class="timer-block">
+                            <span id="secsBox">00</span>
+                            <label>Secs</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
